@@ -1,0 +1,22 @@
+.profileCards {
+  border: 1px solid #f4f2ee;
+  border-radius: 8px;
+}
+
+.buttonProfile {
+  width: 100%;
+  background-color: white;
+  border: 1px solid #f4f2ee;
+  font-weight: 500;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  padding: 7px 0;
+}
+
+.buttonProfile:hover {
+  background-color: rgb(245, 245, 245);
+}
+
+.skillBorders {
+  border-bottom: 1px solid #f4f2ee;
+}
