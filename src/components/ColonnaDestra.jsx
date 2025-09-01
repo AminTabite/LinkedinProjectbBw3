@@ -1,7 +1,36 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import { useState, useEffect } from "react";
 const ColonnaDestra = () => {
+  const [userList, setUserList] = useState([]);
+
+  const getData = () => {
+    fetch("https://striveschool-api.herokuapp.com/api/profile", {
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTc0YTE2MjdjNjAwMTVmOGM1NjkiLCJpYXQiOjE3NTY3MzEyMTAsImV4cCI6MTc1Nzk0MDgxMH0.2K96iJrH_T9CFLxQjMe3ZEvL5W45fdGe3MGTvDxniIQ",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("errore caricamento dati");
+        }
+      })
+      .then((data) => {
+        console.log(data);
+        setUserList(data);
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <div className="d-flex flex-column gap-3">
       {/* Lingua e URL */}
@@ -34,7 +63,7 @@ const ColonnaDestra = () => {
         <span className="badge bg-light text-secondary mb-2">Promosso</span>
         <h6>Edison Next</h6>
         <p className="small mb-2">
-          Leonardo, immagina il futuro con Edison Next <br />
+          Immagina il futuro con Edison Next <br />
           Siamo il tuo partner per la transizione energetica
         </p>
         <button className="btn btn-outline-primary btn-sm">Segui</button>
@@ -43,19 +72,28 @@ const ColonnaDestra = () => {
       {/* Altri profili consultati */}
       <div className="border rounded p-3 bg-white">
         <h6 className="mb-3">Altri profili consultati</h6>
-        <div className="d-flex align-items-center mb-2">
-          <div
-            className="rounded-circle bg-secondary me-2"
-            style={{ width: 40, height: 40 }}
-          ></div>
-          <div>
-            <p className="mb-0 small fw-bold">Nome Cognome</p>
-            <button className="btn btn-outline-secondary btn-sm">
-              Visualizza
-            </button>
-          </div>
-        </div>
-        <div className="d-flex align-items-center">
+
+        {userList.slice(0, 5).map((user) => {
+          return (
+            <div className="d-flex align-items-center mb-2">
+              <img
+                src={user.image}
+                className="rounded-circle  me-2"
+                style={{ width: 40, height: 40 }}
+              ></img>
+              <div>
+                <p className="mb-0 small fw-bold">
+                  {user.name + "" + user.surname}
+                </p>
+                <button className="btn btn-outline-secondary btn-sm">
+                  Visualizza
+                </button>
+              </div>
+            </div>
+          );
+        })}
+
+        {/*<div className="d-flex align-items-center">
           <div
             className="rounded-circle bg-success me-2"
             style={{ width: 40, height: 40 }}
@@ -66,24 +104,45 @@ const ColonnaDestra = () => {
               Visualizza
             </button>
           </div>
-        </div>
+        </div>*/}
       </div>
 
       {/* Persone che potresti conoscere */}
       <div className="border rounded p-3 bg-white">
         <h6 className="mb-3">Persone che potresti conoscere</h6>
         {[
-          { name: "Nome Cognome", role: "lorem ipsum" },
-          { name: "Nome Cognome", role: "lorem ipsum" },
-          { name: "Nome Cognome", role: "lorem ipsum" },
-          { name: "Nome Cognome", role: "lorem ipsum" },
-          { name: "Nome Cognome", role: "lorem ipsum" },
+          {
+            name: userList[6].name + "" + userList[6].surname,
+            role: userList[6].title,
+            imgUrl: userList[6].image,
+          },
+          {
+            name: userList[7].name + "" + userList[7].surname,
+            role: userList[7].title,
+            imgUrl: userList[7].image,
+          },
+          {
+            name: userList[8].name + "" + userList[8].surname,
+            role: userList[8].title,
+            imgUrl: userList[8].image,
+          },
+          {
+            name: userList[9].name + "" + userList[9].surname,
+            role: userList[9].title,
+            imgUrl: userList[9].image,
+          },
+          {
+            name: userList[10].name + "" + userList[10].surname,
+            role: userList[10].title,
+            imgUrl: userList[10].image,
+          },
         ].map((p, idx) => (
           <div key={idx} className="d-flex align-items-center mb-2">
-            <div
+            <img
+              src={p.imgUrl}
               className="rounded-circle bg-secondary me-2"
               style={{ width: 40, height: 40 }}
-            ></div>
+            ></img>
             <div className="flex-grow-1">
               <p className="mb-0 small fw-bold">{p.name}</p>
               <p className="mb-1 small text-muted">{p.role}</p>

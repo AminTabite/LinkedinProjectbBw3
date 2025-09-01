@@ -2,8 +2,34 @@ import { Container, Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { BiCamera, BiBrush, BiClipboard } from "react-icons/bi";
+import { useState, useEffect } from "react";
+import clientApi from "../services/api";
+import "./Herosection.css";
 
 const Herosection = () => {
+  const [profileData, setProfileData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        setLoading(true);
+        const data = await clientApi.ottieniIlMioProfilo();
+        setProfileData(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
   return (
     <Container>
       <Row>
@@ -23,7 +49,7 @@ const Herosection = () => {
             </button>
 
             <img
-              src="https://placebear.com/100/100"
+              src={profileData?.image || "https://placebear.com/100/100"}
               alt="profile"
               className="rounded-circle border border-3 border-white position-absolute"
               style={{
@@ -37,16 +63,18 @@ const Herosection = () => {
           <Card.Body>
             <div></div>
             <Card.Title>
-              Amin Tabite{" "}
+              {profileData?.name} {profileData?.surname}{" "}
               <span>
                 <BiClipboard /> <span>He/ Him</span>
               </span>
             </Card.Title>
-            <Card.Text>Perito elettrotecnico</Card.Text>
+            <Card.Text>
+              {profileData?.title || "Titolo professionale"}
+            </Card.Text>
             <Card.Text>
               <div>
-                <h6>ITTS CARLO GRASSI</h6>
-                <p>Torino, Piemonte, Italia</p>
+                <h6>{profileData?.bio || "Bio"}</h6>
+                <p>{profileData?.area || "Area non specificata"}</p>
                 <p>69 collegamenti</p>
               </div>
             </Card.Text>
