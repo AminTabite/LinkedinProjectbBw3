@@ -2,7 +2,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState, useEffect } from "react";
 const ColonnaDestra = () => {
-  const [userList, setUserList] = useState([]);
+  const [userList, setUserList] = useState(null);
 
   const getData = () => {
     fetch("https://striveschool-api.herokuapp.com/api/profile", {
@@ -73,25 +73,26 @@ const ColonnaDestra = () => {
       <div className="border rounded p-3 bg-white">
         <h6 className="mb-3">Altri profili consultati</h6>
 
-        {userList.slice(0, 5).map((user) => {
-          return (
-            <div className="d-flex align-items-center mb-2">
-              <img
-                src={user.image}
-                className="rounded-circle  me-2"
-                style={{ width: 40, height: 40 }}
-              ></img>
-              <div>
-                <p className="mb-0 small fw-bold">
-                  {user.name + "" + user.surname}
-                </p>
-                <button className="btn btn-outline-secondary btn-sm">
-                  Visualizza
-                </button>
+        {userList !== null &&
+          userList.slice(0, 5).map((user) => {
+            return (
+              <div className="d-flex align-items-center mb-2">
+                <img
+                  src={user.image}
+                  className="rounded-circle  me-2"
+                  style={{ width: 40, height: 40 }}
+                ></img>
+                <div>
+                  <p className="mb-0 small fw-bold">
+                    {user.name + "" + user.surname}
+                  </p>
+                  <button className="btn btn-outline-secondary btn-sm">
+                    Visualizza
+                  </button>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
 
         {/*<div className="d-flex align-items-center">
           <div
@@ -110,48 +111,49 @@ const ColonnaDestra = () => {
       {/* Persone che potresti conoscere */}
       <div className="border rounded p-3 bg-white">
         <h6 className="mb-3">Persone che potresti conoscere</h6>
-        {[
-          {
-            name: userList[6].name + "" + userList[6].surname,
-            role: userList[6].title,
-            imgUrl: userList[6].image,
-          },
-          {
-            name: userList[7].name + "" + userList[7].surname,
-            role: userList[7].title,
-            imgUrl: userList[7].image,
-          },
-          {
-            name: userList[8].name + "" + userList[8].surname,
-            role: userList[8].title,
-            imgUrl: userList[8].image,
-          },
-          {
-            name: userList[9].name + "" + userList[9].surname,
-            role: userList[9].title,
-            imgUrl: userList[9].image,
-          },
-          {
-            name: userList[10].name + "" + userList[10].surname,
-            role: userList[10].title,
-            imgUrl: userList[10].image,
-          },
-        ].map((p, idx) => (
-          <div key={idx} className="d-flex align-items-center mb-2">
-            <img
-              src={p.imgUrl}
-              className="rounded-circle bg-secondary me-2"
-              style={{ width: 40, height: 40 }}
-            ></img>
-            <div className="flex-grow-1">
-              <p className="mb-0 small fw-bold">{p.name}</p>
-              <p className="mb-1 small text-muted">{p.role}</p>
-              <button className="btn btn-outline-primary btn-sm">
-                Collegati
-              </button>
+        {userList !== null &&
+          [
+            {
+              name: userList[6].name + "" + userList[6].surname,
+              role: userList[6].title,
+              imgUrl: userList[6].image,
+            },
+            {
+              name: userList[7].name + "" + userList[7].surname,
+              role: userList[7].title,
+              imgUrl: userList[7].image,
+            },
+            {
+              name: userList[8].name + "" + userList[8].surname,
+              role: userList[8].title,
+              imgUrl: userList[8].image,
+            },
+            {
+              name: userList[9].name + "" + userList[9].surname,
+              role: userList[9].title,
+              imgUrl: userList[9].image,
+            },
+            {
+              name: userList[10].name + "" + userList[10].surname,
+              role: userList[10].title,
+              imgUrl: userList[10].image,
+            },
+          ].map((p, idx) => (
+            <div key={idx} className="d-flex align-items-center mb-2">
+              <img
+                src={p.imgUrl}
+                className="rounded-circle bg-secondary me-2"
+                style={{ width: 40, height: 40 }}
+              ></img>
+              <div className="flex-grow-1">
+                <p className="mb-0 small fw-bold">{p.name}</p>
+                <p className="mb-1 small text-muted">{p.role}</p>
+                <button className="btn btn-outline-primary btn-sm">
+                  Collegati
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
         <button className="btn btn-link w-100">Mostra tutto</button>
       </div>
 
