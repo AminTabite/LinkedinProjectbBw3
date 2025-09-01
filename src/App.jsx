@@ -3,6 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import BarraNavigazioneLinkedIn from "./components/Navbar";
 import ColonnaDestra from "./components/ColonnaDestra";
+import ProfileMainSection from "./components/ProfileMainSection";
+import { Container, Row, Col } from "react-bootstrap";
 
 function App() {
   return (
@@ -14,7 +16,16 @@ function App() {
           element={
             <>
               <div>Home Page</div>
-              <ColonnaDestra />
+              <Container>
+                <Row xs={2} className="mt-5">
+                  <Col>
+                    <ProfileMainSection />
+                  </Col>
+                  <Col>
+                    <ColonnaDestra />
+                  </Col>
+                </Row>
+              </Container>
             </>
           }
         />
