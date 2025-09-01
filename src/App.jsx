@@ -7,6 +7,7 @@ import ProfileMainSection from "./components/ProfileMainSection";
 import { Container, Row, Col } from "react-bootstrap";
 
 import "bootstrap-icons/font/bootstrap-icons.css";
+import MyFooter from "./components/MyFooter";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
         <Route path="/notifications" element={<div>Notifications Page</div>} />
         <Route path="/profile" element={<div>Profile Page</div>} />
       </Routes>
+      <MyFooter />
     </BrowserRouter>
   );
 }
