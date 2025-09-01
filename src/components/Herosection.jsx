@@ -5,11 +5,13 @@ import { BiCamera, BiBrush, BiClipboard } from "react-icons/bi";
 import { useState, useEffect } from "react";
 import clientApi from "../services/api";
 import "./Herosection.css";
+import { useDispatch } from "react-redux";
 
 const Herosection = () => {
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -17,6 +19,10 @@ const Herosection = () => {
         setLoading(true);
         const data = await clientApi.ottieniIlMioProfilo();
         setProfileData(data);
+        dispatch({
+          type: "GET_USER",
+          payload: data,
+        });
       } catch (err) {
         setError(err.message);
       } finally {

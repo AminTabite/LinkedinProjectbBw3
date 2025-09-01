@@ -20,12 +20,18 @@ import {
 import { BsGrid3X3Gap } from "react-icons/bs";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { MdHeight } from "react-icons/md";
 
 const BarraNavigazioneLinkedIn = () => {
   const posizioneCorrente = useLocation();
   const [valoreRicerca, setValoreRicerca] = useState("");
 
   const eAttivo = (percorso) => posizioneCorrente.pathname === percorso;
+
+  const userImage = useSelector((state) => {
+    return state.profile.userImg;
+  });
 
   return (
     <Navbar
@@ -125,9 +131,10 @@ const BarraNavigazioneLinkedIn = () => {
             >
               <div className="foto-profilo">
                 <img
-                  src="https://via.placeholder.com/24x24/0a66c2/ffffff?text=U"
+                  src={userImage}
                   alt="Profilo"
                   className="rounded-circle"
+                  style={{ height: "28px" }}
                 />
               </div>
               <div className="testo-navigazione d-flex align-items-center">
