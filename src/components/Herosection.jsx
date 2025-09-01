@@ -36,7 +36,7 @@ const Herosection = () => {
         <Card className="mb-3 p-0 border">
           <div className="position-relative">
             <Card.Img
-              src="https://placehold.co/600x200"
+              src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=200&q=80"
               alt="cover"
               style={{ height: "200px", objectFit: "cover" }}
             />
