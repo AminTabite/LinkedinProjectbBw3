@@ -1,6 +1,7 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
+<<<<<<< HEAD
 import BarraNavigazioneLinkedIn from "./components/Navbar";
 
 function App() {
@@ -17,6 +18,14 @@ function App() {
       </Routes>
     </BrowserRouter>
   );
+=======
+import ColonnaDestra from "./components/ColonnaDestra";
+
+function App() {
+  return <>
+  <ColonnaDestra/>
+  </>;
+>>>>>>> main
 }
 
 export default App;
