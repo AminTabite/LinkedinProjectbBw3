@@ -1,15 +1,15 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-<<<<<<< HEAD
 import BarraNavigazioneLinkedIn from "./components/Navbar";
+import ColonnaDestra from "./components/ColonnaDestra";
 
 function App() {
   return (
     <BrowserRouter>
       <BarraNavigazioneLinkedIn />
       <Routes>
-        <Route path="/" element={<div>Home Page</div>} />
+        <Route path="/" element={<><div>Home Page</div><ColonnaDestra/></>} />
         <Route path="/network" element={<div>Network Page</div>} />
         <Route path="/jobs" element={<div>Jobs Page</div>} />
         <Route path="/messaging" element={<div>Messaging Page</div>} />
@@ -18,14 +18,6 @@ function App() {
       </Routes>
     </BrowserRouter>
   );
-=======
-import ColonnaDestra from "./components/ColonnaDestra";
-
-function App() {
-  return <>
-  <ColonnaDestra/>
-  </>;
->>>>>>> main
 }
 
 export default App;
