@@ -2,7 +2,6 @@ import { Container, Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { BiCamera, BiBrush, BiClipboard } from "react-icons/bi";
-import "./Herosection.css";
 
 const Herosection = () => {
   return (
@@ -18,7 +17,8 @@ const Herosection = () => {
 
             <button
               className="btn btn-light rounded-circle position-absolute"
-              style={{ top: "10px", right: "10px" }}>
+              style={{ top: "10px", right: "10px" }}
+            >
               <BiCamera />
             </button>
 
