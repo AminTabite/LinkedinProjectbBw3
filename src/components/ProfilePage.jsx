@@ -5,7 +5,7 @@ import ProfileMainSection from "./ProfileMainSection";
 const ProfilePage = () => {
   return (
     <div style={{ background: "#F4F2EE" }}>
-      <Container className="mt-5">
+      <Container style={{ paddingTop: '80px', paddingBottom: '80px' }}>
         <Row className="justify-content-center">
           <Col xs={12} md={7}>
             <ProfileMainSection />
