@@ -3,8 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const ColonnaDestra = () => {
   return (
-    <div className="d-flex flex-column gap-3" style={{ width: "320px" }}>
-      
+    <div className="d-flex flex-column gap-3">
       {/* Lingua e URL */}
       <div className="border rounded p-3 bg-white">
         <div className="d-flex justify-content-between align-items-center mb-2">
@@ -27,10 +26,10 @@ const ColonnaDestra = () => {
 
       {/* Annuncio sponsorizzato */}
       <div className="border rounded p-3 bg-white">
-                  <div
-            className="rounded-circle bg-secondary me-2"
-            style={{ width: 40, height: 40 }}
-          ></div>
+        <div
+          className="rounded-circle bg-secondary me-2"
+          style={{ width: 40, height: 40 }}
+        ></div>
 
         <span className="badge bg-light text-secondary mb-2">Promosso</span>
         <h6>Edison Next</h6>
@@ -50,11 +49,7 @@ const ColonnaDestra = () => {
             style={{ width: 40, height: 40 }}
           ></div>
           <div>
-            <p className="mb-0 small fw-bold">
-                        Nome Cognome
- 
-
-            </p>
+            <p className="mb-0 small fw-bold">Nome Cognome</p>
             <button className="btn btn-outline-secondary btn-sm">
               Visualizza
             </button>
@@ -66,10 +61,7 @@ const ColonnaDestra = () => {
             style={{ width: 40, height: 40 }}
           ></div>
           <div>
-            <p className="mb-0 small fw-bold">
-                       Nome Cognome
-
-            </p>
+            <p className="mb-0 small fw-bold">Nome Cognome</p>
             <button className="btn btn-outline-secondary btn-sm">
               Visualizza
             </button>
