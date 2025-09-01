@@ -458,3 +458,8 @@ body {
     text-align: start;
     border: 2px solid black;
 }
+
+/* Search dropdown styles */
+.hover-bg-light:hover {
+  background-color: #f3f2ef !important;
+}

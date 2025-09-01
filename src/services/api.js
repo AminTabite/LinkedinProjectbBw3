@@ -50,6 +50,49 @@ const clientApi = {
       body: JSON.stringify(datiProfilo),
     });
   },
+
+  // Jobs API
+  async cercaLavori(query = "", limit = 20) {
+    const url = `https://strive-benchmark.herokuapp.com/api/jobs?search=${encodeURIComponent(query)}&limit=${limit}`;
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Errore HTTP! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Errore nella ricerca lavori:", error);
+      throw error;
+    }
+  },
+
+  async ottieniLavoriPerAzienda(company, limit = 20) {
+    const url = `https://strive-benchmark.herokuapp.com/api/jobs?company=${encodeURIComponent(company)}&limit=${limit}`;
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Errore HTTP! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Errore nel recupero lavori per azienda:", error);
+      throw error;
+    }
+  },
+
+  async ottieniLavoriPerCategoria(category, limit = 20) {
+    const url = `https://strive-benchmark.herokuapp.com/api/jobs?category=${encodeURIComponent(category)}&limit=${limit}`;
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Errore HTTP! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Errore nel recupero lavori per categoria:", error);
+      throw error;
+    }
+  },
 };
 
 //funzione per cambiare immagine

@@ -1,14 +1,79 @@
 import { Navbar, Nav, Container, Form, FormControl, Dropdown, Badge } from 'react-bootstrap';
 import { FaLinkedin, FaSearch, FaHome, FaUsers, FaBriefcase, FaCommentDots, FaBell, FaCaretDown } from 'react-icons/fa';
 import { BsGrid3X3Gap } from 'react-icons/bs';
-import { Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import clientApi from '../services/api';
 
 const BarraNavigazioneLinkedIn = () => {
   const posizioneCorrente = useLocation();
+  const navigate = useNavigate();
   const [valoreRicerca, setValoreRicerca] = useState('');
+  const [datiProfilo, setDatiProfilo] = useState(null);
+  const [caricamento, setCaricamento] = useState(true);
+  const [mostraDropdown, setMostraDropdown] = useState(false);
+  const [suggerimentiCategorie, setSuggerimentiCategorie] = useState([]);
   
   const eAttivo = (percorso) => posizioneCorrente.pathname === percorso;
+
+  useEffect(() => {
+    const recuperaProfilo = async () => {
+      try {
+        setCaricamento(true);
+        const dati = await clientApi.ottieniIlMioProfilo();
+        setDatiProfilo(dati);
+      } catch (err) {
+        console.error('Errore nel recupero del profilo:', err);
+      } finally {
+        setCaricamento(false);
+      }
+    };
+
+    recuperaProfilo();
+  }, []);
+
+  const categoriePopulari = [
+    { nome: "Sviluppo Software", icona: "💻" },
+    { nome: "Marketing", icona: "📊" },
+    { nome: "Vendite", icona: "💼" },
+    { nome: "Design", icona: "🎨" },
+    { nome: "Risorse Umane", icona: "👥" },
+    { nome: "Finanza", icona: "💰" },
+    { nome: "Ingegneria", icona: "⚙️" },
+    { nome: "Data Science", icona: "📈" }
+  ];
+
+  const caricaSuggerimenti = () => {
+    if (eAttivo('/jobs')) {
+      setSuggerimentiCategorie(categoriePopulari);
+    }
+  };
+
+  const gestisciClickRicerca = () => {
+    setMostraDropdown(true);
+    if (suggerimentiCategorie.length === 0) {
+      caricaSuggerimenti();
+    }
+  };
+
+  const gestisciBlur = () => {
+    setTimeout(() => setMostraDropdown(false), 200);
+  };
+
+  const gestisciRicerca = (evento) => {
+    evento.preventDefault();
+    if (valoreRicerca.trim() && eAttivo('/jobs')) {
+      // Naviga alla pagina lavori con il parametro di ricerca
+      navigate(`/jobs?search=${encodeURIComponent(valoreRicerca.trim())}`);
+    }
+  };
+
+  const selezionaCategoria = (categoria) => {
+    setValoreRicerca(categoria.nome);
+    setMostraDropdown(false);
+    // Naviga alla pagina lavori con il parametro di ricerca
+    navigate(`/jobs?search=${encodeURIComponent(categoria.nome)}`);
+  };
 
   return (
     <Navbar bg="white" className="shadow-sm border-bottom barra-navigazione-linkedin fixed-top">
@@ -17,18 +82,75 @@ const BarraNavigazioneLinkedIn = () => {
           <FaLinkedin size={34} className="logo-linkedin" />
         </Navbar.Brand>
         
-        <Form className="d-flex me-auto modulo-ricerca">
+        <Form className="d-flex me-auto modulo-ricerca" onSubmit={gestisciRicerca}>
           <div className="position-relative">
             <FaSearch size={28} className="icona-ricerca d-lg-none icona-ricerca-mobile" />
             <FaSearch className="icona-ricerca d-none d-lg-block" />
             <FormControl
               type="search"
-              placeholder="Cerca"
+              placeholder={eAttivo('/jobs') ? 'Cerca lavoro' : 'Cerca'}
               className="input-ricerca d-none d-lg-block"
               aria-label="Ricerca"
               value={valoreRicerca}
               onChange={(e) => setValoreRicerca(e.target.value)}
+              onFocus={gestisciClickRicerca}
+              onBlur={gestisciBlur}
             />
+            
+            {/* Dropdown suggerimenti */}
+            {mostraDropdown && eAttivo('/jobs') && (
+              <div 
+                className="position-absolute bg-white border rounded shadow-lg"
+                style={{ 
+                  top: '100%', 
+                  left: '0', 
+                  right: '0', 
+                  zIndex: 1000,
+                  maxHeight: '300px',
+                  overflowY: 'auto'
+                }}
+              >
+                {suggerimentiCategorie.length > 0 ? (
+                  <>
+                    <div className="px-3 py-2 border-bottom">
+                      <small className="text-muted fw-semibold">Cerca per reparto</small>
+                    </div>
+                    {suggerimentiCategorie.map((categoria, index) => (
+                      <div 
+                        key={index}
+                        className="px-3 py-2 border-bottom hover-bg-light d-flex align-items-center"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => selezionaCategoria(categoria)}
+                      >
+                        <div 
+                          className="rounded-circle me-3 d-flex align-items-center justify-content-center flex-shrink-0"
+                          style={{ 
+                            width: "32px", 
+                            height: "32px", 
+                            backgroundColor: "#f3f2ef",
+                            fontSize: "16px"
+                          }}
+                        >
+                          {categoria.icona}
+                        </div>
+                        <div className="flex-grow-1 min-width-0">
+                          <div className="fw-semibold" style={{ fontSize: "14px" }}>
+                            {categoria.nome}
+                          </div>
+                          <div className="text-muted small">
+                            Cerca lavori in {categoria.nome.toLowerCase()}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <div className="px-3 py-4 text-center text-muted">
+                    <div>Nessun suggerimento disponibile</div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </Form>
 
@@ -86,9 +208,10 @@ const BarraNavigazioneLinkedIn = () => {
               >
                 <div className="foto-profilo">
                   <img 
-                    src="https://via.placeholder.com/24x24/0a66c2/ffffff?text=U" 
+                    src={datiProfilo?.image || "https://via.placeholder.com/24x24/0a66c2/ffffff?text=U"} 
                     alt="Profilo" 
                     className="rounded-circle"
+                    style={{ width: "24px", height: "24px", objectFit: "cover" }}
                   />
                 </div>
                 <div className="testo-navigazione d-flex align-items-center">
@@ -99,13 +222,18 @@ const BarraNavigazioneLinkedIn = () => {
               <Dropdown.Menu className="menu-profilo">
                 <div className="intestazione-profilo">
                   <img 
-                    src="https://via.placeholder.com/64x64/0a66c2/ffffff?text=MR" 
+                    src={datiProfilo?.image || "https://via.placeholder.com/64x64/0a66c2/ffffff?text=U"} 
                     alt="Profilo" 
                     className="rounded-circle"
+                    style={{ width: "64px", height: "64px", objectFit: "cover" }}
                   />
                   <div className="info-profilo">
-                    <div className="nome-profilo">Mario Rossi</div>
-                    <div className="titolo-profilo">Senior Developer at LinkedIn</div>
+                    <div className="nome-profilo">
+                      {datiProfilo ? `${datiProfilo.name || ''} ${datiProfilo.surname || ''}`.trim() : 'Mario Rossi'}
+                    </div>
+                    <div className="titolo-profilo">
+                      {datiProfilo?.title || "Senior Developer at LinkedIn"}
+                    </div>
                   </div>
                 </div>
                 <div className="visualizza-profilo-btn">
