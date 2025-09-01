@@ -12,12 +12,12 @@ function App() {
     <BrowserRouter>
       <BarraNavigazioneLinkedIn />
       <Routes>
-        <Route path="/" element={<ProfilePage />} />
+        <Route path="/" element={<div>Home Page</div>} />
         <Route path="/network" element={<div>Network Page</div>} />
         <Route path="/jobs" element={<div>Jobs Page</div>} />
         <Route path="/messaging" element={<div>Messaging Page</div>} />
         <Route path="/notifications" element={<div>Notifications Page</div>} />
-        <Route path="/profile" element={<div>Profile Page</div>} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
       <MyFooter />
     </BrowserRouter>
