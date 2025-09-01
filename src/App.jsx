@@ -6,6 +6,8 @@ import ColonnaDestra from "./components/ColonnaDestra";
 import ProfileMainSection from "./components/ProfileMainSection";
 import { Container, Row, Col } from "react-bootstrap";
 
+import "bootstrap-icons/font/bootstrap-icons.css";
+
 function App() {
   return (
     <BrowserRouter>

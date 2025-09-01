@@ -431,3 +431,29 @@ body {
 .navbar-toggler:focus {
   box-shadow: none;
 }
+#footer a{
+    text-decoration: none;
+        font-weight: bold;
+    color: grey;
+    font-size: 0.8em;
+    line-height: normal;
+}
+
+#footer p{
+    line-height: normal;
+    color: grey;
+}
+
+#footer a:hover{
+    text-decoration: underline;
+    color: blue;
+}
+
+#footer button{
+    font-weight: bold;
+    color: black;
+    background: white;
+    width: 100%;
+    text-align: start;
+    border: 2px solid black;
+}
