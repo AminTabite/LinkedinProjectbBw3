@@ -106,15 +106,7 @@ const MyFooter = () => {
                 title="Lingua"
                 ref={drop}
               >
-                <Dropdown.Item
-                  //href="#/action-1"
-                  onClick={() => {
-                    drop.current.title = "Italiano";
-                    console.log(drop.current.title);
-                  }}
-                >
-                  Italiano
-                </Dropdown.Item>
+                <Dropdown.Item href="#/action-1">Italiano</Dropdown.Item>
                 <Dropdown.Item href="#/action-2">Inglese</Dropdown.Item>
                 <Dropdown.Item href="#/action-3">Spagnolo</Dropdown.Item>
               </DropdownButton>
