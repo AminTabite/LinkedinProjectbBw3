@@ -19,6 +19,7 @@ function App() {
         <Route path="/notifications" element={<div>Notifications Page</div>} />
         <Route path="/profile" element={<ProfilePage />} />
       </Routes>
+
       <MyFooter />
     </BrowserRouter>
   );
