@@ -52,4 +52,39 @@ const clientApi = {
   },
 };
 
+//funzione per cambiare immagine
+/*const changeImg = () => {
+  fetch("https://striveschool-api.herokuapp.com/api/profile/me", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${TOKEN}`,
+    },
+    body: JSON.stringify({
+      area: "Napoli ",
+      bio: "Ciao a tutti",
+      name: "Alessandro",
+      surname: "di Martino",
+      title: "Full-Stack developer",
+      email: "alessandrodimartino06@gmail.com",
+      username: "Ale-ko",
+      image:
+        "https://www.schededidatticheperlascuola.it/wp-content/uploads/2022/03/albero-947x1024.png",
+    }),
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error("errore");
+      }
+    })
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((er) => {
+      console.log(er);
+    });
+};*/
+
 export default clientApi;
