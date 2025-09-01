@@ -1,1 +1,70 @@
 /* Herosection styles */
+
+.buttonBlue {
+  background-color: #0a66c2;
+  border: 1px solid #0a66c2;
+  border-radius: 30px;
+  color: white;
+  font-weight: 500;
+  border: 0;
+  padding: 4px 15px;
+}
+
+.buttonBlue:hover {
+  background-color: #004182;
+}
+
+.buttonOutlineBlue {
+  box-sizing: border-box;
+  background-color: white;
+  border-radius: 30px;
+  color: #0a66c2;
+  font-weight: 500;
+  border: 1px solid #0a66c2;
+  padding: 4px 15px;
+}
+
+.buttonOutlineBlue:hover {
+  color: #004182;
+  background-color: rgb(234, 246, 253);
+  border: 1px solid #004182;
+  outline: 1px solid #004182;
+}
+
+.buttonOutlineGray {
+  box-sizing: border-box;
+  background-color: white;
+  border-radius: 30px;
+  color: #292929;
+  font-weight: 500;
+  border: 1px solid #292929;
+  padding: 4px 15px;
+}
+
+.buttonOutlineGray:hover {
+  color: #181818;
+  background-color: rgb(223, 223, 223);
+  border: 1px solid #181818;
+  outline: 1px solid #181818;
+}
+
+.profession {
+  font-size: 1em;
+  margin-bottom: 5px;
+}
+
+.location {
+  font-size: 0.8em;
+  color: #666666;
+}
+
+.blue500 {
+  color: #0a66c2;
+  font-weight: 500;
+}
+
+.heroBox {
+  width: 50%;
+  background-color: #dde7f1;
+  border-radius: 10px;
+}

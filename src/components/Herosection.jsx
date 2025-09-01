@@ -33,7 +33,7 @@ const Herosection = () => {
   return (
     <Container>
       <Row>
-        <Card>
+        <Card className="mb-3 p-0 border">
           <div className="position-relative">
             <Card.Img
               src="https://placehold.co/600x200"
@@ -43,7 +43,8 @@ const Herosection = () => {
 
             <button
               className="btn btn-light rounded-circle position-absolute"
-              style={{ top: "10px", right: "10px" }}>
+              style={{ top: "10px", right: "10px" }}
+            >
               <BiCamera />
             </button>
 
@@ -61,45 +62,42 @@ const Herosection = () => {
           </div>
           <Card.Body>
             <div></div>
-            <Card.Title>
-              {profileData?.name} {profileData?.surname}{" "}
-              <span>
-                <BiClipboard /> <span>He/ Him</span>
-              </span>
-            </Card.Title>
-            <Card.Text>{profileData?.title || "Titolo professionale"}</Card.Text>
+            <Card.Text>
+              <h4 className="mb-0">
+                {profileData?.name} {profileData?.surname} <BiClipboard /> He/
+                Him
+              </h4>
+              <p className="profession">
+                {profileData?.title || "Titolo professionale"}
+              </p>
+              <p className="location">
+                {profileData?.area || "Area non specificata"} ⸱{" "}
+                <span className="blue500">Informazioni di contatto</span>
+              </p>
+            </Card.Text>
             <Card.Text>
               <div>
-                <h6>{profileData?.bio || "Bio"}</h6>
-                <p>{profileData?.area || "Area non specificata"}</p>
-                <p>69 collegamenti</p>
+                <p className="blue500">69 collegamenti</p>
               </div>
             </Card.Text>
-            <div className="d-flex justify-content-lg-start justify-content-start align-items-center">
-              <Button className="rounded-5" variant="primary">
-                Disponibile per
-              </Button>
-              <Button className="rounded-5 g-1" variant="outline-primary">
-                Aggiungi sezione
-              </Button>
-              <Button className="rounded-5 g-1" variant="outline-primary">
+            <div className="d-flex justify-content-start align-items-center">
+              <button className="me-3 buttonBlue">Disponibile per</button>
+              <button className="me-3 buttonOutlineBlue">
+                Aggiungi sezione del profilo
+              </button>
+              <button className="me-3 buttonOutlineBlue">
                 Migliora profilo
-              </Button>
-              <Button className="rounded-5 g-1" variant="outline-dark">
-                <span className="d-lg-none">...</span>
-                <span className="d-none d-lg-inline">Risorse</span>
-              </Button>
+              </button>
+              <button className="buttonOutlineGray">Risorse</button>
             </div>
-            <div className="d-flex flex-column justify-content-start bg-body-tertiary  my-4">
+            <div className="my-4 heroBox p-3">
               <div className="d-flex justify-content-between">
-                <h5>Disponibilitá a lavorare</h5>
+                <p className="m-0 fw-bold">Disponibilitá a lavorare</p>
                 <span>
                   <BiBrush />
                 </span>
               </div>
-
-              <p>Ruoli di studente diplomato</p>
-
+              <p className="m-0">Ruoli di studente diplomato</p>
               <h6>Mostra dettagli</h6>
             </div>
           </Card.Body>
