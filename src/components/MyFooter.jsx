@@ -1,11 +1,10 @@
 import { Container, Row, Col } from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
-import { useRef } from "react";
+import { useState } from "react";
 
 const MyFooter = () => {
-  const drop = useRef();
-
+  const [language, setLanguage] = useState("lingua");
   return (
     <div style={{ background: "#F4F2EE" }} id="footer" className="pt-3">
       <Container>
@@ -101,14 +100,31 @@ const MyFooter = () => {
               <p className=" ms-2 mb-0 mt-4" style={{ fontSize: "0.8em" }}>
                 Seleziona la lingua
               </p>
-              <DropdownButton
-                id="dropdown-basic-button"
-                title="Lingua"
-                ref={drop}
-              >
-                <Dropdown.Item href="#/action-1">Italiano</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Inglese</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Spagnolo</Dropdown.Item>
+              <DropdownButton id="dropdown-basic-button" title={language}>
+                <Dropdown.Item
+                  href="#/action-1"
+                  onClick={() => {
+                    setLanguage("Italiano");
+                  }}
+                >
+                  Italiano
+                </Dropdown.Item>
+                <Dropdown.Item
+                  href="#/action-2"
+                  onClick={() => {
+                    setLanguage("English");
+                  }}
+                >
+                  English
+                </Dropdown.Item>
+                <Dropdown.Item
+                  href="#/action-3"
+                  onClick={() => {
+                    setLanguage("Espanol");
+                  }}
+                >
+                  Espanol
+                </Dropdown.Item>
               </DropdownButton>
             </div>
           </Col>

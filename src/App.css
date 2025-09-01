@@ -434,7 +434,7 @@ body {
 }
 #footer a{
     text-decoration: none;
-        font-weight: bold;
+        font-weight: 500;
     color: grey;
     font-size: 0.8em;
     line-height: normal;
