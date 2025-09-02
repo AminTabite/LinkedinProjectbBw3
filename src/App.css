@@ -432,6 +432,9 @@ body {
 .navbar-toggler:focus {
   box-shadow: none;
 }
+
+/* footer */
+
 #footer a{
     text-decoration: none;
         font-weight: 500;
@@ -451,15 +454,25 @@ body {
 }
 
 #footer button{
-    font-weight: bold;
+    font-weight: 500;
     color: black;
     background: white;
     width: 100%;
     text-align: start;
     border: 2px solid black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 /* Search dropdown styles */
 .hover-bg-light:hover {
   background-color: #f3f2ef !important;
 }
+#footer .show{
+  width: 100%;
+}
+
+
+
+/* fine footer */

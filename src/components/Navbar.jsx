@@ -1,19 +1,36 @@
-import { Navbar, Nav, Container, Form, FormControl, Dropdown, Badge } from 'react-bootstrap';
-import { FaLinkedin, FaSearch, FaHome, FaUsers, FaBriefcase, FaCommentDots, FaBell, FaCaretDown } from 'react-icons/fa';
-import { BsGrid3X3Gap } from 'react-icons/bs';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import clientApi from '../services/api';
+import {
+  Navbar,
+  Nav,
+  Container,
+  Form,
+  FormControl,
+  Dropdown,
+  Badge,
+} from "react-bootstrap";
+import {
+  FaLinkedin,
+  FaSearch,
+  FaHome,
+  FaUsers,
+  FaBriefcase,
+  FaCommentDots,
+  FaBell,
+  FaCaretDown,
+} from "react-icons/fa";
+import { BsGrid3X3Gap } from "react-icons/bs";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import clientApi from "../services/api";
 
 const BarraNavigazioneLinkedIn = () => {
   const posizioneCorrente = useLocation();
   const navigate = useNavigate();
-  const [valoreRicerca, setValoreRicerca] = useState('');
+  const [valoreRicerca, setValoreRicerca] = useState("");
   const [datiProfilo, setDatiProfilo] = useState(null);
   const [caricamento, setCaricamento] = useState(true);
   const [mostraDropdown, setMostraDropdown] = useState(false);
   const [suggerimentiCategorie, setSuggerimentiCategorie] = useState([]);
-  
+
   const eAttivo = (percorso) => posizioneCorrente.pathname === percorso;
 
   useEffect(() => {
@@ -23,7 +40,7 @@ const BarraNavigazioneLinkedIn = () => {
         const dati = await clientApi.ottieniIlMioProfilo();
         setDatiProfilo(dati);
       } catch (err) {
-        console.error('Errore nel recupero del profilo:', err);
+        console.error("Errore nel recupero del profilo:", err);
       } finally {
         setCaricamento(false);
       }
@@ -40,11 +57,11 @@ const BarraNavigazioneLinkedIn = () => {
     { nome: "Risorse Umane", icona: "👥" },
     { nome: "Finanza", icona: "💰" },
     { nome: "Ingegneria", icona: "⚙️" },
-    { nome: "Data Science", icona: "📈" }
+    { nome: "Data Science", icona: "📈" },
   ];
 
   const caricaSuggerimenti = () => {
-    if (eAttivo('/jobs')) {
+    if (eAttivo("/jobs")) {
       setSuggerimentiCategorie(categoriePopulari);
     }
   };
@@ -62,7 +79,7 @@ const BarraNavigazioneLinkedIn = () => {
 
   const gestisciRicerca = (evento) => {
     evento.preventDefault();
-    if (valoreRicerca.trim() && eAttivo('/jobs')) {
+    if (valoreRicerca.trim() && eAttivo("/jobs")) {
       // Naviga alla pagina lavori con il parametro di ricerca
       navigate(`/jobs?search=${encodeURIComponent(valoreRicerca.trim())}`);
     }
@@ -76,19 +93,32 @@ const BarraNavigazioneLinkedIn = () => {
   };
 
   return (
-    <Navbar bg="white" className="shadow-sm border-bottom barra-navigazione-linkedin fixed-top">
+    <Navbar
+      bg="white"
+      className="shadow-sm border-bottom barra-navigazione-linkedin fixed-top"
+    >
       <Container className="justify-content-center">
-        <Navbar.Brand as={Link} to="/" className="d-flex align-items-center logo-personalizzato">
+        <Navbar.Brand
+          as={Link}
+          to="/"
+          className="d-flex align-items-center logo-personalizzato"
+        >
           <FaLinkedin size={38} className="logo-linkedin" />
         </Navbar.Brand>
-        
-        <Form className="d-flex me-auto modulo-ricerca" onSubmit={gestisciRicerca}>
+
+        <Form
+          className="d-flex me-auto modulo-ricerca"
+          onSubmit={gestisciRicerca}
+        >
           <div className="position-relative">
-            <FaSearch size={28} className="icona-ricerca d-lg-none icona-ricerca-mobile" />
+            <FaSearch
+              size={28}
+              className="icona-ricerca d-lg-none icona-ricerca-mobile"
+            />
             <FaSearch className="icona-ricerca d-none d-lg-block" />
             <FormControl
               type="search"
-              placeholder={eAttivo('/jobs') ? 'Cerca lavoro' : 'Cerca'}
+              placeholder={eAttivo("/jobs") ? "Cerca lavoro" : "Cerca"}
               className="input-ricerca d-none d-lg-block"
               aria-label="Ricerca"
               value={valoreRicerca}
@@ -96,45 +126,50 @@ const BarraNavigazioneLinkedIn = () => {
               onFocus={gestisciClickRicerca}
               onBlur={gestisciBlur}
             />
-            
+
             {/* Dropdown suggerimenti */}
-            {mostraDropdown && eAttivo('/jobs') && (
-              <div 
+            {mostraDropdown && eAttivo("/jobs") && (
+              <div
                 className="position-absolute bg-white border rounded shadow-lg"
-                style={{ 
-                  top: '100%', 
-                  left: '0', 
-                  right: '0', 
+                style={{
+                  top: "100%",
+                  left: "0",
+                  right: "0",
                   zIndex: 1000,
-                  maxHeight: '300px',
-                  overflowY: 'auto'
+                  maxHeight: "300px",
+                  overflowY: "auto",
                 }}
               >
                 {suggerimentiCategorie.length > 0 ? (
                   <>
                     <div className="px-3 py-2 border-bottom">
-                      <small className="text-muted fw-semibold">Cerca per reparto</small>
+                      <small className="text-muted fw-semibold">
+                        Cerca per reparto
+                      </small>
                     </div>
                     {suggerimentiCategorie.map((categoria, index) => (
-                      <div 
+                      <div
                         key={index}
                         className="px-3 py-2 border-bottom hover-bg-light d-flex align-items-center"
-                        style={{ cursor: 'pointer' }}
+                        style={{ cursor: "pointer" }}
                         onClick={() => selezionaCategoria(categoria)}
                       >
-                        <div 
+                        <div
                           className="rounded-circle me-3 d-flex align-items-center justify-content-center flex-shrink-0"
-                          style={{ 
-                            width: "32px", 
-                            height: "32px", 
+                          style={{
+                            width: "32px",
+                            height: "32px",
                             backgroundColor: "#f3f2ef",
-                            fontSize: "16px"
+                            fontSize: "16px",
                           }}
                         >
                           {categoria.icona}
                         </div>
                         <div className="flex-grow-1 min-width-0">
-                          <div className="fw-semibold" style={{ fontSize: "14px" }}>
+                          <div
+                            className="fw-semibold"
+                            style={{ fontSize: "14px" }}
+                          >
                             {categoria.nome}
                           </div>
                           <div className="text-muted small">
@@ -155,120 +190,157 @@ const BarraNavigazioneLinkedIn = () => {
         </Form>
 
         <Nav className="ms-auto icone-navigazione">
-            <Nav.Link 
-              as={Link} 
-              to="/" 
-              className={`elemento-navigazione text-center ${eAttivo('/') ? 'attivo' : ''}`}
-            >
-              <FaHome size={20} />
-              <div className="testo-navigazione">Home</div>
-            </Nav.Link>
-            
-            <Nav.Link 
-              as={Link} 
-              to="/network" 
-              className={`elemento-navigazione text-center ${eAttivo('/network') ? 'attivo' : ''}`}
-            >
-              <FaUsers size={20} />
-              <div className="testo-navigazione">La mia rete</div>
-            </Nav.Link>
-            
-            <Nav.Link 
-              as={Link} 
-              to="/jobs" 
-              className={`elemento-navigazione text-center ${eAttivo('/jobs') ? 'attivo' : ''}`}
-            >
-              <FaBriefcase size={20} />
-              <div className="testo-navigazione">Lavoro</div>
-            </Nav.Link>
-            
-            <Nav.Link 
-              as={Link} 
-              to="/messaging" 
-              className={`elemento-navigazione text-center ${eAttivo('/messaging') ? 'attivo' : ''}`}
-            >
-              <FaCommentDots size={20} />
-              <div className="testo-navigazione">Messaggi</div>
-            </Nav.Link>
-            
-            <Nav.Link 
-              as={Link} 
-              to="/notifications" 
-              className={`elemento-navigazione text-center ${eAttivo('/notifications') ? 'attivo' : ''}`}
-            >
-              <FaBell size={20} />
-              <div className="testo-navigazione">Notifiche</div>
-            </Nav.Link>
-            
-            <Dropdown className="dropdown-profilo">
-              <Dropdown.Toggle 
-                variant="link" 
-                id="dropdown-profilo" 
-                className={`elemento-navigazione text-center toggle-profilo ${eAttivo('/profile') ? 'attivo' : ''}`}
-              >
-                <div className="foto-profilo">
-                  <img 
-                    src={datiProfilo?.image || "https://via.placeholder.com/24x24/0a66c2/ffffff?text=U"} 
-                    alt="Profilo" 
-                    className="rounded-circle"
-                    style={{ width: "24px", height: "24px", objectFit: "cover" }}
-                  />
-                </div>
-                <div className="testo-navigazione d-flex align-items-center">
-                  Tu <FaCaretDown size={12} className="ms-1" />
-                </div>
-              </Dropdown.Toggle>
+          <Nav.Link
+            as={Link}
+            to="/"
+            className={`elemento-navigazione text-center ${
+              eAttivo("/") ? "attivo" : ""
+            }`}
+          >
+            <FaHome size={20} />
+            <div className="testo-navigazione">Home</div>
+          </Nav.Link>
 
-              <Dropdown.Menu className="menu-profilo">
-                <div className="intestazione-profilo">
-                  <img 
-                    src={datiProfilo?.image || "https://via.placeholder.com/64x64/0a66c2/ffffff?text=U"} 
-                    alt="Profilo" 
-                    className="rounded-circle"
-                    style={{ width: "64px", height: "64px", objectFit: "cover" }}
-                  />
-                  <div className="info-profilo">
-                    <div className="nome-profilo">
-                      {datiProfilo ? `${datiProfilo.name || ''} ${datiProfilo.surname || ''}`.trim() : 'Mario Rossi'}
-                    </div>
-                    <div className="titolo-profilo">
-                      {datiProfilo?.title || "Senior Developer at LinkedIn"}
-                    </div>
+          <Nav.Link
+            as={Link}
+            to="/network"
+            className={`elemento-navigazione text-center ${
+              eAttivo("/network") ? "attivo" : ""
+            }`}
+          >
+            <FaUsers size={20} />
+            <div className="testo-navigazione">La mia rete</div>
+          </Nav.Link>
+
+          <Nav.Link
+            as={Link}
+            to="/jobs"
+            className={`elemento-navigazione text-center ${
+              eAttivo("/jobs") ? "attivo" : ""
+            }`}
+          >
+            <FaBriefcase size={20} />
+            <div className="testo-navigazione">Lavoro</div>
+          </Nav.Link>
+
+          <Nav.Link
+            as={Link}
+            to="/messaging"
+            className={`elemento-navigazione text-center ${
+              eAttivo("/messaging") ? "attivo" : ""
+            }`}
+          >
+            <FaCommentDots size={20} />
+            <div className="testo-navigazione">Messaggi</div>
+          </Nav.Link>
+
+          <Nav.Link
+            as={Link}
+            to="/notifications"
+            className={`elemento-navigazione text-center ${
+              eAttivo("/notifications") ? "attivo" : ""
+            }`}
+          >
+            <FaBell size={20} />
+            <div className="testo-navigazione">Notifiche</div>
+          </Nav.Link>
+
+          <Dropdown className="dropdown-profilo">
+            <Dropdown.Toggle
+              variant="link"
+              id="dropdown-profilo"
+              className={`elemento-navigazione text-center toggle-profilo ${
+                eAttivo("/profile") ? "attivo" : ""
+              }`}
+            >
+              <div className="foto-profilo">
+                <img
+                  src={
+                    datiProfilo?.image ||
+                    "https://via.placeholder.com/24x24/0a66c2/ffffff?text=U"
+                  }
+                  alt="Profilo"
+                  className="rounded-circle"
+                  style={{ width: "24px", height: "24px", objectFit: "cover" }}
+                />
+              </div>
+              <div className="testo-navigazione d-flex align-items-center">
+                Tu <FaCaretDown size={12} className="ms-1" />
+              </div>
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu className="menu-profilo">
+              <div className="intestazione-profilo">
+                <img
+                  src={
+                    datiProfilo?.image ||
+                    "https://via.placeholder.com/64x64/0a66c2/ffffff?text=U"
+                  }
+                  alt="Profilo"
+                  className="rounded-circle"
+                  style={{ width: "64px", height: "64px", objectFit: "cover" }}
+                />
+                <div className="info-profilo">
+                  <div className="nome-profilo">
+                    {datiProfilo
+                      ? `${datiProfilo.name || ""} ${
+                          datiProfilo.surname || ""
+                        }`.trim()
+                      : "Mario Rossi"}
+                  </div>
+                  <div className="titolo-profilo">
+                    {datiProfilo?.title || "Senior Developer at LinkedIn"}
                   </div>
                 </div>
-                <div className="visualizza-profilo-btn">
-                  <Dropdown.Item as={Link} to="/profile">Visualizza profilo</Dropdown.Item>
-                </div>
-                <Dropdown.Divider />
-                <div className="sezione-account">
-                  <div className="titolo-sezione">Account</div>
-                  <Dropdown.Item className="premium-offer">Prova 1 mese di Premium a 0 EUR</Dropdown.Item>
-                  <Dropdown.Item as={Link} to="/settings">Impostazioni e privacy</Dropdown.Item>
-                  <Dropdown.Item as={Link} to="/help">Guida</Dropdown.Item>
-                  <Dropdown.Item as={Link} to="/language">Lingua</Dropdown.Item>
-                </div>
-                <Dropdown.Divider />
-                <div className="sezione-gestisci">
-                  <div className="titolo-sezione">Gestisci</div>
-                  <Dropdown.Item as={Link} to="/posts">Post e attività</Dropdown.Item>
-                  <Dropdown.Item as={Link} to="/job-alerts">Account per la pubblicazione di annunci di lavoro</Dropdown.Item>
-                </div>
-                <Dropdown.Divider />
-                <Dropdown.Item className="esci-item">Esci</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+              </div>
 
-            <div className="divisore-navbar"></div>
+              <div className="visualizza-profilo-btn">
+                <Dropdown.Item as={Link} to="/profile">
+                  Visualizza profilo
+                </Dropdown.Item>
+              </div>
+              <Dropdown.Divider />
+              <div className="sezione-account">
+                <div className="titolo-sezione">Account</div>
+                <Dropdown.Item className="premium-offer">
+                  Prova 1 mese di Premium a 0 EUR
+                </Dropdown.Item>
+                <Dropdown.Item as={Link} to="/settings">
+                  Impostazioni e privacy
+                </Dropdown.Item>
+                <Dropdown.Item as={Link} to="/help">
+                  Guida
+                </Dropdown.Item>
+                <Dropdown.Item as={Link} to="/language">
+                  Lingua
+                </Dropdown.Item>
+              </div>
+              <Dropdown.Divider />
+              <div className="sezione-gestisci">
+                <div className="titolo-sezione">Gestisci</div>
+                <Dropdown.Item as={Link} to="/posts">
+                  Post e attività
+                </Dropdown.Item>
+                <Dropdown.Item as={Link} to="/job-alerts">
+                  Account per la pubblicazione di annunci di lavoro
+                </Dropdown.Item>
+              </div>
+              <Dropdown.Divider />
+              <Dropdown.Item className="esci-item">Esci</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
 
-            <Nav.Link className="elemento-navigazione text-center menu-aziende">
-              <BsGrid3X3Gap size={20} />
-              <div className="testo-navigazione">Per le aziende</div>
-            </Nav.Link>
+          <div className="divisore-navbar"></div>
 
-            <div className="promo-premium">
-              <span>Prova Premium per 0 EUR</span>
-            </div>
-          </Nav>
+          <Nav.Link className="elemento-navigazione text-center menu-aziende">
+            <BsGrid3X3Gap size={20} />
+            <div className="testo-navigazione">Per le aziende</div>
+          </Nav.Link>
+
+          <div className="promo-premium">
+            <span>Prova Premium per 0 EUR</span>
+          </div>
+        </Nav>
       </Container>
     </Navbar>
   );

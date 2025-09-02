@@ -11,7 +11,7 @@ const MyFooter = () => {
         <Row>
           <Col xs={2}>
             <p>
-              <a href="#"> Informazioni</a>
+              <a href="#">Informazioni</a>
             </p>
             <p>
               <a href="#">Informativa sulla comunity professionale</a>

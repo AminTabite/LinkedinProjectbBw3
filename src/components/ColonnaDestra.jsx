@@ -19,7 +19,6 @@ const ColonnaDestra = () => {
         }
       })
       .then((data) => {
-        console.log(data);
         setUserList(data);
       })
       .catch((er) => {
@@ -84,7 +83,7 @@ const ColonnaDestra = () => {
                 ></img>
                 <div>
                   <p className="mb-0 small fw-bold">
-                    {user.name + "" + user.surname}
+                    {user.name + " " + user.surname}
                   </p>
                   <button className="btn btn-outline-secondary btn-sm">
                     Visualizza
@@ -114,27 +113,27 @@ const ColonnaDestra = () => {
         {userList !== null &&
           [
             {
-              name: userList[6].name + "" + userList[6].surname,
+              name: userList[6].name + " " + userList[6].surname,
               role: userList[6].title,
               imgUrl: userList[6].image,
             },
             {
-              name: userList[7].name + "" + userList[7].surname,
+              name: userList[7].name + " " + userList[7].surname,
               role: userList[7].title,
               imgUrl: userList[7].image,
             },
             {
-              name: userList[8].name + "" + userList[8].surname,
+              name: userList[8].name + " " + userList[8].surname,
               role: userList[8].title,
               imgUrl: userList[8].image,
             },
             {
-              name: userList[9].name + "" + userList[9].surname,
+              name: userList[9].name + " " + userList[9].surname,
               role: userList[9].title,
               imgUrl: userList[9].image,
             },
             {
-              name: userList[10].name + "" + userList[10].surname,
+              name: userList[10].name + " " + userList[10].surname,
               role: userList[10].title,
               imgUrl: userList[10].image,
             },

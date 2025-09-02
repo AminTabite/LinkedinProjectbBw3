@@ -97,7 +97,7 @@ const clientApi = {
 
 //funzione per cambiare immagine
 /*const changeImg = () => {
-  fetch("https://striveschool-api.herokuapp.com/api/profile/me", {
+  fetch("https://striveschool-api.herokuapp.com/api/profile", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
