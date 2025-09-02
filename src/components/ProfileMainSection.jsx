@@ -1,26 +1,59 @@
 import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { GoPencil } from "react-icons/go";
+import { FiPlus } from "react-icons/fi";
+import { MdPeople } from "react-icons/md";
+import { IoStatsChart } from "react-icons/io5";
 
 // NB: il componente ha larghezza che va in base al container in cui è messo
 
 function ProfileMainSection() {
+  const formatDateForInput = (date) => {
+    if (!date) return "";
+    const d = new Date(date);
+    return isNaN(d) ? "" : d.toISOString().split("T")[0];
+  };
   const TOKEN =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTczNTE2MjdjNjAwMTVmOGM1NjgiLCJpYXQiOjE3NTY3MzExODksImV4cCI6MTc1Nzk0MDc4OX0.EE1GDQeokGCuIu43ACNAuxw4--0MPsa1SFutXaarjxk";
   const [experiences, setExperiences] = useState([]);
-  const [show, setShow] = useState(false);
+  const findExperiences = () => {
+    fetch(
+      "https://striveschool-api.herokuapp.com/api/profile/68b597351627c60015f8c568/experiences",
+      {
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+        },
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("Error while fetching experiences");
+        }
+      })
+      .then((experiences) => {
+        console.log(experiences);
+        setExperiences(experiences);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const [showAdd, setShowAdd] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
   const [newExperience, setNewExperience] = useState({
     role: "",
     company: "",
     area: "",
-    imgLink: "",
+    image: "",
     startDate: "",
     endDate: "",
     description: "",
   });
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const handleSave = () => {
+  const handleCloseAdd = () => setShowAdd(false);
+  const handleShowAdd = () => setShowAdd(true);
+  const handleSaveAdd = () => {
     const body = {
       role: newExperience.role,
       company: newExperience.company,
@@ -28,7 +61,7 @@ function ProfileMainSection() {
       startDate: newExperience.startDate,
       endDate: newExperience.endDate || null,
       description: newExperience.description,
-      image: newExperience.imgLink || null,
+      image: newExperience.image || null,
     };
 
     fetch(
@@ -55,44 +88,161 @@ function ProfileMainSection() {
           role: "",
           company: "",
           area: "",
-          imgLink: "",
+          image: "",
           startDate: "",
           endDate: "",
           description: "",
         });
-        handleClose();
+        handleCloseAdd();
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  useEffect(() => {
-    const findExperiences = () => {
-      fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/68b597351627c60015f8c568/experiences",
-        {
-          headers: {
-            Authorization: `Bearer ${TOKEN}`,
-          },
+  const [idExperience, setIdExperience] = useState("");
+  const [editExperience, setEditExperience] = useState({
+    role: "",
+    company: "",
+    area: "",
+    image: "",
+    startDate: "",
+    endDate: "",
+    description: "",
+  });
+  const handleCloseEdit = () => setShowEdit(false);
+  const handleShowEdit = (id) => {
+    setIdExperience(id);
+    setEditExperience({
+      role: "",
+      company: "",
+      area: "",
+      image: "",
+      startDate: "",
+      endDate: "",
+      description: "",
+    });
+    fetch(
+      `https://striveschool-api.herokuapp.com/api/profile/68b597351627c60015f8c568/experiences/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+        },
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("Error while fetching experiences");
         }
-      )
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          } else {
-            throw new Error("Error while fetching experiences");
-          }
-        })
-        .then((experiences) => {
-          console.log(experiences);
-          setExperiences(experiences);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      })
+      .then((experience) => {
+        console.log(experience);
+        setEditExperience(experience);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setShowEdit(true);
+  };
+
+  const handleSaveEdit = () => {
+    const body = {
+      role: editExperience.role,
+      company: editExperience.company,
+      area: editExperience.area,
+      startDate: editExperience.startDate,
+      endDate: editExperience.endDate || null,
+      description: editExperience.description,
+      image: editExperience.image || null,
     };
 
+    fetch(
+      `https://striveschool-api.herokuapp.com/api/profile/68b597351627c60015f8c568/experiences/${idExperience}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${TOKEN}`,
+        },
+        body: JSON.stringify(body),
+      }
+    )
+      .then(async (res) => {
+        if (!res.ok) throw new Error("Errore nella richiesta PUT");
+        if (res.status === 204) return null;
+        return res.json();
+      })
+      .then((savedExperience) => {
+        setExperiences((prevExperiences) =>
+          prevExperiences.map((exp) => {
+            if (exp._id === idExperience) {
+              if (savedExperience) return savedExperience;
+              return { ...exp, ...editExperience };
+            }
+            return exp;
+          })
+        );
+        findExperiences();
+        setEditExperience({
+          role: "",
+          company: "",
+          area: "",
+          image: "",
+          startDate: "",
+          endDate: "",
+          description: "",
+        });
+        handleCloseEdit();
+      })
+      .catch((err) => {
+        console.error("Errore nel salvataggio:", err);
+      });
+  };
+
+  const handleDeleteEdit = () => {
+    fetch(
+      `https://striveschool-api.herokuapp.com/api/profile/68b597351627c60015f8c568/experiences/${idExperience}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${TOKEN}`,
+        },
+      }
+    )
+      .then(async (res) => {
+        if (!res.ok) throw new Error("Errore nella richiesta PUT");
+        return res;
+      })
+      .then(() => {
+        setExperiences((prevExperiences) =>
+          prevExperiences.filter((exp) => exp._id !== idExperience)
+        );
+        setEditExperience({
+          role: "",
+          company: "",
+          area: "",
+          image: "",
+          startDate: "",
+          endDate: "",
+          description: "",
+        });
+        handleCloseEdit();
+        findExperiences();
+      })
+      .catch((err) => {
+        console.error("Errore nel salvataggio:", err);
+      });
+  };
+
+  const [views, setViews] = useState(100);
+  const [impressions, setImpressions] = useState(50);
+  useEffect(() => {
+    setViews(views + Math.ceil(Math.random() * 500));
+    setImpressions(impressions + Math.ceil(Math.random() * 400));
     findExperiences();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -106,18 +256,18 @@ function ProfileMainSection() {
           <Row xs={1} md={3}>
             <Col>
               <div className="d-flex">
-                <p>ICO</p>
+                <MdPeople className="fs-3" />
                 <div className="ms-2">
-                  <h5 className="mb-0">0 visuliazzazioni del profilo</h5>
+                  <h5 className="mb-0">{views} visuliazzazioni del profilo</h5>
                   <p>Aggiorna il tuo profilo per attrarre visitatori.</p>
                 </div>
               </div>
             </Col>
             <Col>
               <div className="d-flex">
-                <p>ICO</p>
+                <IoStatsChart className="fs-3" />
                 <div className="ms-2">
-                  <h5 className="mb-0">0 impressioni del post</h5>
+                  <h5 className="mb-0">{impressions} impressioni del post</h5>
                   <p className="mb-0">
                     Crea un post per autmentare l'interesse.
                   </p>
@@ -133,8 +283,7 @@ function ProfileMainSection() {
         <div className="d-flex justify-content-between">
           <h4>Esperienza</h4>
           <div className="d-flex justify-content-between">
-            <GoPencil className="me-3" onClick={handleShow} />
-            <p>ICO2</p>
+            <FiPlus onClick={handleShowAdd} />
           </div>
         </div>
         {experiences.length === 0 ? (
@@ -142,7 +291,11 @@ function ProfileMainSection() {
         ) : (
           experiences.map((exp) => {
             return (
-              <div key={exp._id} className="d-flex align-items-center mb-3">
+              <div
+                key={exp._id}
+                className="d-flex align-items-center mb-3"
+                onClick={() => handleShowEdit(exp._id)}
+              >
                 {exp.image === "..." ? (
                   <img src="https://placehold.co/28x28" />
                 ) : (
@@ -167,8 +320,7 @@ function ProfileMainSection() {
         <div className="d-flex justify-content-between">
           <h4>Formazione</h4>
           <div className="d-flex justify-content-between">
-            <p className="me-3">ICO1</p>
-            <p>ICO2</p>
+            <GoPencil />
           </div>
         </div>
         <div className="d-flex align-items-end mb-3">
@@ -190,8 +342,7 @@ function ProfileMainSection() {
         <div className="d-flex justify-content-between">
           <h4>Competenze</h4>
           <div className="d-flex justify-content-between">
-            <p className="me-3">ICO1</p>
-            <p>ICO2</p>
+            <GoPencil />
           </div>
         </div>
         <div className="skillBorders">
@@ -213,13 +364,13 @@ function ProfileMainSection() {
           <p className="my-1">Soft Skill 1</p>
         </div>
       </div>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={showAdd} onHide={handleCloseAdd}>
         <Modal.Header closeButton>
           <Modal.Title>Inserisci una nuova esperienza</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group className="mb-2" controlId="form.ControlInput1">
+            <Form.Group className="mb-2" controlId="form.ControlInputEdit1">
               <Form.Label>Ruolo:</Form.Label>
               <Form.Control
                 type="text"
@@ -231,7 +382,7 @@ function ProfileMainSection() {
                 }
               />
             </Form.Group>
-            <Form.Group className="mb-2" controlId="form.ControlInput2">
+            <Form.Group className="mb-2" controlId="form.ControlInputEdit2">
               <Form.Label>Azienda:</Form.Label>
               <Form.Control
                 type="text"
@@ -245,7 +396,7 @@ function ProfileMainSection() {
                 }
               />
             </Form.Group>
-            <Form.Group className="mb-2" controlId="form.ControlInput3">
+            <Form.Group className="mb-2" controlId="form.ControlInputEdit3">
               <Form.Label>Città:</Form.Label>
               <Form.Control
                 type="text"
@@ -256,7 +407,7 @@ function ProfileMainSection() {
                 }
               />
             </Form.Group>
-            <Form.Group className="mb-2" controlId="form.ControlInput4">
+            <Form.Group className="mb-2" controlId="form.ControlInputEdit4">
               <Form.Label>Inizio lavoro:</Form.Label>
               <Form.Control
                 type="date"
@@ -271,7 +422,7 @@ function ProfileMainSection() {
                 placeholder="Formato YYYY-MM-DD"
               />
             </Form.Group>
-            <Form.Group className="mb-2" controlId="form.ControlInput5">
+            <Form.Group className="mb-2" controlId="form.ControlInputEdit5">
               <Form.Label>Fine lavoro:</Form.Label>
               <Form.Control
                 type="date"
@@ -286,7 +437,7 @@ function ProfileMainSection() {
                 placeholder="Formato YYYY-MM-DD, lasciare vuoto se lavoro attuale"
               />
             </Form.Group>
-            <Form.Group className="mb-2" controlId="form.ControlInput6">
+            <Form.Group className="mb-2" controlId="form.ControlInputEdit6">
               <Form.Label>Breve descrizione dell'impiego:</Form.Label>
               <Form.Control
                 as="textarea"
@@ -301,16 +452,16 @@ function ProfileMainSection() {
                 }
               />
             </Form.Group>
-            <Form.Group className="mb-2" controlId="form.ControlInput7">
+            <Form.Group className="mb-2" controlId="form.ControlInputEdit7">
               <Form.Label>Inserisci un immagine:</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="https://immagine.prova"
-                value={newExperience.imgLink}
+                value={newExperience.image}
                 onChange={(e) =>
                   setNewExperience({
                     ...newExperience,
-                    imgLink: e.target.value,
+                    image: e.target.value,
                   })
                 }
               />
@@ -318,11 +469,123 @@ function ProfileMainSection() {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleCloseAdd}>
             Chiudi
           </Button>
-          <Button variant="primary" onClick={handleSave}>
+          <Button variant="primary" onClick={handleSaveAdd}>
             Aggiungi l'esperienza
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={showEdit} onHide={handleCloseEdit}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modifica</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-2" controlId="form.ControlInput1">
+              <Form.Label>Ruolo:</Form.Label>
+              <Form.Control
+                type="text"
+                required
+                value={editExperience.role}
+                onChange={(e) =>
+                  setEditExperience({ ...editExperience, role: e.target.value })
+                }
+              />
+            </Form.Group>
+            <Form.Group className="mb-2" controlId="form.ControlInput2">
+              <Form.Label>Azienda:</Form.Label>
+              <Form.Control
+                type="text"
+                required
+                value={editExperience.company}
+                onChange={(e) =>
+                  setEditExperience({
+                    ...editExperience,
+                    company: e.target.value,
+                  })
+                }
+              />
+            </Form.Group>
+            <Form.Group className="mb-2" controlId="form.ControlInput3">
+              <Form.Label>Città:</Form.Label>
+              <Form.Control
+                type="text"
+                required
+                value={editExperience.area}
+                onChange={(e) =>
+                  setEditExperience({ ...editExperience, area: e.target.value })
+                }
+              />
+            </Form.Group>
+            <Form.Group className="mb-2" controlId="form.ControlInput4">
+              <Form.Label>Inizio lavoro:</Form.Label>
+              <Form.Control
+                type="date"
+                required
+                value={formatDateForInput(editExperience.startDate)}
+                onChange={(e) =>
+                  setEditExperience({
+                    ...editExperience,
+                    startDate: e.target.value,
+                  })
+                }
+                placeholder="Formato YYYY-MM-DD"
+              />
+            </Form.Group>
+            <Form.Group className="mb-2" controlId="form.ControlInput5">
+              <Form.Label>Fine lavoro:</Form.Label>
+              <Form.Control
+                type="date"
+                required
+                value={formatDateForInput(editExperience.endDate)}
+                onChange={(e) =>
+                  setEditExperience({
+                    ...editExperience,
+                    endDate: e.target.value || null,
+                  })
+                }
+                placeholder="Formato YYYY-MM-DD, lasciare vuoto se lavoro attuale"
+              />
+            </Form.Group>
+            <Form.Group className="mb-2" controlId="form.ControlInput6">
+              <Form.Label>Breve descrizione dell'impiego:</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={2}
+                required
+                value={editExperience.description}
+                onChange={(e) =>
+                  setEditExperience({
+                    ...editExperience,
+                    description: e.target.value,
+                  })
+                }
+              />
+            </Form.Group>
+            <Form.Group className="mb-2" controlId="form.ControlInput7">
+              <Form.Label>Inserisci un immagine:</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="https://immagine.prova"
+                value={editExperience.image}
+                onChange={(e) =>
+                  setEditExperience({
+                    ...editExperience,
+                    image: e.target.value,
+                  })
+                }
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={handleDeleteEdit}>
+            Elimina l'esperienza
+          </Button>
+          <Button variant="primary" onClick={handleSaveEdit}>
+            Modifica l'esperienza
           </Button>
         </Modal.Footer>
       </Modal>

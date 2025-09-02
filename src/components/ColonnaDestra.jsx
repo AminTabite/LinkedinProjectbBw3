@@ -54,10 +54,11 @@ const ColonnaDestra = () => {
 
       {/* Annuncio sponsorizzato */}
       <div className="border rounded p-3 bg-white">
-        <div
-          className="rounded-circle bg-secondary me-2"
+        <img
+          src="https://companieslogo.com/img/orig/EDNR.MI-03376c33.png?t=1720244491"
+          className="rounded-circle me-2"
           style={{ width: 40, height: 40 }}
-        ></div>
+        />
 
         <span className="badge bg-light text-secondary mb-2">Promosso</span>
         <h6>Edison Next</h6>
@@ -165,13 +166,13 @@ const ColonnaDestra = () => {
             src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Logo_Poste_Italiane.svg"
             alt="Poste Italiane"
             className="me-2"
-            style={{ 
-              width: 40, 
-              height: 40, 
-              objectFit: "contain", 
-              backgroundColor: "white", 
-              padding: "2px", 
-              borderRadius: "4px"
+            style={{
+              width: 40,
+              height: 40,
+              objectFit: "contain",
+              backgroundColor: "white",
+              padding: "2px",
+              borderRadius: "4px",
             }}
           />
           <div>
@@ -188,13 +189,13 @@ const ColonnaDestra = () => {
             src="https://upload.wikimedia.org/wikipedia/commons/8/84/Logo_Ferrovie_dello_Stato_Italiane.svg"
             alt="Gruppo Ferrovie dello Stato Italiane"
             className="me-2"
-            style={{ 
-              width: 40, 
-              height: 40, 
-              objectFit: "contain", 
-              backgroundColor: "white", 
-              padding: "2px", 
-              borderRadius: "4px"
+            style={{
+              width: 40,
+              height: 40,
+              objectFit: "contain",
+              backgroundColor: "white",
+              padding: "2px",
+              borderRadius: "4px",
             }}
           />
           <div>
