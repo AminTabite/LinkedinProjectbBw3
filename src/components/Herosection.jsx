@@ -7,35 +7,42 @@ import clientApi from "../services/api";
 import "./Herosection.css";
 import { useSelector } from "react-redux";
 
-const Herosection = () => {
-  //const [profileData, setProfileData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const prof = useSelector((state) => {
+const Herosection = ({ userId }) => {
+  const [datiProfilo, setDatiProfilo] = useState(null);
+  const [caricamento, setCaricamento] = useState(true);
+  const [errore, setErrore] = useState(null);
+  const profiloDaRedux = useSelector((state) => {
     return state.profile;
   });
 
-  console.log(prof);
+  console.log(profiloDaRedux);
 
-  /*useEffect(() => {
-    const fetchProfile = async () => {
+  useEffect(() => {
+    const recuperaProfilo = async () => {
       try {
-        setLoading(true);
-        const data = await clientApi.ottieniIlMioProfilo();
-        //setProfileData(data);
-        console.log(data);
+        setCaricamento(true);
+        let dati;
+        if (userId) {
+          // Carica profilo specifico utente
+          dati = await clientApi.ottieniProfilo(userId);
+        } else {
+          // Carica il proprio profilo
+          dati = await clientApi.ottieniIlMioProfilo();
+        }
+        setDatiProfilo(dati);
+        console.log(dati);
       } catch (err) {
-        setError(err.message);
+        setErrore(err.message);
       } finally {
-        setLoading(false);
+        setCaricamento(false);
       }
     };
 
-    fetchProfile();
-  }, []);
+    recuperaProfilo();
+  }, [userId]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;*/
+  if (caricamento) return <div>Caricamento...</div>;
+  if (errore) return <div>Errore: {errore}</div>;
 
   return (
     <Container>
@@ -50,13 +57,12 @@ const Herosection = () => {
 
             <button
               className="btn btn-light rounded-circle position-absolute"
-              style={{ top: "10px", right: "10px" }}
-            >
+              style={{ top: "10px", right: "10px" }}>
               <BiCamera />
             </button>
 
             <img
-              src={prof.userImg || "https://placebear.com/100/100"}
+              src={(datiProfilo?.image || profiloDaRedux.userImg) || "https://placebear.com/100/100"}
               alt="profile"
               className="rounded-circle border border-3 border-white position-absolute"
               style={{
@@ -71,13 +77,16 @@ const Herosection = () => {
             <div></div>
             <Card.Text>
               <h4 className="mb-0">
-                {prof?.userName} {prof?.userSurname} <BiClipboard /> He/ Him
+                {(datiProfilo?.name && datiProfilo?.surname) 
+                  ? `${datiProfilo.name} ${datiProfilo.surname}` 
+                  : `${profiloDaRedux?.userName || ''} ${profiloDaRedux?.userSurname || ''}`} 
+                <BiClipboard /> He/ Him
               </h4>
               <p className="profession">
-                {prof?.userTitle || "Titolo professionale"}
+                {datiProfilo?.title || profiloDaRedux?.userTitle || "Titolo professionale"}
               </p>
               <p className="location">
-                {prof?.userArea || "Area non specificata"} ⸱{" "}
+                {datiProfilo?.area || profiloDaRedux?.userArea || "Area non specificata"} ⸱{" "}
                 <span className="blue500">Informazioni di contatto</span>
               </p>
             </Card.Text>
@@ -87,25 +96,39 @@ const Herosection = () => {
               </div>
             </Card.Text>
             <div className="d-flex justify-content-start align-items-center">
-              <button className="me-3 buttonBlue">Disponibile per</button>
-              <button className="me-3 buttonOutlineBlue">
-                Aggiungi sezione del profilo
-              </button>
-              <button className="me-3 buttonOutlineBlue">
-                Migliora profilo
-              </button>
-              <button className="buttonOutlineGray">Risorse</button>
+              {userId ? (
+                <>
+                  <button className="me-3 buttonBlue">Messaggio</button>
+                  <button className="me-3 buttonOutlineBlue">
+                    <span className="text-primary me-1 fw-bold" style={{ fontSize: "18px" }}>+</span>Segui
+                  </button>
+                  <button className="me-3 buttonOutlineBlue">Altro</button>
+                </>
+              ) : (
+                <>
+                  <button className="me-3 buttonBlue">Disponibile per</button>
+                  <button className="me-3 buttonOutlineBlue">
+                    Aggiungi sezione del profilo
+                  </button>
+                  <button className="me-3 buttonOutlineBlue">
+                    Migliora profilo
+                  </button>
+                  <button className="buttonOutlineGray">Risorse</button>
+                </>
+              )}
             </div>
-            <div className="my-4 heroBox p-3">
-              <div className="d-flex justify-content-between">
-                <p className="m-0 fw-bold">Disponibilitá a lavorare</p>
-                <span>
-                  <BiBrush />
-                </span>
+            {!userId && (
+              <div className="my-4 heroBox p-3">
+                <div className="d-flex justify-content-between">
+                  <p className="m-0 fw-bold">Disponibilitá a lavorare</p>
+                  <span>
+                    <BiBrush />
+                  </span>
+                </div>
+                <p className="m-0">Ruoli di studente diplomato</p>
+                <h6>Mostra dettagli</h6>
               </div>
-              <p className="m-0">Ruoli di studente diplomato</p>
-              <h6>Mostra dettagli</h6>
-            </div>
+            )}
           </Card.Body>
         </Card>
       </Row>
@@ -114,3 +137,31 @@ const Herosection = () => {
 };
 
 export default Herosection;
+
+const endpoint = "https://api.example.com/data";
+const token = "IL_TUO_TOKEN_QUI"; // il tuo token
+
+const fetchWithToken = async (method = "GET", bodyData = null) => {
+  try {
+    const res = await fetch(endpoint, {
+      method, // GET, POST, PUT, DELETE
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: bodyData ? JSON.stringify(bodyData) : null, // solo per POST/PUT
+    });
+
+    if (!res.ok) throw new Error(`Errore HTTP ${res.status}`);
+    const data = await res.json();
+    console.log(`${method}:`, data);
+  } catch (err) {
+    console.log(`Errore ${method}:`, err);
+  }
+};
+
+// ✅ Esempi di utilizzo
+fetchWithToken("GET"); // leggere dati
+fetchWithToken("POST", { name: "Mario", age: 25 }); // creare dati
+fetchWithToken("PUT", { name: "Luigi", age: 30 }); // aggiornare dati
+fetchWithToken("DELETE"); // eliminare dati

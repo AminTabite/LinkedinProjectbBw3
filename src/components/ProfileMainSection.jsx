@@ -7,7 +7,7 @@ import { IoStatsChart } from "react-icons/io5";
 
 // NB: il componente ha larghezza che va in base al container in cui è messo
 
-function ProfileMainSection() {
+function ProfileMainSection({ userId }) {
   const formatDateForInput = (date) => {
     if (!date) return "";
     const d = new Date(date);
@@ -17,8 +17,9 @@ function ProfileMainSection() {
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTczNTE2MjdjNjAwMTVmOGM1NjgiLCJpYXQiOjE3NTY3MzExODksImV4cCI6MTc1Nzk0MDc4OX0.EE1GDQeokGCuIu43ACNAuxw4--0MPsa1SFutXaarjxk";
   const [experiences, setExperiences] = useState([]);
   const findExperiences = () => {
+    const profileId = userId || "68b597351627c60015f8c568";
     fetch(
-      "https://striveschool-api.herokuapp.com/api/profile/68b597351627c60015f8c568/experiences",
+      `https://striveschool-api.herokuapp.com/api/profile/${profileId}/experiences`,
       {
         headers: {
           Authorization: `Bearer ${TOKEN}`,
@@ -282,12 +283,18 @@ function ProfileMainSection() {
       <div className="profileCards mb-3 p-4 border">
         <div className="d-flex justify-content-between">
           <h4>Esperienza</h4>
-          <div className="d-flex justify-content-between">
-            <FiPlus onClick={handleShowAdd} />
-          </div>
+          {!userId && (
+            <div className="d-flex justify-content-between">
+              <FiPlus onClick={handleShowAdd} />
+            </div>
+          )}
         </div>
         {experiences.length === 0 ? (
-          <p>Aggiungi esperienze al tuo profilo per mostrarle qui!</p>
+          <p>
+            {userId
+              ? "Nessuna esperienza da mostrare"
+              : "Aggiungi esperienze al tuo profilo per mostrarle qui!"}
+          </p>
         ) : (
           experiences.map((exp) => {
             return (

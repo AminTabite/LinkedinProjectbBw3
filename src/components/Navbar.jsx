@@ -27,7 +27,7 @@ import { BsGrid3X3Gap } from "react-icons/bs";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import clientApi from "../services/api";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const BarraNavigazioneLinkedIn = () => {
   const posizioneCorrente = useLocation();
@@ -42,6 +42,77 @@ const BarraNavigazioneLinkedIn = () => {
   const eAttivo = (percorso) => posizioneCorrente.pathname === percorso;
 
   const dispatch = useDispatch();
+
+  const getJobsData = () => {
+    fetch("https://strive-benchmark.herokuapp.com/api/jobs")
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("errore");
+        }
+      })
+      .then((data) => {
+        dispatch({
+          type: "GET_JOBS",
+          payload: data.data.slice(0, 15),
+        });
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+  };
+
+  const getPosts = () => {
+    fetch("https://striveschool-api.herokuapp.com/api/posts", {
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTc0YTE2MjdjNjAwMTVmOGM1NjkiLCJpYXQiOjE3NTY3MzEyMTAsImV4cCI6MTc1Nzk0MDgxMH0.2K96iJrH_T9CFLxQjMe3ZEvL5W45fdGe3MGTvDxniIQ",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("errore");
+        }
+      })
+      .then((data) => {
+        dispatch({
+          type: "GET_POSTS",
+          payload: data.slice(0, 10),
+        });
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+  };
+
+  const getUsers = () => {
+    fetch("https://striveschool-api.herokuapp.com/api/profile", {
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTc0YTE2MjdjNjAwMTVmOGM1NjkiLCJpYXQiOjE3NTY3MzEyMTAsImV4cCI6MTc1Nzk0MDgxMH0.2K96iJrH_T9CFLxQjMe3ZEvL5W45fdGe3MGTvDxniIQ",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("errore");
+        }
+      })
+      .then((data) => {
+        console.log(data);
+        dispatch({
+          type: "GET_USERS",
+          payload: data.slice(0, 15),
+        });
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+  };
 
   useEffect(() => {
     const recuperaProfilo = async () => {
@@ -74,6 +145,10 @@ const BarraNavigazioneLinkedIn = () => {
     };
 
     fetchProfile();
+
+    getJobsData();
+    getUsers();
+    getPosts();
   }, []);
 
   const categoriePopulari = [

@@ -66,35 +66,76 @@
 //   );
 // }
 
-
 import { Card, Button, ListGroup } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 export default function ColonnaDxHome() {
+  const users = useSelector((state) => {
+    return state.users.usersArray;
+  });
   return (
     <div style={{ width: "20rem" }}>
       {/* Notizie */}
       <Card className="mb-3 shadow-sm border-0">
         <Card.Body className="p-3">
-          <Card.Title className="fs-6 fw-bold mb-2">LinkedIn Notizie</Card.Title>
-          <ListGroup variant="flush" className="mb-2">
-            <ListGroup.Item action className="py-2 small">Lorem ipsum</ListGroup.Item>
-            <ListGroup.Item action className="py-2 small">Lorem ipsum</ListGroup.Item>
-            <ListGroup.Item action className="py-2 small">Lorem ipsum</ListGroup.Item>
-            <ListGroup.Item action className="py-2 small">Lorem ipsum</ListGroup.Item>
-            <ListGroup.Item action className="py-2 small">Lorem ipsum</ListGroup.Item>
-          </ListGroup>
+          <Card.Title className="fs-6 fw-bold mb-2">
+            Persone che potresti conoscere
+          </Card.Title>
+          {/*<ListGroup variant="flush" className="mb-2">
+            <ListGroup.Item action className="py-2 small">
+              Lorem ipsum
+            </ListGroup.Item>
+            <ListGroup.Item action className="py-2 small">
+              Lorem ipsum
+            </ListGroup.Item>
+            <ListGroup.Item action className="py-2 small">
+              Lorem ipsum
+            </ListGroup.Item>
+            <ListGroup.Item action className="py-2 small">
+              Lorem ipsum
+            </ListGroup.Item>
+            <ListGroup.Item action className="py-2 small">
+              Lorem ipsum
+            </ListGroup.Item>
+          </ListGroup>*/}
+          {users.map((us, idx) => {
+            return (
+              <div className="d-flex align-items-center mb-2" key={idx}>
+                <img
+                  src={us.image}
+                  className="rounded-circle  me-2"
+                  style={{ width: 40, height: 40 }}
+                ></img>
+                <div>
+                  <p className="mb-0 small fw-bold">
+                    {us.name + " " + us.surname}
+                  </p>
+                  <button className="btn btn-outline-secondary btn-sm">
+                    Visualizza
+                  </button>
+                </div>
+              </div>
+            );
+          })}
         </Card.Body>
       </Card>
 
       {/* Giochi */}
       <Card className="mb-3 shadow-sm border-0">
         <Card.Body className="p-3">
-          <Card.Title className="fs-6 fw-bold mb-3">I giochi di oggi</Card.Title>
-          
+          <Card.Title className="fs-6 fw-bold mb-3">
+            I giochi di oggi
+          </Card.Title>
+
           <div className="d-flex mb-3">
             <div
               className="rounded text-white d-flex align-items-center justify-content-center me-3"
-              style={{ width: "40px", height: "40px", backgroundColor: "#0A66C2", fontWeight: "bold" }}
+              style={{
+                width: "40px",
+                height: "40px",
+                backgroundColor: "#0A66C2",
+                fontWeight: "bold",
+              }}
             >
               1
             </div>
@@ -106,7 +147,12 @@ export default function ColonnaDxHome() {
           <div className="d-flex">
             <div
               className="rounded text-white d-flex align-items-center justify-content-center me-3"
-              style={{ width: "40px", height: "40px", backgroundColor: "#6f42c1", fontWeight: "bold" }}
+              style={{
+                width: "40px",
+                height: "40px",
+                backgroundColor: "#6f42c1",
+                fontWeight: "bold",
+              }}
             >
               Z
             </div>
@@ -141,7 +187,10 @@ export default function ColonnaDxHome() {
       </Card>
 
       {/* Suggerimento */}
-      <Card className="border-0 shadow-sm" style={{ backgroundColor: "#FFF9E3" }}>
+      <Card
+        className="border-0 shadow-sm"
+        style={{ backgroundColor: "#FFF9E3" }}
+      >
         <Card.Body className="fw-bold small p-3">
           💡 SUGGERIMENTO: Prova LinkedIn sull’app per Windows
         </Card.Body>

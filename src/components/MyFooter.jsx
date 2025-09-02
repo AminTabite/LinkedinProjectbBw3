@@ -105,24 +105,21 @@ const MyFooter = () => {
                   href="#/action-1"
                   onClick={() => {
                     setLanguage("Italiano");
-                  }}
-                >
+                  }}>
                   Italiano
                 </Dropdown.Item>
                 <Dropdown.Item
                   href="#/action-2"
                   onClick={() => {
                     setLanguage("English");
-                  }}
-                >
+                  }}>
                   English
                 </Dropdown.Item>
                 <Dropdown.Item
                   href="#/action-3"
                   onClick={() => {
                     setLanguage("Espanol");
-                  }}
-                >
+                  }}>
                   Espanol
                 </Dropdown.Item>
               </DropdownButton>

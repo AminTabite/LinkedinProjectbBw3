@@ -1,10 +1,16 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 const ColonnaDestra = () => {
-  const [userList, setUserList] = useState(null);
+  const [listaUtenti, setListaUtenti] = useState(null);
+  const naviga = useNavigate();
 
-  const getData = () => {
+  const gestisciVisualizzaProfilo = (idUtente) => {
+    naviga(`/profile/${idUtente}`);
+  };
+
+  const ottieniDati = () => {
     fetch("https://striveschool-api.herokuapp.com/api/profile", {
       headers: {
         Authorization:
@@ -19,7 +25,7 @@ const ColonnaDestra = () => {
         }
       })
       .then((data) => {
-        setUserList(data);
+        setListaUtenti(data);
       })
       .catch((er) => {
         console.log(er);
@@ -27,7 +33,7 @@ const ColonnaDestra = () => {
   };
 
   useEffect(() => {
-    getData();
+    ottieniDati();
   }, []);
 
   return (
@@ -73,20 +79,24 @@ const ColonnaDestra = () => {
       <div className="border rounded p-3 bg-white">
         <h6 className="mb-3">Altri profili consultati</h6>
 
-        {userList !== null &&
-          userList.slice(0, 5).map((user) => {
+        {listaUtenti !== null &&
+          listaUtenti.slice(3, 8).map((utente) => {
             return (
-              <div className="d-flex align-items-center mb-2">
+              <div key={utente._id} className="d-flex align-items-center mb-2">
                 <img
-                  src={user.image}
+                  src={utente.image}
                   className="rounded-circle  me-2"
                   style={{ width: 40, height: 40 }}
-                ></img>
+                  alt={`${utente.name} ${utente.surname}`}
+                />
                 <div>
                   <p className="mb-0 small fw-bold">
-                    {user.name + " " + user.surname}
+                    {utente.name + " " + utente.surname}
                   </p>
-                  <button className="btn btn-outline-secondary btn-sm">
+                  <button
+                    className="btn btn-outline-secondary btn-sm"
+                    onClick={() => gestisciVisualizzaProfilo(utente._id)}
+                  >
                     Visualizza
                   </button>
                 </div>
@@ -111,44 +121,53 @@ const ColonnaDestra = () => {
       {/* Persone che potresti conoscere */}
       <div className="border rounded p-3 bg-white">
         <h6 className="mb-3">Persone che potresti conoscere</h6>
-        {userList !== null &&
+        {listaUtenti !== null &&
           [
             {
-              name: userList[6].name + " " + userList[6].surname,
-              role: userList[6].title,
-              imgUrl: userList[6].image,
+              nome: listaUtenti[11].name + " " + listaUtenti[11].surname,
+              ruolo: listaUtenti[11].title,
+              urlImmagine: listaUtenti[11].image,
+              id: listaUtenti[11]._id,
             },
             {
-              name: userList[7].name + " " + userList[7].surname,
-              role: userList[7].title,
-              imgUrl: userList[7].image,
+              nome: listaUtenti[7].name + " " + listaUtenti[7].surname,
+              ruolo: listaUtenti[7].title,
+              urlImmagine: listaUtenti[7].image,
+              id: listaUtenti[7]._id,
             },
             {
-              name: userList[8].name + " " + userList[8].surname,
-              role: userList[8].title,
-              imgUrl: userList[8].image,
+              nome: listaUtenti[8].name + " " + listaUtenti[8].surname,
+              ruolo: listaUtenti[8].title,
+              urlImmagine: listaUtenti[8].image,
+              id: listaUtenti[8]._id,
             },
             {
-              name: userList[9].name + " " + userList[9].surname,
-              role: userList[9].title,
-              imgUrl: userList[9].image,
+              nome: listaUtenti[9].name + " " + listaUtenti[9].surname,
+              ruolo: listaUtenti[9].title,
+              urlImmagine: listaUtenti[9].image,
+              id: listaUtenti[9]._id,
             },
             {
-              name: userList[10].name + " " + userList[10].surname,
-              role: userList[10].title,
-              imgUrl: userList[10].image,
+              nome: listaUtenti[10].name + " " + listaUtenti[10].surname,
+              ruolo: listaUtenti[10].title,
+              urlImmagine: listaUtenti[10].image,
+              id: listaUtenti[10]._id,
             },
-          ].map((p, idx) => (
-            <div key={idx} className="d-flex align-items-center mb-2">
+          ].map((persona, indice) => (
+            <div key={indice} className="d-flex align-items-center mb-2">
               <img
-                src={p.imgUrl}
+                src={persona.urlImmagine}
                 className="rounded-circle bg-secondary me-2"
                 style={{ width: 40, height: 40 }}
-              ></img>
+                alt={persona.nome}
+              />
               <div className="flex-grow-1">
-                <p className="mb-0 small fw-bold">{p.name}</p>
-                <p className="mb-1 small text-muted">{p.role}</p>
-                <button className="btn btn-outline-primary btn-sm">
+                <p className="mb-0 small fw-bold">{persona.nome}</p>
+                <p className="mb-1 small text-muted">{persona.ruolo}</p>
+                <button
+                  className="btn btn-outline-primary btn-sm"
+                  onClick={() => gestisciVisualizzaProfilo(persona.id)}
+                >
                   Collegati
                 </button>
               </div>
