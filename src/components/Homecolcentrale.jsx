@@ -20,7 +20,7 @@ const Homecolcentrale = () => {
                   style={{ background: "white" }}
                 >
                   {/* post completo */}
-                  <div className="d-flex flex-column align-items-start gap-2">
+                  <div className="d-flex flex-column align-items-start gap-2 w-100">
                     {/* foto e testo */}
                     {/* immagine profilo */}
                     <img
@@ -42,13 +42,13 @@ const Homecolcentrale = () => {
                       </p>*/}
                     </div>
                     <p>{post.text}</p>
-                    <div>
+                    <div className="w-100">
                       {/*contenuto testo*/}
 
                       <img
                         src="https://dummyimage.com/300x300/000/fff"
                         alt="post"
-                        className=" w-auto h-auto"
+                        className=" w-100"
                         style={{
                           width: "100%",
                           height: "100%",
@@ -56,14 +56,12 @@ const Homecolcentrale = () => {
                         }}
                       />
                     </div>
-                    <div className=" p-2 border-bottom">
+                    <div className=" p-2 border-bottom text-center w-100">
                       {/* <p> pinco pallino e altre x persone hanno messo like</p>*/}
-                      <span className="ms-5 ">
-                        26 commenti - 9 diffusioni post
-                      </span>
+                      <span>26 commenti - 9 diffusioni post</span>
                     </div>
-                    <div>
-                      <ButtonGroup aria-label="Basic example">
+                    <div className="d-flex w-100">
+                      <ButtonGroup aria-label="Basic example" className="w-100">
                         <Button
                           variant="outline-secondary"
                           className="bg-transparent border-0"
