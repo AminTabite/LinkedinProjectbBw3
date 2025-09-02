@@ -2,34 +2,19 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { ottieniUtentiAction } from "../redux/users";
 const ColonnaDestra = () => {
-  const [listaUtenti, setListaUtenti] = useState(null);
+  const dispatch = useDispatch();
   const naviga = useNavigate();
+  const { arrayUtenti } = useSelector(state => state.users);
 
   const gestisciVisualizzaProfilo = (idUtente) => {
     naviga(`/profile/${idUtente}`);
   };
 
   const ottieniDati = () => {
-    fetch("https://striveschool-api.herokuapp.com/api/profile", {
-      headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTc0YTE2MjdjNjAwMTVmOGM1NjkiLCJpYXQiOjE3NTY3MzEyMTAsImV4cCI6MTc1Nzk0MDgxMH0.2K96iJrH_T9CFLxQjMe3ZEvL5W45fdGe3MGTvDxniIQ",
-      },
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw new Error("errore caricamento dati");
-        }
-      })
-      .then((data) => {
-        setListaUtenti(data);
-      })
-      .catch((er) => {
-        console.log(er);
-      });
+    dispatch(ottieniUtentiAction());
   };
 
   useEffect(() => {
@@ -79,8 +64,8 @@ const ColonnaDestra = () => {
       <div className="border rounded p-3 bg-white">
         <h6 className="mb-3">Altri profili consultati</h6>
 
-        {listaUtenti !== null &&
-          listaUtenti.slice(3, 8).map((utente) => {
+        {arrayUtenti && arrayUtenti.length > 0 &&
+          arrayUtenti.map((utente) => {
             return (
               <div key={utente._id} className="d-flex align-items-center mb-2">
                 <img
@@ -121,39 +106,39 @@ const ColonnaDestra = () => {
       {/* Persone che potresti conoscere */}
       <div className="border rounded p-3 bg-white">
         <h6 className="mb-3">Persone che potresti conoscere</h6>
-        {listaUtenti !== null &&
+        {arrayUtenti && arrayUtenti.length >= 12 &&
           [
             {
-              nome: listaUtenti[11].name + " " + listaUtenti[11].surname,
-              ruolo: listaUtenti[11].title,
-              urlImmagine: listaUtenti[11].image,
-              id: listaUtenti[11]._id,
+              nome: arrayUtenti[4]?.name + " " + arrayUtenti[4]?.surname,
+              ruolo: arrayUtenti[4]?.title,
+              urlImmagine: arrayUtenti[4]?.image,
+              id: arrayUtenti[4]?._id,
             },
             {
-              nome: listaUtenti[7].name + " " + listaUtenti[7].surname,
-              ruolo: listaUtenti[7].title,
-              urlImmagine: listaUtenti[7].image,
-              id: listaUtenti[7]._id,
+              nome: arrayUtenti[3]?.name + " " + arrayUtenti[3]?.surname,
+              ruolo: arrayUtenti[3]?.title,
+              urlImmagine: arrayUtenti[3]?.image,
+              id: arrayUtenti[3]?._id,
             },
             {
-              nome: listaUtenti[8].name + " " + listaUtenti[8].surname,
-              ruolo: listaUtenti[8].title,
-              urlImmagine: listaUtenti[8].image,
-              id: listaUtenti[8]._id,
+              nome: arrayUtenti[2]?.name + " " + arrayUtenti[2]?.surname,
+              ruolo: arrayUtenti[2]?.title,
+              urlImmagine: arrayUtenti[2]?.image,
+              id: arrayUtenti[2]?._id,
             },
             {
-              nome: listaUtenti[9].name + " " + listaUtenti[9].surname,
-              ruolo: listaUtenti[9].title,
-              urlImmagine: listaUtenti[9].image,
-              id: listaUtenti[9]._id,
+              nome: arrayUtenti[1]?.name + " " + arrayUtenti[1]?.surname,
+              ruolo: arrayUtenti[1]?.title,
+              urlImmagine: arrayUtenti[1]?.image,
+              id: arrayUtenti[1]?._id,
             },
             {
-              nome: listaUtenti[10].name + " " + listaUtenti[10].surname,
-              ruolo: listaUtenti[10].title,
-              urlImmagine: listaUtenti[10].image,
-              id: listaUtenti[10]._id,
+              nome: arrayUtenti[0]?.name + " " + arrayUtenti[0]?.surname,
+              ruolo: arrayUtenti[0]?.title,
+              urlImmagine: arrayUtenti[0]?.image,
+              id: arrayUtenti[0]?._id,
             },
-          ].map((persona, indice) => (
+          ].filter(persona => persona.nome && persona.id).map((persona, indice) => (
             <div key={indice} className="d-flex align-items-center mb-2">
               <img
                 src={persona.urlImmagine}

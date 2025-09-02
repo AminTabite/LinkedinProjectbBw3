@@ -15,6 +15,7 @@ import {
 } from "react-icons/fa";
 import { BsGear, BsBookmark, BsPerson } from "react-icons/bs";
 import clientApi from "../services/api";
+import MiniFooter from "./MiniFooter";
 
 const PaginaLavoro = () => {
   const [searchParams] = useSearchParams();
@@ -218,6 +219,11 @@ const PaginaLavoro = () => {
                   </div>
                 </Card.Body>
               </Card>
+              
+              {/* Footer con informazioni accessibilità etc. */}
+              <div className="mt-4 d-flex justify-content-center">
+                <MiniFooter />
+              </div>
             </div>
           </Col>
 

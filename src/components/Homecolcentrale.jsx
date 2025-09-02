@@ -261,31 +261,55 @@ const Homecolcentrale = () => {
                           className="w-100"
                         >
                           <Button
-                            variant="outline-secondary"
-                            className="bg-transparent border-0 flex-fill"
+                            variant="link"
+                            className="text-dark border-0 flex-fill py-2"
+                            style={{
+                              textDecoration: "none",
+                              fontSize: "14px",
+                              fontWeight: "600",
+                              color: "#000 !important"
+                            }}
                           >
-                            <i className="bi bi-hand-thumbs-up me-1"></i>
+                            <i className="bi bi-hand-thumbs-up me-2" style={{ color: "#000", fontSize: "20px", fontWeight: "bold" }}></i>
                             Consiglia
                           </Button>
                           <Button
-                            variant="outline-secondary"
-                            className="bg-transparent border-0 flex-fill"
+                            variant="link"
+                            className="text-dark border-0 flex-fill py-2"
+                            style={{
+                              textDecoration: "none",
+                              fontSize: "14px",
+                              fontWeight: "600",
+                              color: "#000 !important"
+                            }}
                           >
-                            <i className="bi bi-chat me-1"></i>
+                            <i className="bi bi-chat me-2" style={{ color: "#000", fontSize: "20px", fontWeight: "bold" }}></i>
                             Commenta
                           </Button>
                           <Button
-                            variant="outline-secondary"
-                            className="bg-transparent border-0 flex-fill"
+                            variant="link"
+                            className="text-dark border-0 flex-fill py-2"
+                            style={{
+                              textDecoration: "none",
+                              fontSize: "14px",
+                              fontWeight: "600",
+                              color: "#000 !important"
+                            }}
                           >
-                            <i className="bi bi-arrow-repeat me-1"></i>
-                            Condividi
+                            <i className="bi bi-arrow-repeat me-2" style={{ color: "#000", fontSize: "20px", fontWeight: "bold" }}></i>
+                            Diffondi il post
                           </Button>
                           <Button
-                            variant="outline-secondary"
-                            className="bg-transparent border-0 flex-fill"
+                            variant="link"
+                            className="text-dark border-0 flex-fill py-2"
+                            style={{
+                              textDecoration: "none",
+                              fontSize: "14px",
+                              fontWeight: "600",
+                              color: "#000 !important"
+                            }}
                           >
-                            <i className="bi bi-send me-1"></i>
+                            <i className="bi bi-send me-2" style={{ color: "#000", fontSize: "20px", fontWeight: "bold" }}></i>
                             Invia
                           </Button>
                         </ButtonGroup>

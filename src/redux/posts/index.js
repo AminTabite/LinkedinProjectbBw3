@@ -1,3 +1,5 @@
+import { TOKEN } from '../../config/constants';
+
 const initialState = {
   postsArray: [],
   displayedPosts: [],
@@ -78,10 +80,9 @@ export const ottieniPostAction = () => {
   return async (dispatch) => {
     dispatch({ type: "GET_POSTS_START" });
     try {
-      // AGGIORNA IL TOKEN QUI CON QUELLO VALIDO
       const response = await fetch("https://striveschool-api.herokuapp.com/api/posts/", {
         headers: {
-          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTczNTE2MjdjNjAwMTVmOGM1NjgiLCJpYXQiOjE3NTY3MzExODksImV4cCI6MTc1Nzk0MDc4OX0.EE1GDQeokGCuIu43ACNAuxw4--0MPsa1SFutXaarjxk",
+          "Authorization": `Bearer ${TOKEN}`,
           "Content-Type": "application/json",
         },
       });
@@ -103,7 +104,7 @@ export const aggiungiPostAction = (datiPost) => {
       const response = await fetch("https://striveschool-api.herokuapp.com/api/posts/", {
         method: "POST",
         headers: {
-          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTczNTE2MjdjNjAwMTVmOGM1NjgiLCJpYXQiOjE3NTY3MzExODksImV4cCI6MTc1Nzk0MDc4OX0.EE1GDQeokGCuIu43ACNAuxw4--0MPsa1SFutXaarjxk",
+          "Authorization": `Bearer ${TOKEN}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(datiPost),
@@ -126,7 +127,7 @@ export const aggiornaPostAction = (idPost, datiPost) => {
       const response = await fetch(`https://striveschool-api.herokuapp.com/api/posts/${idPost}`, {
         method: "PUT",
         headers: {
-          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTczNTE2MjdjNjAwMTVmOGM1NjgiLCJpYXQiOjE3NTY3MzExODksImV4cCI6MTc1Nzk0MDc4OX0.EE1GDQeokGCuIu43ACNAuxw4--0MPsa1SFutXaarjxk",
+          "Authorization": `Bearer ${TOKEN}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(datiPost),
