@@ -7,6 +7,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import MyFooter from "./components/MyFooter";
 import ProfilePage from "./components/ProfilePage";
 import PaginaLavoro from "./components/JobsPage";
+import Homecolcentrale from "./components/Homecolcentrale";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 
@@ -16,7 +17,7 @@ function App() {
       <Provider store={store}>
         <BarraNavigazioneLinkedIn />
         <Routes>
-          <Route path="/" element={<div>Home Page</div>} />
+          <Route path="/" element={<Homecolcentrale />} />
           <Route path="/network" element={<div>Network Page</div>} />
           <Route path="/jobs" element={<PaginaLavoro />} />
           <Route path="/messaging" element={<div>Messaging Page</div>} />

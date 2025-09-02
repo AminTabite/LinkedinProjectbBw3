@@ -46,8 +46,7 @@ const ColonnaDestra = () => {
         </div>
         <a
           href="https://www.linkedin.com/in/leonardo-ferrante-22673b353"
-          className="small"
-        >
+          className="small">
           Nome Cognome
         </a>
       </div>
@@ -56,8 +55,7 @@ const ColonnaDestra = () => {
       <div className="border rounded p-3 bg-white">
         <div
           className="rounded-circle bg-secondary me-2"
-          style={{ width: 40, height: 40 }}
-        ></div>
+          style={{ width: 40, height: 40 }}></div>
 
         <span className="badge bg-light text-secondary mb-2">Promosso</span>
         <h6>Edison Next</h6>
@@ -79,8 +77,7 @@ const ColonnaDestra = () => {
                 <img
                   src={user.image}
                   className="rounded-circle  me-2"
-                  style={{ width: 40, height: 40 }}
-                ></img>
+                  style={{ width: 40, height: 40 }}></img>
                 <div>
                   <p className="mb-0 small fw-bold">
                     {user.name + " " + user.surname}
@@ -142,8 +139,7 @@ const ColonnaDestra = () => {
               <img
                 src={p.imgUrl}
                 className="rounded-circle bg-secondary me-2"
-                style={{ width: 40, height: 40 }}
-              ></img>
+                style={{ width: 40, height: 40 }}></img>
               <div className="flex-grow-1">
                 <p className="mb-0 small fw-bold">{p.name}</p>
                 <p className="mb-1 small text-muted">{p.role}</p>
@@ -163,8 +159,7 @@ const ColonnaDestra = () => {
         <div className="mb-3 d-flex">
           <div
             className="rounded-circle bg-secondary me-2"
-            style={{ width: 40, height: 40 }}
-          ></div>
+            style={{ width: 40, height: 40 }}></div>
           <div>
             <p className="mb-0 fw-bold small">Poste Italiane</p>
             <p className="mb-1 small text-muted">
@@ -177,8 +172,7 @@ const ColonnaDestra = () => {
         <div className="mb-3 d-flex">
           <div
             className="rounded-circle bg-secondary me-2"
-            style={{ width: 40, height: 40 }}
-          ></div>
+            style={{ width: 40, height: 40 }}></div>
           <div>
             <p className="mb-0 fw-bold small">
               Gruppo Ferrovie dello Stato Italiane
