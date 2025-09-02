@@ -10,7 +10,7 @@ const Homecolcentrale = () => {
 
   return (
     <>
-      <Container fluid className="h-auto my-5">
+      <Container fluid className="h-auto mb-5">
         <Row>
           <Col>
             {posts.map((post) => {

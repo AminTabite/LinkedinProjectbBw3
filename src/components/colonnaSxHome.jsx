@@ -73,7 +73,7 @@ const ColonnaSxHome = () => {
   });
 
   return (
-    <div style={{ width: "18rem" }}>
+    <div style={{ width: "100%" }}>
       {/* Card profilo */}
       <Card className="mb-3 shadow-sm border-0">
         <Card.Body className="text-center p-3">
