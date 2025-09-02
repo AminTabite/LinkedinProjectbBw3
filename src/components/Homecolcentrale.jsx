@@ -57,7 +57,8 @@ const Homecolcentrale = () => {
               style={{
                 boxShadow:
                   "0 0 0 1px rgba(0,0,0,.15), 0 2px 3px rgba(0,0,0,.2)",
-              }}>
+              }}
+            >
               <Card.Body className="p-3">
                 <div className="d-flex align-items-center gap-3 mb-3">
                   <img
@@ -74,7 +75,8 @@ const Homecolcentrale = () => {
                     className="flex-grow-1"
                     onSubmit={(e) => {
                       e.preventDefault(), createpost();
-                    }}>
+                    }}
+                  >
                     <input
                       onChange={(e) => {
                         setPayloadpost(e.target.value);
@@ -88,12 +90,14 @@ const Homecolcentrale = () => {
                         fontSize: "14px",
                         fontWeight: "400",
                       }}
-                      placeholder="Crea un post"></input>{" "}
+                      placeholder="Crea un post"
+                    ></input>{" "}
                   </Form>
                 </div>
                 <div
                   className="d-flex justify-content-around pt-2"
-                  style={{ borderTop: "1px solid #e9ecef" }}>
+                  style={{ borderTop: "1px solid #e9ecef" }}
+                >
                   <Button
                     variant="link"
                     className="text-muted d-flex align-items-center gap-2 px-3 py-2"
@@ -103,10 +107,12 @@ const Homecolcentrale = () => {
                       fontWeight: "600",
                       border: "none",
                       borderRadius: "4px",
-                    }}>
+                    }}
+                  >
                     <i
                       className="bi bi-camera-video"
-                      style={{ color: "#70B5F9", fontSize: "16px" }}></i>
+                      style={{ color: "#70B5F9", fontSize: "16px" }}
+                    ></i>
                     Video
                   </Button>
                   <Button
@@ -118,10 +124,12 @@ const Homecolcentrale = () => {
                       fontWeight: "600",
                       border: "none",
                       borderRadius: "4px",
-                    }}>
+                    }}
+                  >
                     <i
                       className="bi bi-image"
-                      style={{ color: "#C37D16", fontSize: "16px" }}></i>
+                      style={{ color: "#C37D16", fontSize: "16px" }}
+                    ></i>
                     Foto
                   </Button>
                   <Button
@@ -133,17 +141,19 @@ const Homecolcentrale = () => {
                       fontWeight: "600",
                       border: "none",
                       borderRadius: "4px",
-                    }}>
+                    }}
+                  >
                     <i
                       className="bi bi-file-earmark-text"
-                      style={{ color: "#E16745", fontSize: "16px" }}></i>
+                      style={{ color: "#E16745", fontSize: "16px" }}
+                    ></i>
                     Scrivi un articolo
                   </Button>
                 </div>
               </Card.Body>
             </Card>
 
-            <div className="d-flex align-items-center">
+            <div className=" d-none d-lg-flex align-items-center">
               <Col>
                 <hr className="m-0" />
               </Col>
@@ -151,12 +161,14 @@ const Homecolcentrale = () => {
               {/* Testo centrale con dropdown */}
               <Col
                 xs="auto"
-                className="text-muted small d-flex align-items-center">
+                className="text-muted small d-flex align-items-center"
+              >
                 Seleziona la visualizzazione del feed:&nbsp;
                 <Dropdown>
                   <Dropdown.Toggle
                     variant="link"
-                    className="p-0 fw-semibold text-decoration-none text-dark">
+                    className="p-0 fw-semibold text-decoration-none text-dark"
+                  >
                     Più rilevanti per primi
                   </Dropdown.Toggle>
 
@@ -184,7 +196,8 @@ const Homecolcentrale = () => {
               return (
                 <Card
                   key={post._id || index}
-                  className="mb-3 shadow-sm border-0">
+                  className="mb-3 shadow-sm border-0"
+                >
                   <Card.Body className="p-3">
                     {/* post completo */}
                     <div className="d-flex flex-column align-items-start gap-2">
@@ -245,28 +258,33 @@ const Homecolcentrale = () => {
                       <div className="w-100">
                         <ButtonGroup
                           aria-label="Basic example"
-                          className="w-100">
+                          className="w-100"
+                        >
                           <Button
                             variant="outline-secondary"
-                            className="bg-transparent border-0 flex-fill">
+                            className="bg-transparent border-0 flex-fill"
+                          >
                             <i className="bi bi-hand-thumbs-up me-1"></i>
                             Consiglia
                           </Button>
                           <Button
                             variant="outline-secondary"
-                            className="bg-transparent border-0 flex-fill">
+                            className="bg-transparent border-0 flex-fill"
+                          >
                             <i className="bi bi-chat me-1"></i>
                             Commenta
                           </Button>
                           <Button
                             variant="outline-secondary"
-                            className="bg-transparent border-0 flex-fill">
+                            className="bg-transparent border-0 flex-fill"
+                          >
                             <i className="bi bi-arrow-repeat me-1"></i>
                             Condividi
                           </Button>
                           <Button
                             variant="outline-secondary"
-                            className="bg-transparent border-0 flex-fill">
+                            className="bg-transparent border-0 flex-fill"
+                          >
                             <i className="bi bi-send me-1"></i>
                             Invia
                           </Button>
@@ -284,7 +302,8 @@ const Homecolcentrale = () => {
                 <Button
                   variant="outline-primary"
                   onClick={handleLoadMore}
-                  className="px-4 py-2">
+                  className="px-4 py-2"
+                >
                   Mostra altro
                 </Button>
               </div>

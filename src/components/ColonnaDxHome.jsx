@@ -74,7 +74,7 @@ export default function ColonnaDxHome() {
     return state.users.usersArray;
   });
   return (
-    <div style={{ width: "20rem" }}>
+    <div>
       {/* Notizie */}
       <Card className="mb-3 shadow-sm border-0">
         <Card.Body className="p-3">
