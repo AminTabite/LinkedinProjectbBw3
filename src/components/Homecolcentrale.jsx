@@ -1,8 +1,8 @@
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { Container, Row, Col, Card, Dropdown, Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ottieniPostAction, caricaPiuPostAction } from "../redux/posts";
 
 const Homecolcentrale = () => {
@@ -11,6 +11,7 @@ const Homecolcentrale = () => {
   const hasMorePosts = useSelector((state) => state.posts.hasMorePosts);
   const loading = useSelector((state) => state.posts.loading);
   const user = useSelector((state) => state.profile);
+  const [payloadpost, setPayloadpost] = useState("");
 
   const handleLoadMore = () => {
     dispatch(caricaPiuPostAction());
@@ -20,52 +21,166 @@ const Homecolcentrale = () => {
     dispatch(ottieniPostAction());
   }, [dispatch]);
 
+  /* funzione per creare post , tramite card sopra colonna centrale*/
+  const createpost = () => {
+    fetch("https://striveschool-api.herokuapp.com/api/posts/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTczNTE2MjdjNjAwMTVmOGM1NjgiLCJpYXQiOjE3NTY3MzExODksImV4cCI6MTc1Nzk0MDc4OX0.EE1GDQeokGCuIu43ACNAuxw4--0MPsa1SFutXaarjxk",
+      },
+      body: JSON.stringify({
+        text: payloadpost,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          alert("caricamento post ok");
+        } else {
+          throw new Error("errore caricamento post");
+        }
+      })
+      .catch((er) => {
+        alert(er);
+      });
+  };
+
   return (
     <>
       <Container fluid className="h-auto mb-5">
         <Row>
           <Col>
             {/* Card crea post */}
-            <Card className="mb-3 shadow-sm border-0">
+            <Card
+              className="mb-3 border"
+              style={{
+                boxShadow:
+                  "0 0 0 1px rgba(0,0,0,.15), 0 2px 3px rgba(0,0,0,.2)",
+              }}
+            >
               <Card.Body className="p-3">
-                <div className="d-flex align-items-center gap-3">
+                <div className="d-flex align-items-center gap-3 mb-3">
                   <img
-                    src={user?.userImg || "https://placebear.com/40/40"}
+                    src={user?.userImg || "https://placebear.com/48/48"}
                     alt="profilo"
                     className="rounded-circle"
-                    style={{ width: "40px", height: "40px" }}
+                    style={{
+                      width: "48px",
+                      height: "48px",
+                      objectFit: "cover",
+                    }}
                   />
-                  <form
-                    className="flex-grow-1 bg-light rounded-pill px-3 py-2 text-dark border border-dark"
-                    style={{ cursor: "pointer", borderWidth: "2px" }}
-                    aria-placeholder="crea un post"
-                  ></form>
+                  <Form
+                    className="flex-grow-1"
+                    onSubmit={(e) => {
+                      e.preventDefault(), createpost();
+                    }}
+                  >
+                    <input
+                      onChange={(e) => {
+                        setPayloadpost(e.target.value);
+                      }}
+                      value={payloadpost}
+                      className="flex-grow-1 bg-light rounded-pill px-3 py-2 text-dark border border-dark w-100"
+                      style={{
+                        cursor: "pointer",
+                        border: "1px solid #ccc",
+                        backgroundColor: "#f9fafb",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                      }}
+                      placeholder="Crea un post"
+                    ></input>{" "}
+                  </Form>
                 </div>
-                <div className="d-flex justify-content-around mt-3 pt-2 border-top">
+                <div
+                  className="d-flex justify-content-around pt-2"
+                  style={{ borderTop: "1px solid #e9ecef" }}
+                >
                   <Button
                     variant="link"
-                    className="text-muted d-flex align-items-center gap-2"
+                    className="text-muted d-flex align-items-center gap-2 px-3 py-2"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      border: "none",
+                      borderRadius: "4px",
+                    }}
                   >
-                    <i className="bi bi-camera-video text-success"></i>
+                    <i
+                      className="bi bi-camera-video"
+                      style={{ color: "#70B5F9", fontSize: "16px" }}
+                    ></i>
                     Video
                   </Button>
                   <Button
                     variant="link"
-                    className="text-muted d-flex align-items-center gap-2"
+                    className="text-muted d-flex align-items-center gap-2 px-3 py-2"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      border: "none",
+                      borderRadius: "4px",
+                    }}
                   >
-                    <i className="bi bi-image text-primary"></i>
+                    <i
+                      className="bi bi-image"
+                      style={{ color: "#C37D16", fontSize: "16px" }}
+                    ></i>
                     Foto
                   </Button>
                   <Button
                     variant="link"
-                    className="text-muted d-flex align-items-center gap-2"
+                    className="text-muted d-flex align-items-center gap-2 px-3 py-2"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      border: "none",
+                      borderRadius: "4px",
+                    }}
                   >
-                    <i className="bi bi-pencil-square text-danger"></i>
-                    Scrivi articolo
+                    <i
+                      className="bi bi-file-earmark-text"
+                      style={{ color: "#E16745", fontSize: "16px" }}
+                    ></i>
+                    Scrivi un articolo
                   </Button>
                 </div>
               </Card.Body>
             </Card>
+
+            <div className="d-flex align-items-center">
+              <Col>
+                <hr className="m-0" />
+              </Col>
+
+              {/* Testo centrale con dropdown */}
+              <Col
+                xs="auto"
+                className="text-muted small d-flex align-items-center"
+              >
+                Seleziona la visualizzazione del feed:&nbsp;
+                <Dropdown>
+                  <Dropdown.Toggle
+                    variant="link"
+                    className="p-0 fw-semibold text-decoration-none text-dark"
+                  >
+                    Più rilevanti per primi
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item>Mostra post recenti</Dropdown.Item>
+                    <Dropdown.Item>Mostra post rilevanti</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Col>
+
+              {/* Linea a destra */}
+            </div>
 
             {loading && (
               <Card className="mb-3 shadow-sm border-0">

@@ -37,7 +37,7 @@ const ColonnaDestra = () => {
   }, []);
 
   return (
-    <div className="d-flex flex-column gap-3">
+    <div className="d-flex flex-column gap-3" style={{ width: "18rem" }}>
       {/* Lingua e URL */}
       <div className="border rounded p-3 bg-white">
         <div className="d-flex justify-content-between align-items-center mb-2">
@@ -52,16 +52,19 @@ const ColonnaDestra = () => {
         </div>
         <a
           href="https://www.linkedin.com/in/leonardo-ferrante-22673b353"
-          className="small">
+          className="small"
+        >
           Nome Cognome
         </a>
       </div>
 
       {/* Annuncio sponsorizzato */}
       <div className="border rounded p-3 bg-white">
-        <div
-          className="rounded-circle bg-secondary me-2"
-          style={{ width: 40, height: 40 }}></div>
+        <img
+          src="https://companieslogo.com/img/orig/EDNR.MI-03376c33.png?t=1720244491"
+          className="rounded-circle me-2"
+          style={{ width: 40, height: 40 }}
+        />
 
         <span className="badge bg-light text-secondary mb-2">Promosso</span>
         <h6>Edison Next</h6>
@@ -90,7 +93,7 @@ const ColonnaDestra = () => {
                   <p className="mb-0 small fw-bold">
                     {utente.name + " " + utente.surname}
                   </p>
-                  <button 
+                  <button
                     className="btn btn-outline-secondary btn-sm"
                     onClick={() => gestisciVisualizzaProfilo(utente._id)}
                   >
@@ -161,7 +164,7 @@ const ColonnaDestra = () => {
               <div className="flex-grow-1">
                 <p className="mb-0 small fw-bold">{persona.nome}</p>
                 <p className="mb-1 small text-muted">{persona.ruolo}</p>
-                <button 
+                <button
                   className="btn btn-outline-primary btn-sm"
                   onClick={() => gestisciVisualizzaProfilo(persona.id)}
                 >
