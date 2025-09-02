@@ -19,7 +19,6 @@ const ColonnaDestra = () => {
         }
       })
       .then((data) => {
-        console.log(data);
         setUserList(data);
       })
       .catch((er) => {

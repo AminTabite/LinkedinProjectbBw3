@@ -145,9 +145,10 @@ const BarraNavigazioneLinkedIn = () => {
             <Dropdown.Menu className="menu-profilo">
               <div className="intestazione-profilo">
                 <img
-                  src="https://via.placeholder.com/64x64/0a66c2/ffffff?text=MR"
+                  src={userImage}
                   alt="Profilo"
                   className="rounded-circle"
+                  style={{ height: "28px" }}
                 />
                 <div className="info-profilo">
                   <div className="nome-profilo">Mario Rossi</div>
