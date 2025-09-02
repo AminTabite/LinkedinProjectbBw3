@@ -6,11 +6,9 @@ import BarraNavigazioneLinkedIn from "./components/Navbar";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import MyFooter from "./components/MyFooter";
 import ProfilePage from "./components/ProfilePage";
-import ColonnaDxHome from "./components/ColonnaDxHome";
-import ColonnaSxHome from "./components/colonnaSxHome";
+
 import HomePage from "./components/HomePage";
 import PaginaLavoro from "./components/JobsPage";
-import Homecolcentrale from "./components/Homecolcentrale";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 
