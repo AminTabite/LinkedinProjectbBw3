@@ -35,12 +35,11 @@ const Homecolcentrale = () => {
                     className="rounded-circle"
                     style={{ width: "40px", height: "40px" }}
                   />
-                  <div
+                  <form
                     className="flex-grow-1 bg-light rounded-pill px-3 py-2 text-dark border border-dark"
                     style={{ cursor: "pointer", borderWidth: "2px" }}
-                  >
-                    Crea un post
-                  </div>
+                    aria-placeholder="crea un post"
+                  ></form>
                 </div>
                 <div className="d-flex justify-content-around mt-3 pt-2 border-top">
                   <Button
