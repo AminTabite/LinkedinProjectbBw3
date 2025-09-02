@@ -53,7 +53,9 @@ const clientApi = {
 
   // Jobs API
   async cercaLavori(query = "", limit = 20) {
-    const url = `https://strive-benchmark.herokuapp.com/api/jobs?search=${encodeURIComponent(query)}&limit=${limit}`;
+    const url = `https://strive-benchmark.herokuapp.com/api/jobs?search=${encodeURIComponent(
+      query
+    )}&limit=${limit}`;
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -67,7 +69,9 @@ const clientApi = {
   },
 
   async ottieniLavoriPerAzienda(company, limit = 20) {
-    const url = `https://strive-benchmark.herokuapp.com/api/jobs?company=${encodeURIComponent(company)}&limit=${limit}`;
+    const url = `https://strive-benchmark.herokuapp.com/api/jobs?company=${encodeURIComponent(
+      company
+    )}&limit=${limit}`;
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -81,7 +85,9 @@ const clientApi = {
   },
 
   async ottieniLavoriPerCategoria(category, limit = 20) {
-    const url = `https://strive-benchmark.herokuapp.com/api/jobs?category=${encodeURIComponent(category)}&limit=${limit}`;
+    const url = `https://strive-benchmark.herokuapp.com/api/jobs?category=${encodeURIComponent(
+      category
+    )}&limit=${limit}`;
     try {
       const response = await fetch(url);
       if (!response.ok) {

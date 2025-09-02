@@ -37,6 +37,27 @@ const BarraNavigazioneLinkedIn = () => {
 
   const dispatch = useDispatch();
 
+  const getJobsData = () => {
+    fetch("https://strive-benchmark.herokuapp.com/api/jobs")
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("errore");
+        }
+      })
+      .then((data) => {
+        console.log(data.data.slice(0, 15));
+        dispatch({
+          type: "GET_JOBS",
+          payload: data.data.slice(0, 15),
+        });
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+  };
+
   useEffect(() => {
     const recuperaProfilo = async () => {
       try {
@@ -68,6 +89,8 @@ const BarraNavigazioneLinkedIn = () => {
     };
 
     fetchProfile();
+
+    getJobsData();
   }, []);
 
   const categoriePopulari = [
