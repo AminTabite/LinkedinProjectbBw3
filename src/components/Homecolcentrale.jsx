@@ -8,7 +8,7 @@ const Homecolcentrale = () => {
       <Container fluid className="h-auto my-5">
         <Row>
           <Col>
-            <div className="d-flex flex-column">
+            <div className="d-flex flex-column my-2">
               {/* post completo */}
               <div className="d-flex flex-column align-items-start gap-2">
                 {/* foto e testo */}
