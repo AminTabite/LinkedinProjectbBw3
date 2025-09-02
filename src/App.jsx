@@ -18,7 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<div>Home Page</div>} />
           <Route path="/network" element={<div>Network Page</div>} />
-          <Route path="/jobs" element={<div>Jobs Page</div>} />
+          <Route path="/jobs" element={<PaginaLavoro />} />
           <Route path="/messaging" element={<div>Messaging Page</div>} />
           <Route
             path="/notifications"
