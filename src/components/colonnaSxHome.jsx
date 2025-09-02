@@ -73,7 +73,7 @@ const ColonnaSxHome = () => {
   });
 
   return (
-    <div style={{ width: "16rem", marginLeft: "2rem" }}>
+    <div>
       {/* Card profilo */}
       <Card className="mb-3 shadow-sm border-0">
         <div className="position-relative">
@@ -96,14 +96,16 @@ const ColonnaSxHome = () => {
         </div>
         <Card.Body className="p-3" style={{ paddingTop: "40px !important" }}>
           <div className="d-flex align-items-start">
-            <div className="flex-grow-1" style={{ marginLeft: "80px" }}>
+            <div className="flex-grow-1 pt-3">
               <Card.Title className="fs-6 mb-1">
                 {user?.userName + " " + user?.userSurname}
               </Card.Title>
               <Card.Text className="text-muted small mb-1">
                 {user?.userTitle}
               </Card.Text>
-              <Card.Text className="text-muted small">{user?.userArea}</Card.Text>
+              <Card.Text className="text-muted small">
+                {user?.userArea}
+              </Card.Text>
             </div>
           </div>
         </Card.Body>
@@ -113,10 +115,14 @@ const ColonnaSxHome = () => {
       <Card className="mb-3 shadow-sm border-0">
         <Card.Body className="p-3">
           <div className="d-flex justify-content-between align-items-center">
-            <span className="small fw-semibold" style={{ color: "black" }}>Collegamenti</span>
+            <span className="small fw-semibold" style={{ color: "black" }}>
+              Collegamenti
+            </span>
             <BsPersonPlus className="text-secondary" />
           </div>
-          <p className="small mb-0 mt-1" style={{ color: "rgba(0,0,0,0.4)" }}>Espandi la tua rete</p>
+          <p className="small mb-0 mt-1" style={{ color: "rgba(0,0,0,0.4)" }}>
+            Espandi la tua rete
+          </p>
         </Card.Body>
       </Card>
 
@@ -127,11 +133,11 @@ const ColonnaSxHome = () => {
             Trova lavoro più velocemente con Premium
           </Card.Text>
           <div className="d-flex align-items-center">
-            <div 
-              className="me-2" 
-              style={{ 
-                width: "16px", 
-                height: "16px", 
+            <div
+              className="me-2"
+              style={{
+                width: "16px",
+                height: "16px",
                 background: "linear-gradient(135deg, #DBA800 0%, #B8860B 100%)",
                 borderRadius: "2px",
                 display: "flex",
@@ -140,7 +146,7 @@ const ColonnaSxHome = () => {
                 fontSize: "8px",
                 fontWeight: "bold",
                 color: "white",
-                boxShadow: "0 1px 2px rgba(0,0,0,0.15)"
+                boxShadow: "0 1px 2px rgba(0,0,0,0.15)",
               }}
             >
               ✦
@@ -153,63 +159,83 @@ const ColonnaSxHome = () => {
       {/* Elementi salvati */}
       <Card className="shadow-sm border-0">
         <Card.Body className="p-0">
-          <div 
+          <div
             className="px-3 py-2 d-flex align-items-center"
-            style={{ 
+            style={{
               cursor: "pointer",
               fontSize: "14px",
               fontWeight: "600",
               color: "#666",
-              borderBottom: "none"
+              borderBottom: "none",
             }}
-            onMouseEnter={(e) => e.target.style.backgroundColor = "#f3f2ef"}
-            onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            onMouseEnter={(e) => (e.target.style.backgroundColor = "#f3f2ef")}
+            onMouseLeave={(e) =>
+              (e.target.style.backgroundColor = "transparent")
+            }
           >
-            <i className="bi bi-bookmark-fill me-2" style={{ color: "#666", fontSize: "14px" }}></i>
+            <i
+              className="bi bi-bookmark-fill me-2"
+              style={{ color: "#666", fontSize: "14px" }}
+            ></i>
             Elementi salvati
           </div>
-          <div 
+          <div
             className="px-3 py-2 d-flex align-items-center"
-            style={{ 
+            style={{
               cursor: "pointer",
               fontSize: "14px",
               fontWeight: "600",
               color: "#666",
-              borderBottom: "none"
+              borderBottom: "none",
             }}
-            onMouseEnter={(e) => e.target.style.backgroundColor = "#f3f2ef"}
-            onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            onMouseEnter={(e) => (e.target.style.backgroundColor = "#f3f2ef")}
+            onMouseLeave={(e) =>
+              (e.target.style.backgroundColor = "transparent")
+            }
           >
-            <i className="bi bi-people-fill me-2" style={{ color: "#666", fontSize: "14px" }}></i>
+            <i
+              className="bi bi-people-fill me-2"
+              style={{ color: "#666", fontSize: "14px" }}
+            ></i>
             Gruppi
           </div>
-          <div 
+          <div
             className="px-3 py-2 d-flex align-items-center"
-            style={{ 
+            style={{
               cursor: "pointer",
               fontSize: "14px",
               fontWeight: "600",
               color: "#666",
-              borderBottom: "none"
+              borderBottom: "none",
             }}
-            onMouseEnter={(e) => e.target.style.backgroundColor = "#f3f2ef"}
-            onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            onMouseEnter={(e) => (e.target.style.backgroundColor = "#f3f2ef")}
+            onMouseLeave={(e) =>
+              (e.target.style.backgroundColor = "transparent")
+            }
           >
-            <i className="bi bi-newspaper me-2" style={{ color: "#666", fontSize: "14px" }}></i>
+            <i
+              className="bi bi-newspaper me-2"
+              style={{ color: "#666", fontSize: "14px" }}
+            ></i>
             Newsletter
           </div>
-          <div 
+          <div
             className="px-3 py-2 d-flex align-items-center"
-            style={{ 
+            style={{
               cursor: "pointer",
               fontSize: "14px",
               fontWeight: "600",
-              color: "#666"
+              color: "#666",
             }}
-            onMouseEnter={(e) => e.target.style.backgroundColor = "#f3f2ef"}
-            onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            onMouseEnter={(e) => (e.target.style.backgroundColor = "#f3f2ef")}
+            onMouseLeave={(e) =>
+              (e.target.style.backgroundColor = "transparent")
+            }
           >
-            <i className="bi bi-calendar-event-fill me-2" style={{ color: "#666", fontSize: "14px" }}></i>
+            <i
+              className="bi bi-calendar-event-fill me-2"
+              style={{ color: "#666", fontSize: "14px" }}
+            ></i>
             Eventi
           </div>
         </Card.Body>
