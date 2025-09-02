@@ -1,4 +1,6 @@
 import { Container, Row, Col } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 const Homecolcentrale = () => {
   return (
@@ -7,10 +9,8 @@ const Homecolcentrale = () => {
         <Row>
           <Col>
             <div className="d-flex flex-column">
-              {" "}
               {/* post completo */}
-              <div className="d-flex flex-column align-items-center gap-2">
-                {" "}
+              <div className="d-flex flex-column align-items-start gap-2">
                 {/* foto e testo */}
                 {/* immagine profilo */}
                 <img
@@ -28,7 +28,6 @@ const Homecolcentrale = () => {
                   </p>
                 </div>
                 <div>
-                  {" "}
                   {/*contenuto testo*/}
                   <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -39,10 +38,48 @@ const Homecolcentrale = () => {
                     torquent per conubia nostra, per inceptos himenaeos. Nunc
                     pretium velit eros, id aliquam eros sodales quis. Nulla et
                     mi a dui ultrices facilisis sed nec dolor. Vivamus ac
-                  </p>{" "}
+                  </p>
+                  <img
+                    src="https://dummyimage.com/300x300/000/fff"
+                    alt="post"
+                    className=" w-auto h-auto"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                </div>
+                <div className=" p-2 border-bottom">
+                  <p> pinco pallino e altre x persone hanno messo like</p>
+                  <span className="ms-5 ">26 commenti - 9 diffusioni post</span>
+                </div>
+                <div>
+                  <ButtonGroup aria-label="Basic example">
+                    <Button
+                      variant="outline-secondary"
+                      className="bg-transparent border-0">
+                      <i className="bi bi-hand-thumbs-up"></i>
+                    </Button>
+                    <Button
+                      variant="outline-secondary"
+                      className="bg-transparent border-0">
+                      <i className="bi bi-chat"></i>
+                    </Button>
+                    <Button
+                      variant="outline-secondary"
+                      className="bg-transparent border-0">
+                      <i className="bi bi-arrow-repeat"></i>
+                    </Button>
+                    <Button
+                      variant="outline-secondary"
+                      className="bg-transparent border-0">
+                      <i className="bi bi-send"></i>
+                    </Button>
+                  </ButtonGroup>
                 </div>
               </div>
-            </div>{" "}
+            </div>
             {/* post completo fine */}
           </Col>
         </Row>
