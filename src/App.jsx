@@ -17,21 +17,6 @@ function App() {
     <BrowserRouter>
       <Provider store={store}>
         <BarraNavigazioneLinkedIn />
-
-<<<<<<< HEAD
-
-      <Routes>
-       
-        <Route path="/" element={<HomePage/>} />
-        <Route path="/network" element={<div>Network Page</div>} />
-        <Route path="/jobs" element={<PaginaLavoro />} />
-        <Route path="/messaging" element={<div>Messaging Page</div>} />
-        <Route path="/notifications" element={<div>Notifications Page</div>} />
-        <Route path="/profile" element={<><ProfilePage /> <MyFooter/> </>} />
-        <Route path="/profile/:userId" element={<><ProfilePage /> <MyFooter/> </>} />
-      </Routes>
-        </Provider>
-=======
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/network" element={<div>Network Page</div>} />
@@ -45,13 +30,20 @@ function App() {
             path="/profile"
             element={
               <>
-                <ProfilePage /> <MyFooter />{" "}
+                <ProfilePage /> <MyFooter />
+              </>
+            }
+          />
+          <Route
+            path="/profile/:userId"
+            element={
+              <>
+                <ProfilePage /> <MyFooter />
               </>
             }
           />
         </Routes>
       </Provider>
->>>>>>> main
     </BrowserRouter>
   );
 }
