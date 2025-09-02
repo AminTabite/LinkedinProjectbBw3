@@ -1,4 +1,4 @@
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { Container, Row, Col, Card, Dropdown } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { useSelector, useDispatch } from "react-redux";
@@ -67,6 +67,40 @@ const Homecolcentrale = () => {
                 </div>
               </Card.Body>
             </Card>
+
+
+
+                   <div className="d-flex align-items-center">
+      <Col>
+        <hr className="m-0" />
+      </Col>
+      
+
+
+      {/* Testo centrale con dropdown */}
+      <Col xs="auto" className="text-muted small d-flex align-items-center">
+        Seleziona la visualizzazione del feed:&nbsp;
+        <Dropdown>
+          <Dropdown.Toggle
+            variant="link"
+            className="p-0 fw-semibold text-decoration-none text-dark"
+          >
+            Più rilevanti per primi
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Item>Mostra post recenti</Dropdown.Item>
+            <Dropdown.Item>Mostra post rilevanti</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </Col>
+
+      {/* Linea a destra */}
+      </div>
+
+
+
+
 
             {loading && (
               <Card className="mb-3 shadow-sm border-0">

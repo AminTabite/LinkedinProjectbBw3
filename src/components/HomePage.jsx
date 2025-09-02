@@ -4,6 +4,7 @@ import ColonnaSxHome from "./colonnaSxHome";
 import MiniFooter from "./MiniFooter";
 import Homecolcentrale from "./Homecolcentrale";
 
+
 const HomePage = () => {
   return (
     <div style={{ paddingTop: "7em", background: "#F4F2EE" }}>
