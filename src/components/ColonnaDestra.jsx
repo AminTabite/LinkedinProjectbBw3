@@ -37,7 +37,7 @@ const ColonnaDestra = () => {
   }, []);
 
   return (
-    <div className="d-flex flex-column gap-3">
+    <div className="d-flex flex-column gap-3" style={{ width: "18rem" }}>
       {/* Lingua e URL */}
       <div className="border rounded p-3 bg-white">
         <div className="d-flex justify-content-between align-items-center mb-2">
