@@ -63,6 +63,31 @@ const BarraNavigazioneLinkedIn = () => {
       });
   };
 
+  const getPosts = () => {
+    fetch("https://striveschool-api.herokuapp.com/api/posts", {
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTc0YTE2MjdjNjAwMTVmOGM1NjkiLCJpYXQiOjE3NTY3MzEyMTAsImV4cCI6MTc1Nzk0MDgxMH0.2K96iJrH_T9CFLxQjMe3ZEvL5W45fdGe3MGTvDxniIQ",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("errore");
+        }
+      })
+      .then((data) => {
+        dispatch({
+          type: "GET_POSTS",
+          payload: data.slice(0, 10),
+        });
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+  };
+
   const getUsers = () => {
     fetch("https://striveschool-api.herokuapp.com/api/profile", {
       headers: {
@@ -123,6 +148,7 @@ const BarraNavigazioneLinkedIn = () => {
 
     getJobsData();
     getUsers();
+    getPosts();
   }, []);
 
   const categoriePopulari = [
@@ -171,18 +197,21 @@ const BarraNavigazioneLinkedIn = () => {
   return (
     <Navbar
       bg="white"
-      className="shadow-sm border-bottom barra-navigazione-linkedin fixed-top">
+      className="shadow-sm border-bottom barra-navigazione-linkedin fixed-top"
+    >
       <Container className="justify-content-center">
         <Navbar.Brand
           as={Link}
           to="/"
-          className="d-flex align-items-center logo-personalizzato">
+          className="d-flex align-items-center logo-personalizzato"
+        >
           <FaLinkedin size={38} className="logo-linkedin" />
         </Navbar.Brand>
 
         <Form
           className="d-flex me-auto modulo-ricerca"
-          onSubmit={gestisciRicerca}>
+          onSubmit={gestisciRicerca}
+        >
           <div className="position-relative">
             <FaSearch
               size={28}
@@ -211,7 +240,8 @@ const BarraNavigazioneLinkedIn = () => {
                   zIndex: 1000,
                   maxHeight: "300px",
                   overflowY: "auto",
-                }}>
+                }}
+              >
                 {suggerimentiCategorie.length > 0 ? (
                   <>
                     <div className="px-3 py-2 border-bottom">
@@ -224,20 +254,23 @@ const BarraNavigazioneLinkedIn = () => {
                         key={index}
                         className="px-3 py-2 border-bottom hover-bg-light d-flex align-items-center"
                         style={{ cursor: "pointer" }}
-                        onClick={() => selezionaCategoria(categoria)}>
+                        onClick={() => selezionaCategoria(categoria)}
+                      >
                         <div
                           className="rounded-circle me-3 d-flex align-items-center justify-content-center flex-shrink-0"
                           style={{
                             width: "32px",
                             height: "32px",
                             backgroundColor: "#f3f2ef",
-                          }}>
+                          }}
+                        >
                           <categoria.icona size={16} className="text-muted" />
                         </div>
                         <div className="flex-grow-1 min-width-0">
                           <div
                             className="fw-semibold"
-                            style={{ fontSize: "14px" }}>
+                            style={{ fontSize: "14px" }}
+                          >
                             {categoria.nome}
                           </div>
                           <div className="text-muted small">
@@ -263,7 +296,8 @@ const BarraNavigazioneLinkedIn = () => {
             to="/"
             className={`elemento-navigazione text-center ${
               eAttivo("/") ? "attivo" : ""
-            }`}>
+            }`}
+          >
             <FaHome size={20} />
             <div className="testo-navigazione">Home</div>
           </Nav.Link>
@@ -273,7 +307,8 @@ const BarraNavigazioneLinkedIn = () => {
             to="/network"
             className={`elemento-navigazione text-center ${
               eAttivo("/network") ? "attivo" : ""
-            }`}>
+            }`}
+          >
             <FaUsers size={20} />
             <div className="testo-navigazione">La mia rete</div>
           </Nav.Link>
@@ -283,7 +318,8 @@ const BarraNavigazioneLinkedIn = () => {
             to="/jobs"
             className={`elemento-navigazione text-center ${
               eAttivo("/jobs") ? "attivo" : ""
-            }`}>
+            }`}
+          >
             <FaBriefcase size={20} />
             <div className="testo-navigazione">Lavoro</div>
           </Nav.Link>
@@ -293,7 +329,8 @@ const BarraNavigazioneLinkedIn = () => {
             to="/messaging"
             className={`elemento-navigazione text-center ${
               eAttivo("/messaging") ? "attivo" : ""
-            }`}>
+            }`}
+          >
             <FaCommentDots size={20} />
             <div className="testo-navigazione">Messaggi</div>
           </Nav.Link>
@@ -303,7 +340,8 @@ const BarraNavigazioneLinkedIn = () => {
             to="/notifications"
             className={`elemento-navigazione text-center ${
               eAttivo("/notifications") ? "attivo" : ""
-            }`}>
+            }`}
+          >
             <FaBell size={20} />
             <div className="testo-navigazione">Notifiche</div>
           </Nav.Link>
@@ -314,7 +352,8 @@ const BarraNavigazioneLinkedIn = () => {
               id="dropdown-profilo"
               className={`elemento-navigazione text-center toggle-profilo ${
                 eAttivo("/profile") ? "attivo" : ""
-              }`}>
+              }`}
+            >
               <div className="foto-profilo">
                 <img
                   src={
