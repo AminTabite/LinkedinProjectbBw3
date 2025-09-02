@@ -3,13 +3,18 @@ import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { ottieniPostAction } from "../redux/posts";
+import { ottieniPostAction, caricaPiuPostAction } from "../redux/posts";
 
 const Homecolcentrale = () => {
   const dispatch = useDispatch();
-  const posts = useSelector((state) => state.posts.postsArray);
+  const displayedPosts = useSelector((state) => state.posts.displayedPosts);
+  const hasMorePosts = useSelector((state) => state.posts.hasMorePosts);
   const loading = useSelector((state) => state.posts.loading);
   const user = useSelector((state) => state.profile);
+
+  const handleLoadMore = () => {
+    dispatch(caricaPiuPostAction());
+  };
 
   useEffect(() => {
     dispatch(ottieniPostAction());
@@ -64,7 +69,7 @@ const Homecolcentrale = () => {
               </Card>
             )}
 
-            {posts.map((post, index) => {
+            {displayedPosts.map((post, index) => {
               return (
                 <Card key={post._id || index} className="mb-3 shadow-sm border-0">
                   <Card.Body className="p-3">
@@ -152,6 +157,20 @@ const Homecolcentrale = () => {
                 </Card>
               );
             })}
+            
+            {/* Pulsante Mostra altro */}
+            {hasMorePosts && (
+              <div className="text-center mt-4">
+                <Button 
+                  variant="outline-primary" 
+                  onClick={handleLoadMore}
+                  className="px-4 py-2"
+                >
+                  Mostra altro
+                </Button>
+              </div>
+            )}
+            
             {/* post completo fine */}
           </Col>
         </Row>

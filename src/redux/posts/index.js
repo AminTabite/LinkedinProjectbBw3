@@ -1,5 +1,9 @@
 const initialState = {
   postsArray: [],
+  displayedPosts: [],
+  currentPage: 0,
+  postsPerPage: 10,
+  hasMorePosts: true,
   loading: false,
   error: null,
 };
@@ -13,10 +17,25 @@ const PostsReducer = (state = initialState, action) => {
         error: null,
       };
     case "GET_POSTS_SUCCESS":
+      const firstTenPosts = action.payload.slice(0, state.postsPerPage);
       return {
         ...state,
         loading: false,
         postsArray: action.payload,
+        displayedPosts: firstTenPosts,
+        currentPage: 1,
+        hasMorePosts: action.payload.length > state.postsPerPage,
+      };
+    case "LOAD_MORE_POSTS":
+      const startIndex = state.currentPage * state.postsPerPage;
+      const endIndex = startIndex + state.postsPerPage;
+      const newPosts = state.postsArray.slice(startIndex, endIndex);
+      const updatedDisplayedPosts = [...state.displayedPosts, ...newPosts];
+      return {
+        ...state,
+        displayedPosts: updatedDisplayedPosts,
+        currentPage: state.currentPage + 1,
+        hasMorePosts: endIndex < state.postsArray.length,
       };
     case "GET_POSTS_ERROR":
       return {
@@ -25,9 +44,12 @@ const PostsReducer = (state = initialState, action) => {
         error: action.payload,
       };
     case "ADD_POST_SUCCESS":
+      const newPostsArray = [action.payload, ...state.postsArray];
+      const newDisplayedPosts = [action.payload, ...state.displayedPosts];
       return {
         ...state,
-        postsArray: [action.payload, ...state.postsArray],
+        postsArray: newPostsArray,
+        displayedPosts: newDisplayedPosts,
       };
     case "UPDATE_POST_SUCCESS":
       return {
@@ -35,11 +57,15 @@ const PostsReducer = (state = initialState, action) => {
         postsArray: state.postsArray.map(post =>
           post._id === action.payload._id ? action.payload : post
         ),
+        displayedPosts: state.displayedPosts.map(post =>
+          post._id === action.payload._id ? action.payload : post
+        ),
       };
     case "DELETE_POST_SUCCESS":
       return {
         ...state,
         postsArray: state.postsArray.filter(post => post._id !== action.payload),
+        displayedPosts: state.displayedPosts.filter(post => post._id !== action.payload),
       };
 
     default:
@@ -134,6 +160,13 @@ export const eliminaPostAction = (idPost) => {
     } catch (error) {
       console.error("Errore nell'eliminazione del post:", error);
     }
+  };
+};
+
+// Action per caricare più post
+export const caricaPiuPostAction = () => {
+  return {
+    type: "LOAD_MORE_POSTS"
   };
 };
 
