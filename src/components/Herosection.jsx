@@ -5,24 +5,25 @@ import { BiCamera, BiBrush, BiClipboard } from "react-icons/bi";
 import { useState, useEffect } from "react";
 import clientApi from "../services/api";
 import "./Herosection.css";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Herosection = () => {
-  const [profileData, setProfileData] = useState(null);
+  //const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const dispatch = useDispatch();
+  const prof = useSelector((state) => {
+    return state.profile;
+  });
 
-  useEffect(() => {
+  console.log(prof);
+
+  /*useEffect(() => {
     const fetchProfile = async () => {
       try {
         setLoading(true);
         const data = await clientApi.ottieniIlMioProfilo();
-        setProfileData(data);
-        dispatch({
-          type: "GET_USER",
-          payload: data,
-        });
+        //setProfileData(data);
+        console.log(data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -34,7 +35,7 @@ const Herosection = () => {
   }, []);
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (error) return <div>Error: {error}</div>;*/
 
   return (
     <Container>
@@ -54,7 +55,7 @@ const Herosection = () => {
             </button>
 
             <img
-              src={profileData?.image || "https://placebear.com/100/100"}
+              src={prof.userImg || "https://placebear.com/100/100"}
               alt="profile"
               className="rounded-circle border border-3 border-white position-absolute"
               style={{
@@ -69,14 +70,13 @@ const Herosection = () => {
             <div></div>
             <Card.Text>
               <h4 className="mb-0">
-                {profileData?.name} {profileData?.surname} <BiClipboard /> He/
-                Him
+                {prof?.userName} {prof?.userSurname} <BiClipboard /> He/ Him
               </h4>
               <p className="profession">
-                {profileData?.title || "Titolo professionale"}
+                {prof?.userTitle || "Titolo professionale"}
               </p>
               <p className="location">
-                {profileData?.area || "Area non specificata"} ⸱{" "}
+                {prof?.userArea || "Area non specificata"} ⸱{" "}
                 <span className="blue500">Informazioni di contatto</span>
               </p>
             </Card.Text>

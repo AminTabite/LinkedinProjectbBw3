@@ -16,11 +16,18 @@ import {
   FaCommentDots,
   FaBell,
   FaCaretDown,
+  FaCode,
+  FaChartLine,
+  FaPalette,
+  FaDollarSign,
+  FaCog,
+  FaChartBar,
 } from "react-icons/fa";
 import { BsGrid3X3Gap } from "react-icons/bs";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import clientApi from "../services/api";
+import { useDispatch } from "react-redux";
 
 const BarraNavigazioneLinkedIn = () => {
   const posizioneCorrente = useLocation();
@@ -30,8 +37,11 @@ const BarraNavigazioneLinkedIn = () => {
   const [caricamento, setCaricamento] = useState(true);
   const [mostraDropdown, setMostraDropdown] = useState(false);
   const [suggerimentiCategorie, setSuggerimentiCategorie] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const eAttivo = (percorso) => posizioneCorrente.pathname === percorso;
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const recuperaProfilo = async () => {
@@ -47,17 +57,34 @@ const BarraNavigazioneLinkedIn = () => {
     };
 
     recuperaProfilo();
+    const fetchProfile = async () => {
+      try {
+        const data = await clientApi.ottieniIlMioProfilo();
+
+        console.log(data);
+        dispatch({
+          type: "GET_USER",
+          payload: data,
+        });
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
   }, []);
 
   const categoriePopulari = [
-    { nome: "Sviluppo Software", icona: "💻" },
-    { nome: "Marketing", icona: "📊" },
-    { nome: "Vendite", icona: "💼" },
-    { nome: "Design", icona: "🎨" },
-    { nome: "Risorse Umane", icona: "👥" },
-    { nome: "Finanza", icona: "💰" },
-    { nome: "Ingegneria", icona: "⚙️" },
-    { nome: "Data Science", icona: "📈" },
+    { nome: "Sviluppo Software", icona: FaCode },
+    { nome: "Marketing", icona: FaChartBar },
+    { nome: "Vendite", icona: FaBriefcase },
+    { nome: "Design", icona: FaPalette },
+    { nome: "Risorse Umane", icona: FaUsers },
+    { nome: "Finanza", icona: FaDollarSign },
+    { nome: "Ingegneria", icona: FaCog },
+    { nome: "Data Science", icona: FaChartLine },
   ];
 
   const caricaSuggerimenti = () => {
@@ -155,9 +182,8 @@ const BarraNavigazioneLinkedIn = () => {
                             width: "32px",
                             height: "32px",
                             backgroundColor: "#f3f2ef",
-                            fontSize: "16px",
                           }}>
-                          {categoria.icona}
+                          <categoria.icona size={16} className="text-muted" />
                         </div>
                         <div className="flex-grow-1 min-width-0">
                           <div
