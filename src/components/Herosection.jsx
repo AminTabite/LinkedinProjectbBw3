@@ -71,7 +71,26 @@ const Herosection = ({ userId }) => {
   const handleShow = () => setShow(true);
   const handleSave = () => {
     changeImg(imgLink);
-
+    const recuperaProfilo = async () => {
+      try {
+        setCaricamento(true);
+        let dati;
+        if (userId) {
+          // Carica profilo specifico utente
+          dati = await clientApi.ottieniProfilo(userId);
+        } else {
+          // Carica il proprio profilo
+          dati = await clientApi.ottieniIlMioProfilo();
+        }
+        setDatiProfilo(dati);
+        console.log(dati);
+      } catch (err) {
+        setErrore(err.message);
+      } finally {
+        setCaricamento(false);
+      }
+    };
+    recuperaProfilo();
     handleClose();
   };
   if (caricamento) return <div>Caricamento...</div>;
