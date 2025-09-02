@@ -1,4 +1,4 @@
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 
@@ -8,9 +8,10 @@ const Homecolcentrale = () => {
       <Container fluid className="h-auto my-5">
         <Row>
           <Col>
-            <div className="d-flex flex-column my-2">
-              {/* post completo */}
-              <div className="d-flex flex-column align-items-start gap-2">
+            <Card className="mb-3 shadow-sm border-0">
+              <Card.Body className="p-3">
+                {/* post completo */}
+                <div className="d-flex flex-column align-items-start gap-2">
                 {/* foto e testo */}
                 {/* immagine profilo */}
                 <img
@@ -78,8 +79,9 @@ const Homecolcentrale = () => {
                     </Button>
                   </ButtonGroup>
                 </div>
-              </div>
-            </div>
+                </div>
+              </Card.Body>
+            </Card>
             {/* post completo fine */}
           </Col>
         </Row>

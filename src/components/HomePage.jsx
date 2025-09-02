@@ -6,9 +6,9 @@ import Homecolcentrale from "./Homecolcentrale";
 
 const HomePage = () => {
   return (
-    <div style={{ paddingTop: "7em" }}>
+    <div style={{ paddingTop: "7em", background: "#F4F2EE" }}>
       <Container>
-        <Row>
+        <Row className="align-items-start">
           <Col xs={0} md={3}>
             <ColonnaSxHome />
           </Col>
