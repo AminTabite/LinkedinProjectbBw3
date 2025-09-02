@@ -57,8 +57,7 @@ const Herosection = ({ userId }) => {
 
             <button
               className="btn btn-light rounded-circle position-absolute"
-              style={{ top: "10px", right: "10px" }}
-            >
+              style={{ top: "10px", right: "10px" }}>
               <BiCamera />
             </button>
 
@@ -138,3 +137,31 @@ const Herosection = ({ userId }) => {
 };
 
 export default Herosection;
+
+const endpoint = "https://api.example.com/data";
+const token = "IL_TUO_TOKEN_QUI"; // il tuo token
+
+const fetchWithToken = async (method = "GET", bodyData = null) => {
+  try {
+    const res = await fetch(endpoint, {
+      method, // GET, POST, PUT, DELETE
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: bodyData ? JSON.stringify(bodyData) : null, // solo per POST/PUT
+    });
+
+    if (!res.ok) throw new Error(`Errore HTTP ${res.status}`);
+    const data = await res.json();
+    console.log(`${method}:`, data);
+  } catch (err) {
+    console.log(`Errore ${method}:`, err);
+  }
+};
+
+// ✅ Esempi di utilizzo
+fetchWithToken("GET"); // leggere dati
+fetchWithToken("POST", { name: "Mario", age: 25 }); // creare dati
+fetchWithToken("PUT", { name: "Luigi", age: 30 }); // aggiornare dati
+fetchWithToken("DELETE"); // eliminare dati
