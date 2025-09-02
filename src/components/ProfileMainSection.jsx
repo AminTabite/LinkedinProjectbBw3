@@ -5,7 +5,7 @@ import { Container, Row, Col } from "react-bootstrap";
 function ProfileMainSection() {
   return (
     <div>
-      <div className="mb-3 profileCards">
+      <div className="mb-3 profileCards border">
         <div className="pt-4 px-4">
           <h4 className="mb-0">Analisi</h4>
           <p className="mt-0">Solo per te</p>
@@ -37,7 +37,7 @@ function ProfileMainSection() {
         </Container>
         <button className="buttonProfile">Mostra tutte le analisi -&gt;</button>
       </div>
-      <div className="profileCards mb-3 p-4">
+      <div className="profileCards mb-3 p-4 border">
         <div className="d-flex justify-content-between">
           <h4>Esperienza</h4>
           <div className="d-flex justify-content-between">
@@ -60,7 +60,7 @@ function ProfileMainSection() {
           </div>
         </div>
       </div>
-      <div className="profileCards mb-3 p-4">
+      <div className="profileCards mb-3 p-4 border">
         <div className="d-flex justify-content-between">
           <h4>Formazione</h4>
           <div className="d-flex justify-content-between">
@@ -83,7 +83,7 @@ function ProfileMainSection() {
           </div>
         </div>
       </div>
-      <div className="profileCards mb-3 p-4">
+      <div className="profileCards mb-3 p-4 border">
         <div className="d-flex justify-content-between">
           <h4>Competenze</h4>
           <div className="d-flex justify-content-between">

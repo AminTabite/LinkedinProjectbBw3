@@ -39,7 +39,7 @@
 }
 
 .logo-personalizzato {
-  margin-right: 8px;
+  margin-right: 0px;
 }
 
 .logo-linkedin {
@@ -54,7 +54,7 @@
 .modulo-ricerca {
   max-width: 220px;
   width: 100%;
-  margin: 0 24px;
+  margin: 0 24px 0 0px;
   flex-shrink: 1;
   transition: max-width 0.3s ease;
 }
@@ -94,7 +94,7 @@
   color: rgba(0, 0, 0, 0.6);
   font-weight: 400;
   font-size: 13px;
-  padding-left: 15px;
+  padding-left: 0px;
 }
 
 .icona-ricerca {
@@ -432,6 +432,9 @@ body {
 .navbar-toggler:focus {
   box-shadow: none;
 }
+
+/* footer */
+
 #footer a{
     text-decoration: none;
         font-weight: 500;
@@ -451,10 +454,25 @@ body {
 }
 
 #footer button{
-    font-weight: bold;
+    font-weight: 500;
     color: black;
     background: white;
     width: 100%;
     text-align: start;
     border: 2px solid black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
+
+/* Search dropdown styles */
+.hover-bg-light:hover {
+  background-color: #f3f2ef !important;
+}
+#footer .show{
+  width: 100%;
+}
+
+
+
+/* fine footer */
