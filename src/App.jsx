@@ -30,6 +30,7 @@ function App() {
         <Route path="/messaging" element={<div>Messaging Page</div>} />
         <Route path="/notifications" element={<div>Notifications Page</div>} />
         <Route path="/profile" element={<><ProfilePage /> <MyFooter/> </>} />
+        <Route path="/profile/:userId" element={<><ProfilePage /> <MyFooter/> </>} />
       </Routes>
         </Provider>
     </BrowserRouter>

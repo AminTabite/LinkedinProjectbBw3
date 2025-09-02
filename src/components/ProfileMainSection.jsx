@@ -4,7 +4,7 @@ import { GoPencil } from "react-icons/go";
 
 // NB: il componente ha larghezza che va in base al container in cui è messo
 
-function ProfileMainSection() {
+function ProfileMainSection({ userId }) {
   const TOKEN =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTczNTE2MjdjNjAwMTVmOGM1NjgiLCJpYXQiOjE3NTY3MzExODksImV4cCI6MTc1Nzk0MDc4OX0.EE1GDQeokGCuIu43ACNAuxw4--0MPsa1SFutXaarjxk";
   const [experiences, setExperiences] = useState([]);
@@ -67,9 +67,10 @@ function ProfileMainSection() {
       });
   };
   useEffect(() => {
-    const findExperiences = () => {
+    const trovaEsperienze = () => {
+      const profileId = userId || "68b597351627c60015f8c568"; // Use userId if available, otherwise default
       fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/68b597351627c60015f8c568/experiences",
+        `https://striveschool-api.herokuapp.com/api/profile/${profileId}/experiences`,
         {
           headers: {
             Authorization: `Bearer ${TOKEN}`,
@@ -80,20 +81,20 @@ function ProfileMainSection() {
           if (res.ok) {
             return res.json();
           } else {
-            throw new Error("Error while fetching experiences");
+            throw new Error("Errore nel recupero delle esperienze");
           }
         })
-        .then((experiences) => {
-          console.log(experiences);
-          setExperiences(experiences);
+        .then((esperienze) => {
+          console.log(esperienze);
+          setExperiences(esperienze);
         })
         .catch((err) => {
           console.log(err);
         });
     };
 
-    findExperiences();
-  }, []);
+    trovaEsperienze();
+  }, [userId]);
 
   return (
     <div>
@@ -132,13 +133,15 @@ function ProfileMainSection() {
       <div className="profileCards mb-3 p-4 border">
         <div className="d-flex justify-content-between">
           <h4>Esperienza</h4>
-          <div className="d-flex justify-content-between">
-            <GoPencil className="me-3" onClick={handleShow} />
-            <p>ICO2</p>
-          </div>
+          {!userId && (
+            <div className="d-flex justify-content-between">
+              <GoPencil className="me-3" onClick={handleShow} />
+              <p>ICO2</p>
+            </div>
+          )}
         </div>
         {experiences.length === 0 ? (
-          <p>Aggiungi esperienze al tuo profilo per mostrarle qui!</p>
+          <p>{userId ? "Nessuna esperienza da mostrare" : "Aggiungi esperienze al tuo profilo per mostrarle qui!"}</p>
         ) : (
           experiences.map((exp) => {
             return (
