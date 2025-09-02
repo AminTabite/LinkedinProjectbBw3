@@ -63,28 +63,44 @@
 
 // export default ColonnaSxHome;
 
-
 import { Card, Button, ListGroup } from "react-bootstrap";
 import { BsPersonPlus } from "react-icons/bs";
+import { useSelector } from "react-redux";
 
 const ColonnaSxHome = () => {
+  const user = useSelector((state) => {
+    return state.profile;
+  });
+
   return (
     <div style={{ width: "18rem" }}>
       {/* Card profilo */}
       <Card className="mb-3 shadow-sm border-0">
         <Card.Body className="text-center p-3">
-          <div
+          <img
+            src={user?.userImg || "https://placebear.com/300/300"}
             className="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center mx-auto mb-2"
-            style={{ width: "64px", height: "64px", fontSize: "24px", fontWeight: "bold" }}
+            style={{
+              width: "64px",
+              height: "64px",
+              fontSize: "24px",
+              fontWeight: "bold",
+            }}
+          ></img>
+          <Card.Title className="fs-6 mb-1">
+            {user?.userName + " " + user?.userSurname}{" "}
+          </Card.Title>
+          <Card.Text className="text-muted small mb-1">
+            {user?.userTitle}
+          </Card.Text>
+          <Card.Text className="text-muted small">{user?.userArea}</Card.Text>
+          {/*<Card.Link
+            href="#"
+            className="small fw-semibold"
+            style={{ color: "#0A66C2" }}
           >
-            L
-          </div>
-          <Card.Title className="fs-6 mb-1">Nome Cognome</Card.Title>
-          <Card.Text className="text-muted small mb-1">Lorem ipsum</Card.Text>
-          <Card.Text className="text-muted small">Lorem ipsum</Card.Text>
-          <Card.Link href="#" className="small fw-semibold" style={{ color: "#0A66C2" }}>
             Lavoro
-          </Card.Link>
+          </Card.Link>*/}
         </Card.Body>
       </Card>
 

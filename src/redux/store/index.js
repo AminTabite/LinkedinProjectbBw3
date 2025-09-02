@@ -1,10 +1,12 @@
 import ProfileReducer from "../profile";
 import JobsReducer from "../jobs";
+import Usersreducer from "../users";
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
 const Reducer = combineReducers({
   profile: ProfileReducer,
   jobs: JobsReducer,
+  users: Usersreducer,
 });
 
 const store = configureStore({
