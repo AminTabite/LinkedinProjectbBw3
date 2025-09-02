@@ -1,11 +1,13 @@
-import { Container, Row, Col } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
+import { Container, Row, Col, Form, Modal, Button } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import { BiCamera, BiBrush, BiClipboard } from "react-icons/bi";
 import { useState, useEffect } from "react";
 import clientApi from "../services/api";
 import "./Herosection.css";
 import { useSelector } from "react-redux";
+
+const TOKEN =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTczNTE2MjdjNjAwMTVmOGM1NjgiLCJpYXQiOjE3NTY3MzExODksImV4cCI6MTc1Nzk0MDc4OX0.EE1GDQeokGCuIu43ACNAuxw4--0MPsa1SFutXaarjxk";
 
 const Herosection = ({ userId }) => {
   const [datiProfilo, setDatiProfilo] = useState(null);
@@ -37,10 +39,41 @@ const Herosection = ({ userId }) => {
         setCaricamento(false);
       }
     };
-
     recuperaProfilo();
   }, [userId]);
 
+  const changeImg = (imgLink) => {
+    fetch("https://striveschool-api.herokuapp.com/api/profile", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${TOKEN}`,
+      },
+      body: JSON.stringify({
+        image: `${imgLink}`,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("errore");
+        }
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+  };
+
+  const [show, setShow] = useState(false);
+  const [imgLink, setImageLink] = useState("");
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const handleSave = () => {
+    changeImg(imgLink);
+
+    handleClose();
+  };
   if (caricamento) return <div>Caricamento...</div>;
   if (errore) return <div>Errore: {errore}</div>;
 
@@ -57,12 +90,18 @@ const Herosection = ({ userId }) => {
 
             <button
               className="btn btn-light rounded-circle position-absolute"
-              style={{ top: "10px", right: "10px" }}>
+              style={{ top: "10px", right: "10px" }}
+              onClick={handleShow}
+            >
               <BiCamera />
             </button>
 
             <img
-              src={(datiProfilo?.image || profiloDaRedux.userImg) || "https://placebear.com/100/100"}
+              src={
+                datiProfilo?.image ||
+                profiloDaRedux.userImg ||
+                "https://placebear.com/100/100"
+              }
               alt="profile"
               className="rounded-circle border border-3 border-white position-absolute"
               style={{
@@ -77,17 +116,23 @@ const Herosection = ({ userId }) => {
             <div></div>
             <Card.Text>
               <h4 className="mb-0">
-                {(datiProfilo?.name && datiProfilo?.surname) 
-                  ? `${datiProfilo.name} ${datiProfilo.surname}` 
-                  : `${profiloDaRedux?.userName || ''} ${profiloDaRedux?.userSurname || ''}`} 
+                {datiProfilo?.name && datiProfilo?.surname
+                  ? `${datiProfilo.name} ${datiProfilo.surname}`
+                  : `${profiloDaRedux?.userName || ""} ${
+                      profiloDaRedux?.userSurname || ""
+                    }`}
                 <BiClipboard /> He/ Him
               </h4>
               <p className="profession">
-                {datiProfilo?.title || profiloDaRedux?.userTitle || "Titolo professionale"}
+                {datiProfilo?.title ||
+                  profiloDaRedux?.userTitle ||
+                  "Titolo professionale"}
               </p>
               <p className="location">
-                {datiProfilo?.area || profiloDaRedux?.userArea || "Area non specificata"} ⸱{" "}
-                <span className="blue500">Informazioni di contatto</span>
+                {datiProfilo?.area ||
+                  profiloDaRedux?.userArea ||
+                  "Area non specificata"}{" "}
+                ⸱ <span className="blue500">Informazioni di contatto</span>
               </p>
             </Card.Text>
             <Card.Text>
@@ -100,7 +145,13 @@ const Herosection = ({ userId }) => {
                 <>
                   <button className="me-3 buttonBlue">Messaggio</button>
                   <button className="me-3 buttonOutlineBlue">
-                    <span className="text-primary me-1 fw-bold" style={{ fontSize: "18px" }}>+</span>Segui
+                    <span
+                      className="text-primary me-1 fw-bold"
+                      style={{ fontSize: "18px" }}
+                    >
+                      +
+                    </span>
+                    Segui
                   </button>
                   <button className="me-3 buttonOutlineBlue">Altro</button>
                 </>
@@ -132,6 +183,34 @@ const Herosection = ({ userId }) => {
           </Card.Body>
         </Card>
       </Row>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Cambia immagine di profilo:</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Image link:</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="https://image.jpg"
+                autoFocus
+                value={imgLink}
+                onChange={(e) => setImageLink(e.target.value)}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Chiudi
+          </Button>
+          <Button variant="primary" onClick={handleSave}>
+            Salva l'immagine
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
