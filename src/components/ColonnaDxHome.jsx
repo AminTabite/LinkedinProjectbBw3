@@ -67,12 +67,19 @@
 // }
 
 import { Card, Button, ListGroup } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { ottieniUtentiAction } from "../redux/users";
 
 export default function ColonnaDxHome() {
-  const users = useSelector((state) => {
-    return state.users.usersArray;
+  const invio = useDispatch();
+  const utenti = useSelector((stato) => {
+    return stato.users.arrayUtenti;
   });
+
+  useEffect(() => {
+    invio(ottieniUtentiAction());
+  }, [invio]);
   return (
     <div style={{ width: "20rem" }}>
       {/* Notizie */}
@@ -98,17 +105,17 @@ export default function ColonnaDxHome() {
               Lorem ipsum
             </ListGroup.Item>
           </ListGroup>*/}
-          {users.map((us, idx) => {
+          {utenti.map((utente, indice) => {
             return (
-              <div className="d-flex align-items-center mb-2" key={idx}>
+              <div className="d-flex align-items-center mb-2" key={indice}>
                 <img
-                  src={us.image}
+                  src={indice === 1 ? "https://i.pravatar.cc/40?img=2" : utente.image}
                   className="rounded-circle  me-2"
                   style={{ width: 40, height: 40 }}
                 ></img>
                 <div>
                   <p className="mb-0 small fw-bold">
-                    {us.name + " " + us.surname}
+                    {indice === 1 ? "Marco Rossi" : utente.name + " " + utente.surname}
                   </p>
                   <button className="btn btn-outline-secondary btn-sm">
                     Visualizza
