@@ -246,6 +246,11 @@ function ProfileMainSection({ userId }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    findExperiences();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId]);
+
   return (
     <div>
       <div className="mb-3 profileCards border">
