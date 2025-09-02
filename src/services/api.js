@@ -136,4 +136,20 @@ const clientApi = {
     });
 };*/
 
+const findExperiences = () => {
+  fetch(
+    "https://striveschool-api.herokuapp.com/api/profile/68b597351627c60015f8c568/experiences"
+  )
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error("Error while fetching experiences");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 export default clientApi;
