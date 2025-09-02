@@ -1,8 +1,8 @@
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { Container, Row, Col, Card, Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ottieniPostAction, caricaPiuPostAction } from "../redux/posts";
 
 const Homecolcentrale = () => {
@@ -11,6 +11,7 @@ const Homecolcentrale = () => {
   const hasMorePosts = useSelector((state) => state.posts.hasMorePosts);
   const loading = useSelector((state) => state.posts.loading);
   const user = useSelector((state) => state.profile);
+  const [payloadpost, setPayloadpost] = useState("");
 
   const handleLoadMore = () => {
     dispatch(caricaPiuPostAction());
@@ -19,6 +20,31 @@ const Homecolcentrale = () => {
   useEffect(() => {
     dispatch(ottieniPostAction());
   }, [dispatch]);
+
+  /* funzione per creare post , tramite card sopra colonna centrale*/
+  const createpost = () => {
+    fetch("https://striveschool-api.herokuapp.com/api/posts/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTczNTE2MjdjNjAwMTVmOGM1NjgiLCJpYXQiOjE3NTY3MzExODksImV4cCI6MTc1Nzk0MDc4OX0.EE1GDQeokGCuIu43ACNAuxw4--0MPsa1SFutXaarjxk",
+      },
+      body: JSON.stringify({
+        text: payloadpost,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          alert("caricamento post ok");
+        } else {
+          throw new Error("errore caricamento post");
+        }
+      })
+      .catch((er) => {
+        alert(er);
+      });
+  };
 
   return (
     <>
@@ -35,32 +61,37 @@ const Homecolcentrale = () => {
                     className="rounded-circle"
                     style={{ width: "40px", height: "40px" }}
                   />
-                  <div
-                    className="flex-grow-1 bg-light rounded-pill px-3 py-2 text-dark border border-dark"
-                    style={{ cursor: "pointer", borderWidth: "2px" }}
-                  >
-                    Crea un post
-                  </div>
+                  <Form
+                    className="flex-grow-1"
+                    onSubmit={(e) => {
+                      e.preventDefault(), createpost();
+                    }}>
+                    <input
+                      onChange={(e) => {
+                        setPayloadpost(e.target.value);
+                      }}
+                      value={payloadpost}
+                      className="flex-grow-1 bg-light rounded-pill px-3 py-2 text-dark border border-dark w-100"
+                      style={{ cursor: "pointer", borderWidth: "2px" }}
+                      placeholder="Crea un post"></input>{" "}
+                  </Form>
                 </div>
                 <div className="d-flex justify-content-around mt-3 pt-2 border-top">
                   <Button
                     variant="link"
-                    className="text-muted d-flex align-items-center gap-2"
-                  >
+                    className="text-muted d-flex align-items-center gap-2">
                     <i className="bi bi-camera-video text-success"></i>
                     Video
                   </Button>
                   <Button
                     variant="link"
-                    className="text-muted d-flex align-items-center gap-2"
-                  >
+                    className="text-muted d-flex align-items-center gap-2">
                     <i className="bi bi-image text-primary"></i>
                     Foto
                   </Button>
                   <Button
                     variant="link"
-                    className="text-muted d-flex align-items-center gap-2"
-                  >
+                    className="text-muted d-flex align-items-center gap-2">
                     <i className="bi bi-pencil-square text-danger"></i>
                     Scrivi articolo
                   </Button>
@@ -82,8 +113,7 @@ const Homecolcentrale = () => {
               return (
                 <Card
                   key={post._id || index}
-                  className="mb-3 shadow-sm border-0"
-                >
+                  className="mb-3 shadow-sm border-0">
                   <Card.Body className="p-3">
                     {/* post completo */}
                     <div className="d-flex flex-column align-items-start gap-2">
@@ -144,33 +174,28 @@ const Homecolcentrale = () => {
                       <div className="w-100">
                         <ButtonGroup
                           aria-label="Basic example"
-                          className="w-100"
-                        >
+                          className="w-100">
                           <Button
                             variant="outline-secondary"
-                            className="bg-transparent border-0 flex-fill"
-                          >
+                            className="bg-transparent border-0 flex-fill">
                             <i className="bi bi-hand-thumbs-up me-1"></i>
                             Consiglia
                           </Button>
                           <Button
                             variant="outline-secondary"
-                            className="bg-transparent border-0 flex-fill"
-                          >
+                            className="bg-transparent border-0 flex-fill">
                             <i className="bi bi-chat me-1"></i>
                             Commenta
                           </Button>
                           <Button
                             variant="outline-secondary"
-                            className="bg-transparent border-0 flex-fill"
-                          >
+                            className="bg-transparent border-0 flex-fill">
                             <i className="bi bi-arrow-repeat me-1"></i>
                             Condividi
                           </Button>
                           <Button
                             variant="outline-secondary"
-                            className="bg-transparent border-0 flex-fill"
-                          >
+                            className="bg-transparent border-0 flex-fill">
                             <i className="bi bi-send me-1"></i>
                             Invia
                           </Button>
@@ -188,8 +213,7 @@ const Homecolcentrale = () => {
                 <Button
                   variant="outline-primary"
                   onClick={handleLoadMore}
-                  className="px-4 py-2"
-                >
+                  className="px-4 py-2">
                   Mostra altro
                 </Button>
               </div>
