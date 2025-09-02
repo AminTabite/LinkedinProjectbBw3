@@ -79,7 +79,7 @@ const BarraNavigazioneLinkedIn = () => {
     <Navbar bg="white" className="shadow-sm border-bottom barra-navigazione-linkedin fixed-top">
       <Container className="justify-content-center">
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center logo-personalizzato">
-          <FaLinkedin size={34} className="logo-linkedin" />
+          <FaLinkedin size={38} className="logo-linkedin" />
         </Navbar.Brand>
         
         <Form className="d-flex me-auto modulo-ricerca" onSubmit={gestisciRicerca}>
