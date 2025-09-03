@@ -21,7 +21,7 @@ const ReteCentrale = () => {
         }
       })
       .then((data) => {
-        setusersList(data.slice(8, 16));
+        setusersList(data.slice(8, 22));
       })
       .catch((er) => {
         console.log(er);
@@ -33,61 +33,126 @@ const ReteCentrale = () => {
   }, []);
 
   return (
-    <Container fluid id="reteCentrale">
-      <Row>
-        {usersList !== null &&
-          usersList.map((user) => {
-            return (
-              <Col xs={2} md={3}>
-                <Card
-                  className="mb-3 shadow-sm border-0"
-                  style={{ height: "15em" }}
-                >
-                  <div className="position-relative">
-                    <Card.Img
-                      src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=200&q=80"
-                      alt="cover"
-                      style={{ height: "60px", objectFit: "cover" }}
-                    />
-                    <img
-                      src={user.image || "https://placebear.com/300/300"}
-                      className="rounded-circle border border-3 border-white position-absolute"
-                      style={{
-                        width: "80px",
-                        height: "80px",
-                        bottom: "-40px",
-                        left: "40px",
-                        objectFit: "cover",
-                      }}
-                    />
-                  </div>
-                  <Card.Body
-                    className="p-2 w-100 d-flex flex-column justify-content-end align-items-center"
-                    style={{ paddingTop: "40px !important" }}
-                  >
-                    <div className="d-flex align-items-start w-100">
-                      <div className="flex-grow-1 pt-3 text-center">
-                        <Card.Title className="fs-6 mb-1 text-center">
-                          {user.name + " " + user.surname}
-                        </Card.Title>
-                        <Card.Text className="text-muted small mb-1 text-center">
-                          {user.title}
-                        </Card.Text>
-                        <Button
-                          className="bg-white boredr border-1 border-primary text-primary rounded-pill w-100"
-                          style={{ fontWeight: "500" }}
-                        >
-                          <i class="bi bi-person-plus-fill"></i> Connetti
-                        </Button>
+    <>
+      <div className="netCentrale rounded-3">
+        <Container fluid className="mb-2">
+          <h5 className="pt-2">
+            People you may know based on your recent activity
+          </h5>
+          <Row>
+            {usersList !== null &&
+              usersList.slice(0, 8).map((user) => {
+                return (
+                  <Col xs={2} md={3}>
+                    <Card
+                      className="mb-3 shadow-sm border-0"
+                      style={{ height: "15em" }}
+                    >
+                      <div className="position-relative">
+                        <Card.Img
+                          src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=200&q=80"
+                          alt="cover"
+                          style={{ height: "60px", objectFit: "cover" }}
+                        />
+                        <img
+                          src={user.image || "https://placebear.com/300/300"}
+                          className="rounded-circle border border-3 border-white position-absolute"
+                          style={{
+                            width: "80px",
+                            height: "80px",
+                            bottom: "-40px",
+                            left: "40px",
+                            objectFit: "cover",
+                          }}
+                        />
                       </div>
-                    </div>
-                  </Card.Body>
-                </Card>
-              </Col>
-            );
-          })}
-      </Row>
-    </Container>
+                      <Card.Body
+                        className="p-2 w-100 d-flex flex-column justify-content-end align-items-center"
+                        style={{ paddingTop: "40px !important" }}
+                      >
+                        <div className="d-flex align-items-start w-100">
+                          <div className="flex-grow-1 pt-3 text-center">
+                            <Card.Title className="fs-6 mb-1 text-center">
+                              {user.name + " " + user.surname}
+                            </Card.Title>
+                            <Card.Text className="text-muted small mb-1 text-center">
+                              {user.title}
+                            </Card.Text>
+                            <Button
+                              className="bg-white boredr border-1 border-primary text-primary rounded-pill w-100"
+                              style={{ fontWeight: "500" }}
+                            >
+                              <i class="bi bi-person-plus-fill"></i> Connetti
+                            </Button>
+                          </div>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                );
+              })}
+          </Row>
+        </Container>
+      </div>
+      <div className="netCentrale rounded-3">
+        <Container fluid className="my-3 ">
+          <h5 className="pt-2">Popular on LinkedIn</h5>
+          <Row>
+            {usersList !== null &&
+              usersList.slice(8, 16).map((user) => {
+                return (
+                  <Col xs={2} md={4}>
+                    <Card
+                      className="mb-3 shadow-sm border-0"
+                      style={{ height: "15em" }}
+                    >
+                      <div className="position-relative">
+                        <Card.Img
+                          src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=200&q=80"
+                          alt="cover"
+                          style={{ height: "60px", objectFit: "cover" }}
+                        />
+                        <img
+                          src={user.image || "https://placebear.com/300/300"}
+                          className="rounded-circle border border-3 border-white position-absolute"
+                          style={{
+                            width: "80px",
+                            height: "80px",
+                            bottom: "-40px",
+                            left: "70px",
+                            objectFit: "cover",
+                          }}
+                        />
+                      </div>
+                      <Card.Body
+                        className="p-2 w-100 d-flex flex-column justify-content-end align-items-center"
+                        style={{ paddingTop: "40px !important" }}
+                      >
+                        <div className="d-flex align-items-start w-100">
+                          <div className="flex-grow-1 pt-3 text-center">
+                            <Card.Title className="fs-6 mb-1 text-center">
+                              {user.name + " " + user.surname}
+                            </Card.Title>
+                            <Card.Text className="text-muted small mb-1 text-center">
+                              {user.title}
+                            </Card.Text>
+                            <Button
+                              className="bg-white boredr border-1 border-primary text-primary rounded-pill w-100"
+                              style={{ fontWeight: "500" }}
+                            >
+                              <i class="bi bi-person-plus-fill"></i> Segui
+                            </Button>
+                          </div>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                );
+              })}
+          </Row>
+        </Container>
+      </div>
+    </>
   );
 };
 
