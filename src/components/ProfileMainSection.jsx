@@ -6,6 +6,7 @@ import { MdPeople } from "react-icons/md";
 import { IoStatsChart } from "react-icons/io5";
 import { TOKEN } from "../config/constants";
 import clientApi from "../services/api";
+import usersData from "../data/users.json";
 
 // NB: il componente ha larghezza che va in base al container in cui è messo
 
@@ -17,6 +18,7 @@ function ProfileMainSection({ userId }) {
   };
   const [experiences, setExperiences] = useState([]);
   const [currentProfileId, setCurrentProfileId] = useState(null);
+  const [userData, setUserData] = useState(null);
 
   const getCurrentProfileId = async () => {
     if (userId) {
@@ -29,6 +31,11 @@ function ProfileMainSection({ userId }) {
         console.error("Errore nel recupero del profilo corrente:", error);
       }
     }
+  };
+
+  const getUserDataFromJson = (profileId) => {
+    const user = usersData.users.find(u => u.id === profileId || u.id.toString() === profileId);
+    setUserData(user || null);
   };
   const findExperiences = () => {
     if (!currentProfileId) return;
@@ -268,6 +275,7 @@ function ProfileMainSection({ userId }) {
   useEffect(() => {
     if (currentProfileId) {
       findExperiences();
+      getUserDataFromJson(currentProfileId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentProfileId]);
@@ -355,50 +363,52 @@ function ProfileMainSection({ userId }) {
       <div className="profileCards mb-3 p-4 border">
         <div className="d-flex justify-content-between">
           <h4>Formazione</h4>
-          <div className="d-flex justify-content-between">
-            <GoPencil />
-          </div>
+          {!userId && (
+            <div className="d-flex justify-content-between">
+              <GoPencil />
+            </div>
+          )}
         </div>
-        <div className="d-flex align-items-end mb-3">
-          <p className="me-3">IMG</p>
-          <div className="d-flex flex-column">
-            <p className="my-0">Scuola 1</p>
-            <p className="my-0">Anno inizio - anno fine</p>
-          </div>
-        </div>
-        <div className="d-flex align-items-end mb-3">
-          <p className="me-3">IMG</p>
-          <div className="d-flex flex-column">
-            <p className="my-0">Scuola 1</p>
-            <p className="my-0">Anno inizio - anno fine</p>
-          </div>
-        </div>
+        {userData && userData.formazione ? (
+          userData.formazione.map((education, index) => (
+            <div key={index} className="d-flex align-items-start mb-3">
+              <img 
+                src={education.logo || "https://via.placeholder.com/48x48?text=🎓"} 
+                alt={education.school}
+                className="me-3 rounded"
+                style={{ width: "48px", height: "48px", objectFit: "contain" }}
+              />
+              <div className="d-flex flex-column">
+                <p className="my-0 fw-bold">{education.school}</p>
+                <p className="my-0 text-muted">{education.degree}</p>
+                <p className="my-0 small text-muted">{education.startYear} - {education.endYear}</p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="text-muted">Nessuna formazione da mostrare</p>
+        )}
       </div>
       <div className="profileCards mb-3 p-4 border">
         <div className="d-flex justify-content-between">
           <h4>Competenze</h4>
-          <div className="d-flex justify-content-between">
-            <GoPencil />
+          {!userId && (
+            <div className="d-flex justify-content-between">
+              <GoPencil />
+            </div>
+          )}
+        </div>
+        {userData && userData.competenze ? (
+          <div>
+            {userData.competenze.map((skill, index) => (
+              <div key={index} className="skillBorders mb-2">
+                <p className="my-1">{skill}</p>
+              </div>
+            ))}
           </div>
-        </div>
-        <div className="skillBorders">
-          <p className="my-1">Soft Skill 1</p>
-        </div>
-        <div className="skillBorders">
-          <p className="my-1">Soft Skill 1</p>
-        </div>
-        <div className="skillBorders">
-          <p className="my-1">Soft Skill 1</p>
-        </div>
-        <div className="skillBorders">
-          <p className="my-1">Soft Skill 1</p>
-        </div>
-        <div className="skillBorders">
-          <p className="my-1">Soft Skill 1</p>
-        </div>
-        <div>
-          <p className="my-1">Soft Skill 1</p>
-        </div>
+        ) : (
+          <p className="text-muted">Nessuna competenza da mostrare</p>
+        )}
       </div>
 
         
