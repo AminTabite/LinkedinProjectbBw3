@@ -2,6 +2,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import BarraNavigazioneLinkedIn from "./components/Navbar";
+import Rete from "./components/Rete";
 
 import "bootstrap-icons/font/bootstrap-icons.css";
 import MyFooter from "./components/MyFooter";
@@ -19,7 +20,7 @@ function App() {
         <BarraNavigazioneLinkedIn />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/network" element={<div>Network Page</div>} />
+          <Route path="/network" element={<Rete />} />
           <Route path="/jobs" element={<PaginaLavoro />} />
           <Route path="/messaging" element={<div>Messaging Page</div>} />
           <Route
