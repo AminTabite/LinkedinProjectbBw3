@@ -118,6 +118,30 @@
           "logo": "https://upload.wikimedia.org/wikipedia/commons/2/28/Logo_Ministero_dell%27istruzione_e_del_merito_%282024%29.svg"
         }
       ]
+    },
+    {
+      "id": "444",
+      "username": "Giuseppe",
+      "password": "banale",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTc0YTE2MjdjNjAwMTVmOGM1NjkiLCJpYXQiOjE3NTY3MzEyMTAsImV4cCI6MTc1Nzk0MDgxMH0.2K96iJrH_T9CFLxQjMe3ZEvL5W45fdGe3MGTvDxniIQ",
+      "name": "Giusepp Tuccilli",
+      "competenze": ["JavaScript", "React", "Node.js", "Python", "SQL", "Git", "MongoDB", "Express.js", "TypeScript", "HTML", "CSS", "Bootstrap", "API REST", "GraphQL", "Docker", "AWS"],
+      "formazione": [
+        {
+          "school": "Università di Napoli Federico II",
+          "degree": "Laurea in Informatica",
+          "startYear": "2018",
+          "endYear": "2022",
+          "logo": "https://upload.wikimedia.org/wikipedia/it/5/5c/University_Federico_II_Logo.svg"
+        },
+        {
+          "school": "Liceo Scientifico Galileo Galilei",
+          "degree": "Diploma Scientifico",
+          "startYear": "2013",
+          "endYear": "2018",
+          "logo": "https://upload.wikimedia.org/wikipedia/commons/2/28/Logo_Ministero_dell%27istruzione_e_del_merito_%282024%29.svg"
+        }
+      ]
     }
   ]
 }
