@@ -67,10 +67,10 @@ const ColSxRete = () => {
         </Row>
 
         <Row>
-          <Card className="mb-3 shadow-sm bordofinale w-100">
+          <Card className="mb-3 shadow-sm bordofinale w-100 p-0">
             <div className="position-relative">
               <Card.Img
-                src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=croph=200&q=80"
+                src="https://preview.redd.it/1d5gjfwag3j91.jpg?width=640&crop=smart&auto=webp&s=034afad04a92356dbeb9ce2d90d64dba6493679d"
                 alt="cover"
                 style={{ height: "80px", objectFit: "cover" }}
               />
