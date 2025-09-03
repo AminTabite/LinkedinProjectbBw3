@@ -16,8 +16,16 @@ import {
 import { BsGear, BsBookmark, BsPerson } from "react-icons/bs";
 import clientApi from "../services/api";
 import MiniFooter from "./MiniFooter";
+import { useNavigate } from "react-router-dom";
 
 const PaginaLavoro = () => {
+  const navigate = useNavigate();
+  const savedData = localStorage.getItem("userIdSession");
+  useEffect(() => {
+    if (!savedData) {
+      navigate("/login", { replace: true });
+    }
+  }, [savedData, navigate]);
   const [searchParams] = useSearchParams();
   const [lavori, setLavori] = useState([]);
   const [caricamento, setCaricamento] = useState(true);
@@ -91,7 +99,8 @@ const PaginaLavoro = () => {
               {/* Mini Hero Section con Profilo */}
               <Card
                 className="mb-2 border-0"
-                style={{ backgroundColor: "white", borderRadius: "8px" }}>
+                style={{ backgroundColor: "white", borderRadius: "8px" }}
+              >
                 <div className="position-relative">
                   {/* Background cover image */}
                   <div
@@ -102,12 +111,14 @@ const PaginaLavoro = () => {
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                       borderRadius: "8px 8px 0 0",
-                    }}></div>
+                    }}
+                  ></div>
 
                   {/* Profile image */}
                   <div
                     className="position-absolute"
-                    style={{ top: "20px", left: "12px" }}>
+                    style={{ top: "20px", left: "12px" }}
+                  >
                     <img
                       src={
                         datiProfilo?.image ||
@@ -127,10 +138,12 @@ const PaginaLavoro = () => {
 
                 <Card.Body
                   className="pt-4 px-3 pb-3"
-                  style={{ marginTop: "14px" }}>
+                  style={{ marginTop: "14px" }}
+                >
                   <h6
                     className="mb-1 fw-semibold d-flex align-items-center"
-                    style={{ fontSize: "16px" }}>
+                    style={{ fontSize: "16px" }}
+                  >
                     <span className="me-2">
                       {datiProfilo
                         ? `${datiProfilo.name || ""} ${
@@ -140,13 +153,15 @@ const PaginaLavoro = () => {
                     </span>
                     <div
                       className="position-relative"
-                      style={{ fontSize: "12px" }}>
+                      style={{ fontSize: "12px" }}
+                    >
                       <svg
                         width="16"
                         height="16"
                         viewBox="0 0 24 24"
                         fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
                         <path
                           d="M12 2L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 2Z"
                           fill="white"
@@ -156,14 +171,16 @@ const PaginaLavoro = () => {
                       </svg>
                       <span
                         className="position-absolute top-50 start-50 translate-middle fw-bold"
-                        style={{ fontSize: "8px", color: "#666" }}>
+                        style={{ fontSize: "8px", color: "#666" }}
+                      >
                         ✓
                       </span>
                     </div>
                   </h6>
                   <p
                     className="text-muted small mb-0"
-                    style={{ fontSize: "12px", lineHeight: "1.3" }}>
+                    style={{ fontSize: "12px", lineHeight: "1.3" }}
+                  >
                     {datiProfilo?.title || "Titolo professionale"}
                   </p>
                 </Card.Body>
@@ -172,11 +189,13 @@ const PaginaLavoro = () => {
               {/* Menu opzioni */}
               <Card
                 className="mb-2 border-0"
-                style={{ backgroundColor: "white", borderRadius: "8px" }}>
+                style={{ backgroundColor: "white", borderRadius: "8px" }}
+              >
                 <Card.Body className="p-3">
                   <div
                     className="d-flex align-items-center mb-5"
-                    style={{ cursor: "pointer" }}>
+                    style={{ cursor: "pointer" }}
+                  >
                     <BsGear size={18} className="text-muted me-3" />
                     <span className="fw-semibold" style={{ fontSize: "14px" }}>
                       Preferenze
@@ -184,7 +203,8 @@ const PaginaLavoro = () => {
                   </div>
                   <div
                     className="d-flex align-items-center mb-5"
-                    style={{ cursor: "pointer" }}>
+                    style={{ cursor: "pointer" }}
+                  >
                     <BsBookmark size={18} className="text-muted me-3" />
                     <span className="fw-semibold" style={{ fontSize: "14px" }}>
                       Le mie offerte di lavoro
@@ -192,7 +212,8 @@ const PaginaLavoro = () => {
                   </div>
                   <div
                     className="d-flex align-items-center mb-3"
-                    style={{ cursor: "pointer" }}>
+                    style={{ cursor: "pointer" }}
+                  >
                     <BsPerson size={18} className="text-muted me-3" />
                     <span className="fw-semibold" style={{ fontSize: "14px" }}>
                       Le mie informazioni sulla carriera
@@ -201,7 +222,8 @@ const PaginaLavoro = () => {
                   <hr className="my-0" />
                   <div
                     className="d-flex align-items-center mt-3"
-                    style={{ cursor: "pointer" }}>
+                    style={{ cursor: "pointer" }}
+                  >
                     <FaPlus
                       size={18}
                       className="me-3"
@@ -213,13 +235,14 @@ const PaginaLavoro = () => {
                         fontSize: "14px",
                         color: "#0a66c2",
                         textDecoration: "underline",
-                      }}>
+                      }}
+                    >
                       Pubblica offerta gratuita
                     </span>
                   </div>
                 </Card.Body>
               </Card>
-              
+
               {/* Footer con informazioni accessibilità etc. */}
               <div className="mt-4 d-flex justify-content-center">
                 <MiniFooter />
@@ -232,7 +255,8 @@ const PaginaLavoro = () => {
             {caricamento && (
               <Card
                 className="border-0 mb-2"
-                style={{ backgroundColor: "white", borderRadius: "8px" }}>
+                style={{ backgroundColor: "white", borderRadius: "8px" }}
+              >
                 <Card.Body className="p-4 text-center">
                   <div className="spinner-border text-primary" role="status">
                     <span className="visually-hidden">Caricamento...</span>
@@ -247,7 +271,8 @@ const PaginaLavoro = () => {
             {!caricamento && lavori.length === 0 && (
               <Card
                 className="border-0 mb-2"
-                style={{ backgroundColor: "white", borderRadius: "8px" }}>
+                style={{ backgroundColor: "white", borderRadius: "8px" }}
+              >
                 <Card.Body className="p-4 text-center">
                   <FaBriefcase size={40} className="text-muted mb-3" />
                   <h6>Nessuna offerta trovata</h6>
@@ -262,13 +287,15 @@ const PaginaLavoro = () => {
             {!caricamento && lavori.length > 0 && (
               <Card
                 className="border-0 mb-2"
-                style={{ backgroundColor: "white", borderRadius: "8px" }}>
+                style={{ backgroundColor: "white", borderRadius: "8px" }}
+              >
                 <Card.Body className="p-0">
                   {/* Titolo della card */}
                   <div className="px-3 py-3">
                     <h6
                       className="mb-1 fw-semibold"
-                      style={{ fontSize: "18px" }}>
+                      style={{ fontSize: "18px" }}
+                    >
                       Le principali offerte di lavoro per te
                     </h6>
                     <p
@@ -278,7 +305,8 @@ const PaginaLavoro = () => {
                         whiteSpace: "nowrap",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
-                      }}>
+                      }}
+                    >
                       In base al tuo profilo, alle tue preferenze e ad attività
                       come candidature, ricerche e salvataggi
                     </p>
@@ -291,7 +319,8 @@ const PaginaLavoro = () => {
                         indice !== ottieniLavoriDaMostrare().length - 1
                           ? "border-bottom"
                           : ""
-                      }`}>
+                      }`}
+                    >
                       <div className="d-flex align-items-start">
                         {/* Logo azienda */}
                         <div
@@ -302,7 +331,8 @@ const PaginaLavoro = () => {
                             backgroundColor: "#0a66c2",
                             fontSize: "16px",
                             fontWeight: "600",
-                          }}>
+                          }}
+                        >
                           {lavoro.company_name
                             ? lavoro.company_name.charAt(0).toUpperCase()
                             : "?"}
@@ -317,13 +347,15 @@ const PaginaLavoro = () => {
                                 fontSize: "16px",
                                 lineHeight: "1.25",
                                 color: "#0a66c2",
-                              }}>
+                              }}
+                            >
                               {lavoro.title}
                             </h6>
                             <div className="d-flex align-items-center ms-2 position-relative">
                               <div
                                 onClick={() => gestisciToggleMenu(lavoro._id)}
-                                style={{ cursor: "pointer", padding: "4px" }}>
+                                style={{ cursor: "pointer", padding: "4px" }}
+                              >
                                 <FaEllipsisH
                                   size={16}
                                   className="text-muted me-2"
@@ -333,7 +365,8 @@ const PaginaLavoro = () => {
                                 onClick={() =>
                                   gestisciRimuoviLavoro(lavoro._id)
                                 }
-                                style={{ cursor: "pointer", padding: "4px" }}>
+                                style={{ cursor: "pointer", padding: "4px" }}
+                              >
                                 <FaTimes size={16} className="text-muted" />
                               </div>
 
@@ -342,7 +375,8 @@ const PaginaLavoro = () => {
                                   <div
                                     className="position-fixed top-0 start-0 w-100 h-100"
                                     style={{ zIndex: 999 }}
-                                    onClick={gestisciChiudiMenu}></div>
+                                    onClick={gestisciChiudiMenu}
+                                  ></div>
                                   <div
                                     className="position-absolute bg-white border rounded shadow-lg"
                                     style={{
@@ -351,11 +385,13 @@ const PaginaLavoro = () => {
                                       zIndex: 1000,
                                       minWidth: "280px",
                                       marginTop: "4px",
-                                    }}>
+                                    }}
+                                  >
                                     <div className="p-3">
                                       <div
                                         className="fw-semibold mb-2"
-                                        style={{ fontSize: "14px" }}>
+                                        style={{ fontSize: "14px" }}
+                                      >
                                         Perché vedo questa offerta di lavoro?
                                       </div>
                                       <div className="text-muted small">
@@ -395,7 +431,8 @@ const PaginaLavoro = () => {
                           variant="link"
                           className="fw-semibold text-muted"
                           onClick={() => setMostraTuttiLavori(true)}
-                          style={{ textDecoration: "none", fontSize: "14px" }}>
+                          style={{ textDecoration: "none", fontSize: "14px" }}
+                        >
                           Mostra tutto{" "}
                           <FaArrowRight size={12} className="ms-1" />
                         </Button>
@@ -404,7 +441,8 @@ const PaginaLavoro = () => {
                           variant="link"
                           className="fw-semibold text-muted"
                           onClick={() => setMostraTuttiLavori(false)}
-                          style={{ textDecoration: "none", fontSize: "14px" }}>
+                          style={{ textDecoration: "none", fontSize: "14px" }}
+                        >
                           Mostra meno
                         </Button>
                       )}
@@ -416,7 +454,8 @@ const PaginaLavoro = () => {
 
             <Card
               className="border-0 mb-2"
-              style={{ backgroundColor: "white", borderRadius: "8px" }}>
+              style={{ backgroundColor: "white", borderRadius: "8px" }}
+            >
               <Card.Body className="p-3">
                 <h6 className="mb-3 fw-semibold" style={{ fontSize: "18px" }}>
                   Altri suggerimenti per te
@@ -424,7 +463,8 @@ const PaginaLavoro = () => {
 
                 <div
                   className="d-flex align-items-center mb-3 p-2"
-                  style={{ cursor: "pointer", borderRadius: "4px" }}>
+                  style={{ cursor: "pointer", borderRadius: "4px" }}
+                >
                   <div
                     className="rounded me-3 d-flex align-items-center justify-content-center text-white flex-shrink-0"
                     style={{
@@ -433,13 +473,15 @@ const PaginaLavoro = () => {
                       backgroundColor: "#0a66c2",
                       fontSize: "14px",
                       fontWeight: "600",
-                    }}>
+                    }}
+                  >
                     <FaUsers size={16} />
                   </div>
                   <div className="flex-grow-1">
                     <div
                       className="fw-semibold mb-1"
-                      style={{ fontSize: "14px" }}>
+                      style={{ fontSize: "14px" }}
+                    >
                       Esplora la tua rete professionale
                     </div>
                     <div className="text-muted small">
@@ -450,7 +492,8 @@ const PaginaLavoro = () => {
 
                 <div
                   className="d-flex align-items-center mb-3 p-2"
-                  style={{ cursor: "pointer", borderRadius: "4px" }}>
+                  style={{ cursor: "pointer", borderRadius: "4px" }}
+                >
                   <div
                     className="rounded me-3 d-flex align-items-center justify-content-center text-white flex-shrink-0"
                     style={{
@@ -459,13 +502,15 @@ const PaginaLavoro = () => {
                       backgroundColor: "#0a66c2",
                       fontSize: "14px",
                       fontWeight: "600",
-                    }}>
+                    }}
+                  >
                     <FaEye size={16} />
                   </div>
                   <div className="flex-grow-1">
                     <div
                       className="fw-semibold mb-1"
-                      style={{ fontSize: "14px" }}>
+                      style={{ fontSize: "14px" }}
+                    >
                       Imposta avvisi di lavoro personalizzati
                     </div>
                     <div className="text-muted small">
@@ -476,7 +521,8 @@ const PaginaLavoro = () => {
 
                 <div
                   className="d-flex align-items-center p-2"
-                  style={{ cursor: "pointer", borderRadius: "4px" }}>
+                  style={{ cursor: "pointer", borderRadius: "4px" }}
+                >
                   <div
                     className="rounded me-3 d-flex align-items-center justify-content-center text-white flex-shrink-0"
                     style={{
@@ -485,13 +531,15 @@ const PaginaLavoro = () => {
                       backgroundColor: "#0a66c2",
                       fontSize: "14px",
                       fontWeight: "600",
-                    }}>
+                    }}
+                  >
                     <FaClipboardList size={16} />
                   </div>
                   <div className="flex-grow-1">
                     <div
                       className="fw-semibold mb-1"
-                      style={{ fontSize: "14px" }}>
+                      style={{ fontSize: "14px" }}
+                    >
                       Aggiorna il tuo profilo professionale
                     </div>
                     <div className="text-muted small">
@@ -505,7 +553,8 @@ const PaginaLavoro = () => {
 
             <Card
               className="border-0 mb-2"
-              style={{ backgroundColor: "white", borderRadius: "8px" }}>
+              style={{ backgroundColor: "white", borderRadius: "8px" }}
+            >
               <Card.Body className="p-3">
                 <div className="d-flex align-items-start">
                   <div className="me-3 flex-shrink-0">
@@ -526,7 +575,8 @@ const PaginaLavoro = () => {
                   <div className="flex-grow-1">
                     <h6
                       className="mb-2 fw-semibold"
-                      style={{ fontSize: "16px" }}>
+                      style={{ fontSize: "16px" }}
+                    >
                       Cerca lavoro in modo più smart con Premium
                     </h6>
                     <div className="d-flex align-items-center mb-3">
@@ -536,7 +586,8 @@ const PaginaLavoro = () => {
                           position: "relative",
                           width: "60px",
                           height: "24px",
-                        }}>
+                        }}
+                      >
                         <img
                           src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=24&h=24&fit=crop&crop=face"
                           alt="Sarah Johnson"
@@ -579,7 +630,8 @@ const PaginaLavoro = () => {
                       </div>
                       <span
                         className="text-muted small"
-                        style={{ fontSize: "12px" }}>
+                        style={{ fontSize: "12px" }}
+                      >
                         Milioni di utenti usano Premium
                       </span>
                     </div>
@@ -593,13 +645,15 @@ const PaginaLavoro = () => {
                           backgroundColor: "rgba(245, 158, 11, 0.8)",
                           color: "black",
                           border: "1px solid #f59e0b",
-                        }}>
+                        }}
+                      >
                         Prova Premium per 0 EUR
                       </button>
                     </div>
                     <p
                       className="text-muted small mb-0"
-                      style={{ fontSize: "11px", lineHeight: "1.3" }}>
+                      style={{ fontSize: "11px", lineHeight: "1.3" }}
+                    >
                       Prova gratuita di 1 mese. Annulli in qualsiasi momento. Ti
                       invieremo un promemoria 7 giorni prima della fine del
                       periodo di prova.

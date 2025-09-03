@@ -142,16 +142,3 @@ const Login = () => {
 };
 
 export default Login;
-
-//   const handleLogout = () => {
-//     localStorage.removeItem("userIdSession");
-
-//     setLoggedUser(null);
-//     setUsername("");
-//     setPassword("");
-//     setLoginStatus({
-//       type: "success",
-//       message: "Logout effettuato con successo!",
-//     });
-//     setTimeout(() => setLoginStatus(null), 3000);
-//   };

@@ -354,7 +354,15 @@ const BarraNavigazioneLinkedIn = () => {
                 </Dropdown.Item>
               </div>
               <Dropdown.Divider />
-              <Dropdown.Item className="esci-item">Esci</Dropdown.Item>
+              <Dropdown.Item
+                className="esci-item"
+                onClick={() => {
+                  localStorage.removeItem("userIdSession");
+                  navigate("/login", { replace: true });
+                }}
+              >
+                Esci
+              </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
 
