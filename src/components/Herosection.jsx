@@ -87,13 +87,15 @@ const Herosection = ({ userId }) => {
               style={{ height: "200px", objectFit: "cover" }}
             />
 
-            <button
-              className="btn btn-light rounded-circle position-absolute"
-              style={{ top: "10px", right: "10px" }}
-              onClick={handleShow}
-            >
-              <BiCamera />
-            </button>
+            {!userId && (
+              <button
+                className="btn btn-light rounded-circle position-absolute"
+                style={{ top: "10px", right: "10px" }}
+                onClick={handleShow}
+              >
+                <BiCamera />
+              </button>
+            )}
 
             <img
               src={
