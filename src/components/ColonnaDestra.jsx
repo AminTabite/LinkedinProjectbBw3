@@ -64,8 +64,8 @@ const ColonnaDestra = () => {
       <div className="border rounded p-3 bg-white">
         <h6 className="mb-3">Altri profili consultati</h6>
 
-        {arrayUtenti && arrayUtenti.length > 0 &&
-          arrayUtenti.map((utente) => {
+        {arrayUtenti && arrayUtenti.length > 5 ? 
+          arrayUtenti.slice(5, 10).map((utente) => {
             return (
               <div key={utente._id} className="d-flex align-items-center mb-2">
                 <img
@@ -87,7 +87,31 @@ const ColonnaDestra = () => {
                 </div>
               </div>
             );
-          })}
+          }) :
+          arrayUtenti && arrayUtenti.length > 0 ?
+          arrayUtenti.slice(0, 5).map((utente) => {
+            return (
+              <div key={utente._id} className="d-flex align-items-center mb-2">
+                <img
+                  src={utente.image}
+                  className="rounded-circle  me-2"
+                  style={{ width: 40, height: 40 }}
+                  alt={`${utente.name} ${utente.surname}`}
+                />
+                <div>
+                  <p className="mb-0 small fw-bold">
+                    {utente.name + " " + utente.surname}
+                  </p>
+                  <button
+                    className="btn btn-outline-secondary btn-sm"
+                    onClick={() => gestisciVisualizzaProfilo(utente._id)}
+                  >
+                    Visualizza
+                  </button>
+                </div>
+              </div>
+            );
+          }) : null}
 
         {/*<div className="d-flex align-items-center">
           <div
@@ -106,52 +130,42 @@ const ColonnaDestra = () => {
       {/* Persone che potresti conoscere */}
       <div className="border rounded p-3 bg-white">
         <h6 className="mb-3">Persone che potresti conoscere</h6>
-        {arrayUtenti && arrayUtenti.length >= 12 &&
-          [
-            {
-              nome: arrayUtenti[4]?.name + " " + arrayUtenti[4]?.surname,
-              ruolo: arrayUtenti[4]?.title,
-              urlImmagine: arrayUtenti[4]?.image,
-              id: arrayUtenti[4]?._id,
-            },
-            {
-              nome: arrayUtenti[3]?.name + " " + arrayUtenti[3]?.surname,
-              ruolo: arrayUtenti[3]?.title,
-              urlImmagine: arrayUtenti[3]?.image,
-              id: arrayUtenti[3]?._id,
-            },
-            {
-              nome: arrayUtenti[2]?.name + " " + arrayUtenti[2]?.surname,
-              ruolo: arrayUtenti[2]?.title,
-              urlImmagine: arrayUtenti[2]?.image,
-              id: arrayUtenti[2]?._id,
-            },
-            {
-              nome: arrayUtenti[1]?.name + " " + arrayUtenti[1]?.surname,
-              ruolo: arrayUtenti[1]?.title,
-              urlImmagine: arrayUtenti[1]?.image,
-              id: arrayUtenti[1]?._id,
-            },
-            {
-              nome: arrayUtenti[0]?.name + " " + arrayUtenti[0]?.surname,
-              ruolo: arrayUtenti[0]?.title,
-              urlImmagine: arrayUtenti[0]?.image,
-              id: arrayUtenti[0]?._id,
-            },
-          ].filter(persona => persona.nome && persona.id).map((persona, indice) => (
+        {arrayUtenti && arrayUtenti.length > 5 ? 
+          arrayUtenti.slice(-5).map((utente, indice) => (
             <div key={indice} className="d-flex align-items-center mb-2">
               <img
-                src={persona.urlImmagine}
+                src={utente.image}
                 className="rounded-circle bg-secondary me-2"
                 style={{ width: 40, height: 40 }}
-                alt={persona.nome}
+                alt={utente.name + " " + utente.surname}
               />
               <div className="flex-grow-1">
-                <p className="mb-0 small fw-bold">{persona.nome}</p>
-                <p className="mb-1 small text-muted">{persona.ruolo}</p>
+                <p className="mb-0 small fw-bold">{utente.name + " " + utente.surname}</p>
+                <p className="mb-1 small text-muted">{utente.title}</p>
                 <button
                   className="btn btn-outline-primary btn-sm"
-                  onClick={() => gestisciVisualizzaProfilo(persona.id)}
+                  onClick={() => gestisciVisualizzaProfilo(utente._id)}
+                >
+                  Collegati
+                </button>
+              </div>
+            </div>
+          )) :
+          arrayUtenti && arrayUtenti.length > 0 &&
+          arrayUtenti.filter((_, index) => [1, 3, 5, 7, 9].includes(index) && arrayUtenti[index]).slice(0, 5).map((utente, indice) => (
+            <div key={indice} className="d-flex align-items-center mb-2">
+              <img
+                src={utente.image}
+                className="rounded-circle bg-secondary me-2"
+                style={{ width: 40, height: 40 }}
+                alt={utente.name + " " + utente.surname}
+              />
+              <div className="flex-grow-1">
+                <p className="mb-0 small fw-bold">{utente.name + " " + utente.surname}</p>
+                <p className="mb-1 small text-muted">{utente.title}</p>
+                <button
+                  className="btn btn-outline-primary btn-sm"
+                  onClick={() => gestisciVisualizzaProfilo(utente._id)}
                 >
                   Collegati
                 </button>
@@ -212,23 +226,43 @@ const ColonnaDestra = () => {
         </div>
       </div>
 
-      {/* Annunci extra */}
-      <div className="border rounded p-3 bg-white">
-        <span className="badge bg-light text-secondary mb-2">Promosso</span>
-        <p className="mb-1 small fw-bold">Wave goodbye to busywork</p>
-        <p className="small text-muted">
-          Every day Zapier saves people 600,000 hours of busywork.
-        </p>
-      </div>
+      
 
-      <div className="border rounded p-3 bg-white">
-        <span className="badge bg-light text-secondary mb-2">Promosso</span>
-        <p className="mb-1 small fw-bold">Industrial Adhesives</p>
-        <p className="small text-muted">
-          Advanced epoxy adhesives, sealants and coatings for hi-tech
-          manufacturing.
-        </p>
-      </div>
+      <div className="border rounded p-3 bg-white d-flex">
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Bootstrap_logo.svg"
+    alt="Logo"
+    width="40"
+    height="40"
+    className="me-3"
+  />
+  <div>
+    {/* <span className="badge bg-light text-secondary mb-2">Promosso</span> */}
+    <p className="mb-1 small fw-bold">Bootstrap</p>
+    <p className="small text-muted">
+Bootstrap is an open-source front-end framework that web developers use to build mobile-friendly sites and applications. It provides a collection of pre-designed templates, CSS styles, and JavaScript components to help developers efficiently and effectively create visually appealing and consistent web interfaces.    </p>
+  </div>
+</div>
+
+   
+
+
+        <div className="border rounded p-3 bg-white d-flex mt-3">
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg"
+    alt="Logo"
+    width="40"
+    height="40"
+    className="me-3"
+  />
+  <div>
+    {/* <span className="badge bg-light text-secondary mb-2">Promosso</span> */}
+    <p className="mb-1 small fw-bold">JavaScript</p>
+    <p className="small text-muted">
+JavaScript is a text-based scripting language or programming language used on both the server-side and client-side to create engaging website elements, fully featured web applications, CLI applications and even web servers. In short, JavaScript is extremely versatile.    </p>
+  </div>
+</div>
+      
     </div>
   );
 };

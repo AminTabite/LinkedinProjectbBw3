@@ -1,10 +1,11 @@
-import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
+import { Container, Row, Col, Button, Modal, Form, Card } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { GoPencil } from "react-icons/go";
 import { FiPlus } from "react-icons/fi";
 import { MdPeople } from "react-icons/md";
 import { IoStatsChart } from "react-icons/io5";
 import { TOKEN } from "../config/constants";
+import clientApi from "../services/api";
 
 // NB: il componente ha larghezza che va in base al container in cui è messo
 
@@ -15,10 +16,24 @@ function ProfileMainSection({ userId }) {
     return isNaN(d) ? "" : d.toISOString().split("T")[0];
   };
   const [experiences, setExperiences] = useState([]);
+  const [currentProfileId, setCurrentProfileId] = useState(null);
+
+  const getCurrentProfileId = async () => {
+    if (userId) {
+      setCurrentProfileId(userId);
+    } else {
+      try {
+        const myProfile = await clientApi.ottieniIlMioProfilo();
+        setCurrentProfileId(myProfile._id);
+      } catch (error) {
+        console.error("Errore nel recupero del profilo corrente:", error);
+      }
+    }
+  };
   const findExperiences = () => {
-    const profileId = userId || "68b597351627c60015f8c568";
+    if (!currentProfileId) return;
     fetch(
-      `https://striveschool-api.herokuapp.com/api/profile/${profileId}/experiences`,
+      `https://striveschool-api.herokuapp.com/api/profile/${currentProfileId}/experiences`,
       {
         headers: {
           Authorization: `Bearer ${TOKEN}`,
@@ -65,7 +80,7 @@ function ProfileMainSection({ userId }) {
     };
 
     fetch(
-      "https://striveschool-api.herokuapp.com/api/profile/68b597351627c60015f8c568/experiences",
+      `https://striveschool-api.herokuapp.com/api/profile/${currentProfileId}/experiences`,
       {
         method: "POST",
         headers: {
@@ -122,7 +137,7 @@ function ProfileMainSection({ userId }) {
       description: "",
     });
     fetch(
-      `https://striveschool-api.herokuapp.com/api/profile/68b597351627c60015f8c568/experiences/${id}`,
+      `https://striveschool-api.herokuapp.com/api/profile/${currentProfileId}/experiences/${id}`,
       {
         headers: {
           Authorization: `Bearer ${TOKEN}`,
@@ -158,7 +173,7 @@ function ProfileMainSection({ userId }) {
     };
 
     fetch(
-      `https://striveschool-api.herokuapp.com/api/profile/68b597351627c60015f8c568/experiences/${idExperience}`,
+      `https://striveschool-api.herokuapp.com/api/profile/${currentProfileId}/experiences/${idExperience}`,
       {
         method: "PUT",
         headers: {
@@ -202,7 +217,7 @@ function ProfileMainSection({ userId }) {
 
   const handleDeleteEdit = () => {
     fetch(
-      `https://striveschool-api.herokuapp.com/api/profile/68b597351627c60015f8c568/experiences/${idExperience}`,
+      `https://striveschool-api.herokuapp.com/api/profile/${currentProfileId}/experiences/${idExperience}`,
       {
         method: "DELETE",
         headers: {
@@ -241,22 +256,30 @@ function ProfileMainSection({ userId }) {
   useEffect(() => {
     setViews(views + Math.ceil(Math.random() * 500));
     setImpressions(impressions + Math.ceil(Math.random() * 400));
-    findExperiences();
+    getCurrentProfileId();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    findExperiences();
+    getCurrentProfileId();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
+  useEffect(() => {
+    if (currentProfileId) {
+      findExperiences();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentProfileId]);
+
   return (
     <div>
-      <div className="mb-3 profileCards border">
-        <div className="pt-4 px-4">
-          <h4 className="mb-0">Analisi</h4>
-          <p className="mt-0">Solo per te</p>
-        </div>
+      {!userId && (
+        <div className="mb-3 profileCards border">
+          <div className="pt-4 px-4">
+            <h4 className="mb-0">Analisi</h4>
+            <p className="mt-0">Solo per te</p>
+          </div>
         <Container className="mx-0 px-4">
           <Row xs={1} md={3}>
             <Col>
@@ -283,7 +306,8 @@ function ProfileMainSection({ userId }) {
           </Row>
         </Container>
         <button className="buttonProfile">Mostra tutte le analisi -&gt;</button>
-      </div>
+        </div>
+      )}
       <div className="profileCards mb-3 p-4 border">
         <div className="d-flex justify-content-between">
           <h4>Esperienza</h4>
@@ -305,7 +329,8 @@ function ProfileMainSection({ userId }) {
               <div
                 key={exp._id}
                 className="d-flex align-items-center mb-3"
-                onClick={() => handleShowEdit(exp._id)}
+                onClick={!userId ? () => handleShowEdit(exp._id) : undefined}
+                style={{ cursor: !userId ? 'pointer' : 'default' }}
               >
                 {exp.image === "..." ? (
                   <img src="https://placehold.co/28x28" />
@@ -375,6 +400,54 @@ function ProfileMainSection({ userId }) {
           <p className="my-1">Soft Skill 1</p>
         </div>
       </div>
+
+        
+               <Card className="shadow-sm" style={{  borderRadius: "8px" }}>
+  <Card.Body>
+    <Card.Title className="mb-2">Interessi</Card.Title>
+    <p className="text-muted small mb-3">Aziende</p>
+
+    <div className="d-flex justify-content-between align-items-center border-bottom py-2">
+      <div className="d-flex align-items-center">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"
+          alt="Windows logo"
+          width="40"
+          height="40"
+          className="me-3"
+        />
+        <div>
+          <p className="mb-0 fw-semibold">Microsoft</p>
+          <small className="text-muted">26.000.000 follower</small>
+        </div>
+      </div>
+      <Button variant="outline-secondary" size="sm" className="rounded-pill">
+        ✓ Già segui
+      </Button>
+    </div>
+
+    <div className="d-flex justify-content-between align-items-center py-2">
+      <div className="d-flex align-items-center">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
+          alt="Apple logo"
+          width="40"
+          height="40"
+          className="me-3"
+        />
+        <div>
+          <p className="mb-0 fw-semibold">Apple</p>
+          <small className="text-muted">976.037 follower</small>
+        </div>
+      </div>
+      <Button variant="outline-secondary" size="sm" className="rounded-pill">
+        ✓ Già segui
+      </Button>
+    </div>
+  </Card.Body>
+</Card>
+
+
       <Modal show={showAdd} onHide={handleCloseAdd}>
         <Modal.Header closeButton>
           <Modal.Title>Inserisci una nuova esperienza</Modal.Title>

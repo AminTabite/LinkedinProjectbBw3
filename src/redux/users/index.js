@@ -1,4 +1,4 @@
-import { TOKEN } from '../../config/constants';
+import { TOKEN } from "../../config/constants";
 
 const statoIniziale = {
   arrayUtenti: [],
@@ -7,16 +7,19 @@ const statoIniziale = {
 export const ottieniUtentiAction = () => {
   return async (dispatch) => {
     try {
-      const risposta = await fetch("https://striveschool-api.herokuapp.com/api/profile/", {
-        headers: {
-          Authorization: `Bearer ${TOKEN}`
+      const risposta = await fetch(
+        "https://striveschool-api.herokuapp.com/api/profile/",
+        {
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+          },
         }
-      });
+      );
       if (risposta.ok) {
         const utenti = await risposta.json();
         dispatch({
           type: "OTTIENI_UTENTI",
-          payload: utenti.slice(0, 5)
+          payload: utenti.slice(0, 15),
         });
       }
     } catch (errore) {

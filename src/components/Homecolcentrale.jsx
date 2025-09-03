@@ -3,7 +3,9 @@ import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { ottieniPostAction, caricaPiuPostAction } from "../redux/posts";
+import { ottieniPostAction, caricaPiuPostAction, ordinaPostPerDataAction, aggiungiPostAction, eliminaPostAction } from "../redux/posts";
+import { TOKEN } from "../config/constants";
+import "./Homecolcentrale.css";
 
 const Homecolcentrale = () => {
   const dispatch = useDispatch();
@@ -11,39 +13,163 @@ const Homecolcentrale = () => {
   const hasMorePosts = useSelector((state) => state.posts.hasMorePosts);
   const loading = useSelector((state) => state.posts.loading);
   const user = useSelector((state) => state.profile);
-  const [payloadpost, setPayloadpost] = useState("");
+  const [testoPost, setTestoPost] = useState("");
+  const [immaginSelezionata, setImmagineSelezionata] = useState(null);
+  const [reazioni, setReazioni] = useState({});
 
-  const handleLoadMore = () => {
+  const caricaAltri = () => {
     dispatch(caricaPiuPostAction());
+  };
+
+  const mostraPostRecenti = () => {
+    dispatch(ordinaPostPerDataAction());
+  };
+
+  const selezionaImmagine = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImmagineSelezionata(file);
+    }
+  };
+
+  const apriSelettoreFile = () => {
+    document.getElementById('caricamento-immagine').click();
+  };
+
+  const eliminaPost = async (idPost) => {
+    if (window.confirm("Sei sicuro di voler eliminare questo post?")) {
+      try {
+        await dispatch(eliminaPostAction(idPost));
+        dispatch(ottieniPostAction());
+      } catch (error) {
+        alert("Errore nell'eliminazione del post");
+      }
+    }
+  };
+
+  const aggiungiReazione = (postId, emoji) => {
+    setReazioni(prev => {
+      const postReactions = prev[postId] || {};
+      const currentUserReaction = postReactions.userReaction;
+      
+      // Se l'utente ha già reagito con la stessa emoji, rimuovila
+      if (currentUserReaction === emoji) {
+        const newReactions = { ...postReactions };
+        newReactions[emoji] = Math.max((newReactions[emoji] || 1) - 1, 0);
+        if (newReactions[emoji] === 0) {
+          delete newReactions[emoji];
+        }
+        delete newReactions.userReaction;
+        
+        return {
+          ...prev,
+          [postId]: newReactions
+        };
+      }
+      
+      // Se l'utente aveva una reazione diversa, rimuovi quella vecchia
+      const updatedReactions = { ...postReactions };
+      if (currentUserReaction) {
+        updatedReactions[currentUserReaction] = Math.max((updatedReactions[currentUserReaction] || 1) - 1, 0);
+        if (updatedReactions[currentUserReaction] === 0) {
+          delete updatedReactions[currentUserReaction];
+        }
+      }
+      
+      // Aggiungi la nuova reazione
+      updatedReactions[emoji] = (updatedReactions[emoji] || 0) + 1;
+      updatedReactions.userReaction = emoji;
+      
+      return {
+        ...prev,
+        [postId]: updatedReactions
+      };
+    });
   };
 
   useEffect(() => {
     dispatch(ottieniPostAction());
   }, [dispatch]);
 
-  /* funzione per creare post , tramite card sopra colonna centrale*/
-  const createpost = () => {
-    fetch("https://striveschool-api.herokuapp.com/api/posts/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTczNTE2MjdjNjAwMTVmOGM1NjgiLCJpYXQiOjE3NTY3MzExODksImV4cCI6MTc1Nzk0MDc4OX0.EE1GDQeokGCuIu43ACNAuxw4--0MPsa1SFutXaarjxk",
-      },
-      body: JSON.stringify({
-        text: payloadpost,
-      }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          alert("caricamento post ok");
+  /* funzione per creare post, tramite card sopra colonna centrale*/
+  const creaPost = async () => {
+    if (!testoPost.trim() && !immaginSelezionata) {
+      alert("Inserisci del testo o seleziona un'immagine");
+      return;
+    }
+
+    try {
+      let idPost = null;
+      
+      // Prima creiamo il post con il testo
+      if (testoPost.trim()) {
+        const response = await fetch("https://striveschool-api.herokuapp.com/api/posts/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${TOKEN}`
+          },
+          body: JSON.stringify({
+            text: testoPost
+          })
+        });
+        
+        if (response.ok) {
+          const nuovoPost = await response.json();
+          idPost = nuovoPost._id;
+          
+          // Se c'è anche un'immagine, la carichiamo
+          if (immaginSelezionata) {
+            const formData = new FormData();
+            formData.append('post', immaginSelezionata);
+            
+            const rispostaImmagine = await fetch(`https://striveschool-api.herokuapp.com/api/posts/${idPost}`, {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${TOKEN}`
+              },
+              body: formData
+            });
+            
+            if (!rispostaImmagine.ok) {
+              console.error("Errore caricamento immagine");
+            }
+          }
+          
+          // Ricarica i post per vedere il nuovo post
+          dispatch(ottieniPostAction());
+          
         } else {
-          throw new Error("errore caricamento post");
+          throw new Error("Errore nella creazione del post");
         }
-      })
-      .catch((er) => {
-        alert(er);
-      });
+      } else if (immaginSelezionata) {
+        // Solo immagine, senza testo
+        const formData = new FormData();
+        formData.append('post', immaginSelezionata);
+        
+        const risposta = await fetch("https://striveschool-api.herokuapp.com/api/posts/", {
+          method: "POST", 
+          headers: {
+            Authorization: `Bearer ${TOKEN}`
+          },
+          body: formData
+        });
+        
+        if (risposta.ok) {
+          dispatch(ottieniPostAction());
+        } else {
+          throw new Error("Errore nel caricamento dell'immagine");
+        }
+      }
+
+      alert("Post caricato con successo!");
+      setTestoPost("");
+      setImmagineSelezionata(null);
+      
+    } catch (error) {
+      console.error("Errore:", error);
+      alert("Errore nel caricamento del post");
+    }
   };
 
   return (
@@ -74,14 +200,14 @@ const Homecolcentrale = () => {
                   <Form
                     className="flex-grow-1"
                     onSubmit={(e) => {
-                      e.preventDefault(), createpost();
+                      e.preventDefault(), creaPost();
                     }}
                   >
                     <input
                       onChange={(e) => {
-                        setPayloadpost(e.target.value);
+                        setTestoPost(e.target.value);
                       }}
-                      value={payloadpost}
+                      value={testoPost}
                       className="flex-grow-1 bg-light rounded-pill px-3 py-2 text-dark border border-dark w-100"
                       style={{
                         cursor: "pointer",
@@ -94,6 +220,28 @@ const Homecolcentrale = () => {
                     ></input>{" "}
                   </Form>
                 </div>
+                
+                {immaginSelezionata && (
+                  <div className="mt-2">
+                    <img
+                      src={URL.createObjectURL(immaginSelezionata)}
+                      alt="Anteprima"
+                      style={{
+                        maxWidth: "200px",
+                        maxHeight: "200px",
+                        objectFit: "cover",
+                        borderRadius: "8px",
+                      }}
+                    />
+                    <Button
+                      variant="link"
+                      className="ms-2 text-danger"
+                      onClick={() => setImmagineSelezionata(null)}
+                    >
+                      Rimuovi
+                    </Button>
+                  </div>
+                )}
                 <div
                   className="d-flex justify-content-around pt-2"
                   style={{ borderTop: "1px solid #e9ecef" }}
@@ -125,6 +273,7 @@ const Homecolcentrale = () => {
                       border: "none",
                       borderRadius: "4px",
                     }}
+                    onClick={apriSelettoreFile}
                   >
                     <i
                       className="bi bi-image"
@@ -132,6 +281,13 @@ const Homecolcentrale = () => {
                     ></i>
                     Foto
                   </Button>
+                  <input
+                    type="file"
+                    id="caricamento-immagine"
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    onChange={selezionaImmagine}
+                  />
                   <Button
                     variant="link"
                     className="text-muted d-flex align-items-center gap-2 px-3 py-2"
@@ -173,7 +329,7 @@ const Homecolcentrale = () => {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    <Dropdown.Item>Mostra post recenti</Dropdown.Item>
+                    <Dropdown.Item onClick={mostraPostRecenti}>Mostra post recenti</Dropdown.Item>
                     <Dropdown.Item>Mostra post rilevanti</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
@@ -186,7 +342,7 @@ const Homecolcentrale = () => {
               <Card className="mb-3 shadow-sm border-0">
                 <Card.Body className="p-3 text-center">
                   <div className="spinner-border" role="status">
-                    <span className="visually-hidden">Loading...</span>
+                    <span className="visually-hidden">Caricamento...</span>
                   </div>
                 </Card.Body>
               </Card>
@@ -229,6 +385,17 @@ const Homecolcentrale = () => {
                             <i className="bi bi-globe"></i>
                           </p>
                         </div>
+                        {post.user?._id === user?.userId && (
+                          <Button
+                            variant="link"
+                            className="text-muted p-1"
+                            style={{ fontSize: "16px" }}
+                            onClick={() => eliminaPost(post._id)}
+                            title="Elimina post"
+                          >
+                            <i className="bi bi-x-lg"></i>
+                          </Button>
+                        )}
                       </div>
 
                       {/* Contenuto del post */}
@@ -240,15 +407,23 @@ const Homecolcentrale = () => {
                             alt="post"
                             className="w-100 rounded"
                             style={{
-                              maxHeight: "400px",
-                              objectFit: "cover",
+                              maxHeight: "500px",
+                              objectFit: "contain",
                             }}
                           />
                         )}
                       </div>
 
                       {/* Interazioni */}
-                      <div className="w-100 p-2 border-bottom">
+                      <div className="w-100 p-2 border-bottom d-flex justify-content-between align-items-center">
+                        <div className="d-flex align-items-center gap-1">
+                          {reazioni[post._id] && Object.entries(reazioni[post._id]).filter(([key]) => key !== 'userReaction').map(([emoji, count]) => (
+                            <span key={emoji} className="d-flex align-items-center gap-1 small">
+                              <span style={{ fontSize: "14px" }}>{emoji}</span>
+                              <span className="text-muted">{count}</span>
+                            </span>
+                          ))}
+                        </div>
                         <span className="small text-muted">
                           26 commenti - 9 diffusioni post
                         </span>
@@ -262,16 +437,92 @@ const Homecolcentrale = () => {
                         >
                           <Button
                             variant="link"
-                            className="text-dark border-0 flex-fill py-2"
+                            className="text-dark border-0 flex-fill py-2 position-relative btn-consiglia"
                             style={{
                               textDecoration: "none",
                               fontSize: "14px",
                               fontWeight: "600",
                               color: "#000 !important"
                             }}
+                            onMouseEnter={(e) => {
+                              const tooltip = e.target.querySelector('.tooltip-consiglia');
+                              if (tooltip) {
+                                tooltip.classList.remove('tooltip-hidden');
+                              }
+                            }}
+                            onMouseLeave={(e) => {
+                              const tooltip = e.target.querySelector('.tooltip-consiglia');
+                              if (tooltip) {
+                                tooltip.classList.remove('tooltip-hidden');
+                              }
+                            }}
                           >
                             <i className="bi bi-hand-thumbs-up me-2" style={{ color: "#000", fontSize: "20px", fontWeight: "bold" }}></i>
                             Consiglia
+                            <span 
+                              className="position-absolute tooltip-consiglia"
+                              style={{
+                                bottom: "100%",
+                                left: "50%",
+                                transform: "translateX(-50%)",
+                                background: "white",
+                                borderRadius: "25px",
+                                boxShadow: "0 4px 20px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.1)",
+                                padding: "8px 12px",
+                                fontSize: "18px",
+                                whiteSpace: "nowrap",
+                                zIndex: 1000,
+                                marginBottom: "8px",
+                                display: "flex",
+                                gap: "4px",
+                                alignItems: "center"
+                              }}
+                            >
+                              {[
+                                { emoji: '👍', color: '#0073b1', bgColor: '#e7f3ff' },
+                                { emoji: '❤️', color: '#ed4d47', bgColor: '#ffebea' },
+                                { emoji: '👏', color: '#f5c75d', bgColor: '#fff8e7' },
+                                { emoji: '🎉', color: '#8066c7', bgColor: '#f2efff' },
+                                { emoji: '😊', color: '#61a24d', bgColor: '#f0f8ec' },
+                                { emoji: '😢', color: '#6ba3d6', bgColor: '#eef5fc' }
+                              ].map((item, idx) => (
+                                <span 
+                                  key={idx}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    aggiungiReazione(post._id, item.emoji);
+                                    const tooltip = e.target.closest('.tooltip-consiglia');
+                                    if (tooltip) {
+                                      tooltip.classList.add('tooltip-hidden');
+                                    }
+                                  }}
+                                  style={{ 
+                                    cursor: 'pointer',
+                                    padding: '6px',
+                                    borderRadius: '50%',
+                                    backgroundColor: item.bgColor,
+                                    border: `1px solid ${item.color}20`,
+                                    transition: 'all 0.2s ease',
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: '36px',
+                                    height: '36px',
+                                    fontSize: '16px'
+                                  }}
+                                  onMouseEnter={(e) => {
+                                    e.target.style.transform = 'scale(1.1)';
+                                    e.target.style.boxShadow = `0 2px 8px ${item.color}40`;
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    e.target.style.transform = 'scale(1)';
+                                    e.target.style.boxShadow = 'none';
+                                  }}
+                                >
+                                  {item.emoji}
+                                </span>
+                              ))}
+                            </span>
                           </Button>
                           <Button
                             variant="link"
@@ -325,7 +576,7 @@ const Homecolcentrale = () => {
               <div className="text-center mt-4">
                 <Button
                   variant="outline-primary"
-                  onClick={handleLoadMore}
+                  onClick={caricaAltri}
                   className="px-4 py-2"
                 >
                   Mostra altro

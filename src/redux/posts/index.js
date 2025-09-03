@@ -69,6 +69,14 @@ const PostsReducer = (state = initialState, action) => {
         postsArray: state.postsArray.filter(post => post._id !== action.payload),
         displayedPosts: state.displayedPosts.filter(post => post._id !== action.payload),
       };
+    case "SORT_POSTS_BY_DATE":
+      const sortedPosts = [...state.postsArray].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      const sortedDisplayedPosts = sortedPosts.slice(0, state.currentPage * state.postsPerPage);
+      return {
+        ...state,
+        postsArray: sortedPosts,
+        displayedPosts: sortedDisplayedPosts,
+      };
 
     default:
       return state;
@@ -150,7 +158,7 @@ export const eliminaPostAction = (idPost) => {
       const response = await fetch(`https://striveschool-api.herokuapp.com/api/posts/${idPost}`, {
         method: "DELETE",
         headers: {
-          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVhNGMzZjBlYTI4NDAwMTUyOGI5MTciLCJpYXQiOjE3MzQwMDU4MjMsImV4cCI6MTczNTIxNTQyM30.SiOYiD0H9T1aJMwDvgnfA1xzWOlmnfX1K8k_nIx3vs",
+          "Authorization": `Bearer ${TOKEN}`,
         },
       });
       if (response.ok) {
@@ -160,6 +168,7 @@ export const eliminaPostAction = (idPost) => {
       }
     } catch (error) {
       console.error("Errore nell'eliminazione del post:", error);
+      throw error;
     }
   };
 };
@@ -168,6 +177,13 @@ export const eliminaPostAction = (idPost) => {
 export const caricaPiuPostAction = () => {
   return {
     type: "LOAD_MORE_POSTS"
+  };
+};
+
+// Action per ordinare i post per data (più recenti prima)
+export const ordinaPostPerDataAction = () => {
+  return {
+    type: "SORT_POSTS_BY_DATE"
   };
 };
 
