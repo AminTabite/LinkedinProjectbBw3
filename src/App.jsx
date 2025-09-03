@@ -2,6 +2,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import BarraNavigazioneLinkedIn from "./components/Navbar";
+import Rete from "./components/Rete";
 
 import "bootstrap-icons/font/bootstrap-icons.css";
 import MyFooter from "./components/MyFooter";

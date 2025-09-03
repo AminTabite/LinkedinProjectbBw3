@@ -444,37 +444,82 @@ const Homecolcentrale = () => {
                               fontWeight: "600",
                               color: "#000 !important"
                             }}
+                            onMouseEnter={(e) => {
+                              const tooltip = e.target.querySelector('.tooltip-consiglia');
+                              if (tooltip) {
+                                tooltip.classList.remove('tooltip-hidden');
+                              }
+                            }}
+                            onMouseLeave={(e) => {
+                              const tooltip = e.target.querySelector('.tooltip-consiglia');
+                              if (tooltip) {
+                                tooltip.classList.remove('tooltip-hidden');
+                              }
+                            }}
                           >
                             <i className="bi bi-hand-thumbs-up me-2" style={{ color: "#000", fontSize: "20px", fontWeight: "bold" }}></i>
                             Consiglia
                             <span 
-                              className="position-absolute bg-dark text-white px-2 py-1 rounded tooltip-consiglia"
+                              className="position-absolute tooltip-consiglia"
                               style={{
                                 bottom: "100%",
                                 left: "50%",
-                                fontSize: "16px",
+                                transform: "translateX(-50%)",
+                                background: "white",
+                                borderRadius: "25px",
+                                boxShadow: "0 4px 20px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.1)",
+                                padding: "8px 12px",
+                                fontSize: "18px",
                                 whiteSpace: "nowrap",
                                 zIndex: 1000,
-                                marginBottom: "5px"
+                                marginBottom: "8px",
+                                display: "flex",
+                                gap: "4px",
+                                alignItems: "center"
                               }}
                             >
-                              {['👍', '❤️', '👏', '🎉', '😊', '😢'].map((emoji, idx) => (
+                              {[
+                                { emoji: '👍', color: '#0073b1', bgColor: '#e7f3ff' },
+                                { emoji: '❤️', color: '#ed4d47', bgColor: '#ffebea' },
+                                { emoji: '👏', color: '#f5c75d', bgColor: '#fff8e7' },
+                                { emoji: '🎉', color: '#8066c7', bgColor: '#f2efff' },
+                                { emoji: '😊', color: '#61a24d', bgColor: '#f0f8ec' },
+                                { emoji: '😢', color: '#6ba3d6', bgColor: '#eef5fc' }
+                              ].map((item, idx) => (
                                 <span 
                                   key={idx}
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    aggiungiReazione(post._id, emoji);
+                                    aggiungiReazione(post._id, item.emoji);
+                                    const tooltip = e.target.closest('.tooltip-consiglia');
+                                    if (tooltip) {
+                                      tooltip.classList.add('tooltip-hidden');
+                                    }
                                   }}
                                   style={{ 
                                     cursor: 'pointer',
-                                    padding: '2px 3px',
-                                    borderRadius: '3px',
-                                    transition: 'background-color 0.2s'
+                                    padding: '6px',
+                                    borderRadius: '50%',
+                                    backgroundColor: item.bgColor,
+                                    border: `1px solid ${item.color}20`,
+                                    transition: 'all 0.2s ease',
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: '36px',
+                                    height: '36px',
+                                    fontSize: '16px'
                                   }}
-                                  onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(255,255,255,0.1)'}
-                                  onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                                  onMouseEnter={(e) => {
+                                    e.target.style.transform = 'scale(1.1)';
+                                    e.target.style.boxShadow = `0 2px 8px ${item.color}40`;
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    e.target.style.transform = 'scale(1)';
+                                    e.target.style.boxShadow = 'none';
+                                  }}
                                 >
-                                  {emoji}
+                                  {item.emoji}
                                 </span>
                               ))}
                             </span>
