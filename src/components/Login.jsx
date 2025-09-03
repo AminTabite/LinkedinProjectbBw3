@@ -15,6 +15,18 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  // const fetchProfile = async () => {
+  //   try {
+  //     const data = await clientApi.ottieniIlMioProfilo();
+  //     dispatch({
+  //       type: "GET_USER",
+  //       payload: data,
+  //     });
+  //   } catch (err) {
+  //     console.error("Errore nel recupero del profilo:", err);
+  //   }
+  // };
+
   useEffect(() => {
     const checkSavedSession = () => {
       try {

@@ -27,7 +27,7 @@ import { BsGrid3X3Gap } from "react-icons/bs";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import clientApi from "../services/api";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const BarraNavigazioneLinkedIn = () => {
   const posizioneCorrente = useLocation();
@@ -38,6 +38,13 @@ const BarraNavigazioneLinkedIn = () => {
   const [mostraDropdown, setMostraDropdown] = useState(false);
   const [suggerimentiCategorie, setSuggerimentiCategorie] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [userIdLocal, setUserIdLocal] = useState("");
+
+  // const userId = useSelector((state) => {
+  //   return state.profile.userId;
+  // });
+  // setUserIdLocal(userId);
+  // console.log(userId);
 
   const eAttivo = (percorso) => posizioneCorrente.pathname === percorso;
 
@@ -49,7 +56,6 @@ const BarraNavigazioneLinkedIn = () => {
         setCaricamento(true);
         setLoading(true);
         const data = await clientApi.ottieniIlMioProfilo();
-
         setDatiProfilo(data);
         console.log(data);
         dispatch({
