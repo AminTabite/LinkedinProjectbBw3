@@ -1,6 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 
 import ColSxRete from "./ColSxRete";
+import ReteCentrale from "./ReteCentrale";
 
 const Rete = () => {
   return (
@@ -11,7 +12,7 @@ const Rete = () => {
             <ColSxRete />
           </Col>
           <Col xs={12} md={8}>
-            <p>Prova</p>
+            <ReteCentrale />
           </Col>
         </Row>
       </Container>
