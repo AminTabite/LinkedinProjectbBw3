@@ -5,7 +5,6 @@ import {
   Form,
   FormControl,
   Dropdown,
-  Badge,
 } from "react-bootstrap";
 import {
   FaLinkedin,
@@ -28,50 +27,43 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import clientApi from "../services/api";
 import { useDispatch, useSelector } from "react-redux";
+import { loadUserFromStorage } from "../redux/auth";
 
 const BarraNavigazioneLinkedIn = () => {
   const posizioneCorrente = useLocation();
   const navigate = useNavigate();
   const [valoreRicerca, setValoreRicerca] = useState("");
-  const [datiProfilo, setDatiProfilo] = useState(null);
-  const [caricamento, setCaricamento] = useState(true);
   const [mostraDropdown, setMostraDropdown] = useState(false);
   const [suggerimentiCategorie, setSuggerimentiCategorie] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [userIdLocal, setUserIdLocal] = useState("");
-
-  // const userId = useSelector((state) => {
-  //   return state.profile.userId;
-  // });
-  // setUserIdLocal(userId);
-  // console.log(userId);
 
   const eAttivo = (percorso) => posizioneCorrente.pathname === percorso;
 
   const dispatch = useDispatch();
+  
+  // Usa Redux per i dati utente
+  const { user } = useSelector((state) => state.auth);
+  const [apiProfile, setApiProfile] = useState(null);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        setCaricamento(true);
-        setLoading(true);
-        const data = await clientApi.ottieniIlMioProfilo();
-        setDatiProfilo(data);
-        console.log(data);
-        dispatch({
-          type: "GET_USER",
-          payload: data,
-        });
-      } catch (err) {
-        console.error("Errore nel recupero del profilo:", err);
-      } finally {
-        setCaricamento(false);
-        setLoading(false);
+    // Carica i dati utente dal localStorage all'avvio
+    dispatch(loadUserFromStorage());
+  }, [dispatch]);
+
+  useEffect(() => {
+    // Carica l'immagine profilo dall'API quando l'utente è loggato
+    const fetchApiProfile = async () => {
+      if (user && user.token) {
+        try {
+          const profileData = await clientApi.ottieniIlMioProfilo();
+          setApiProfile(profileData);
+        } catch (error) {
+          console.warn("Impossibile caricare immagine profilo dall'API:", error);
+        }
       }
     };
 
-    fetchProfile();
-  }, []);
+    fetchApiProfile();
+  }, [user]);
 
   const categoriePopulari = [
     { nome: "Sviluppo Software", icona: FaCode },
@@ -282,7 +274,7 @@ const BarraNavigazioneLinkedIn = () => {
               <div className="foto-profilo">
                 <img
                   src={
-                    datiProfilo?.image ||
+                    apiProfile?.image ||
                     "https://via.placeholder.com/24x24/0a66c2/ffffff?text=U"
                   }
                   alt="Profilo"
@@ -303,7 +295,7 @@ const BarraNavigazioneLinkedIn = () => {
               <div className="intestazione-profilo">
                 <img
                   src={
-                    datiProfilo?.image ||
+                    apiProfile?.image ||
                     "https://via.placeholder.com/64x64/0a66c2/ffffff?text=U"
                   }
                   alt="Profilo"
@@ -316,14 +308,14 @@ const BarraNavigazioneLinkedIn = () => {
                 />
                 <div className="info-profilo">
                   <div className="nome-profilo">
-                    {datiProfilo
-                      ? `${datiProfilo.name || ""} ${
-                          datiProfilo.surname || ""
-                        }`.trim()
+                    {user
+                      ? `${user.name || ""} ${
+                          user.surname || ""
+                        }`.trim() || user.name || "Mario Rossi"
                       : "Mario Rossi"}
                   </div>
                   <div className="titolo-profilo">
-                    {datiProfilo?.title || "Senior Developer at LinkedIn"}
+                    {user?.title || "Senior Developer at LinkedIn"}
                   </div>
                 </div>
               </div>

@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { Alert } from "react-bootstrap";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../redux/auth";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -14,18 +16,7 @@ const Login = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
-  // const fetchProfile = async () => {
-  //   try {
-  //     const data = await clientApi.ottieniIlMioProfilo();
-  //     dispatch({
-  //       type: "GET_USER",
-  //       payload: data,
-  //     });
-  //   } catch (err) {
-  //     console.error("Errore nel recupero del profilo:", err);
-  //   }
-  // };
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const checkSavedSession = () => {
@@ -44,7 +35,6 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log(users);
     setIsLoading(true);
     setLoginStatus(null);
 
@@ -66,11 +56,15 @@ const Login = () => {
       return;
     }
     try {
-      const sessionData = user;
-      localStorage.setItem("userIdSession", JSON.stringify(sessionData));
+      // Usa Redux per gestire il login
+      dispatch(loginUser(user));
       navigate("/");
     } catch (error) {
-      console.error("Errore nella nel salvare il login" + error);
+      console.error("Errore nel login:", error);
+      setLoginStatus({
+        type: "error",
+        message: "Errore nel salvare il login",
+      });
     }
     setIsLoading(false);
   };
@@ -83,10 +77,8 @@ const Login = () => {
           alt="linkedinLogo"
           className="loginLogo mb-4"
         />
-        {loginStatus.type === "error" ? (
+        {loginStatus.type === "error" && (
           <Alert variant="danger">{loginStatus.message}</Alert>
-        ) : (
-          <div className="d-none">prova</div>
         )}
         <div className="mb-3">
           <label className="form-label fw-medium">

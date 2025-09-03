@@ -1,79 +1,31 @@
-// import { Card, Button, ListGroup } from "react-bootstrap";
-// import { BsPersonPlus } from "react-icons/bs";
-
-// const ColonnaSxHome = () => {
-//   return (
-//     <div style={{ width: "18rem" }}>
-//       {/* Card profilo */}
-//       <Card className="mb-3">
-//         <Card.Body className="text-center">
-//           <div
-//             className="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center mx-auto mb-2"
-//             style={{ width: "60px", height: "60px", fontSize: "24px", fontWeight: "bold" }}
-//           >
-//             L
-//           </div>
-//           <Card.Title>Nome Cognome</Card.Title>
-//           <Card.Text className="text-muted">Lorem ipsum</Card.Text>
-//           <Card.Text className="text-muted">Lorem ipsum</Card.Text>
-//           <Card.Link href="#">Lavoro</Card.Link>
-//         </Card.Body>
-//       </Card>
-
-//       {/* Collegamenti */}
-//       <Card className="mb-3">
-//         <Card.Body className="d-flex justify-content-between align-items-center">
-//           <span>Collegamenti</span>
-//           <BsPersonPlus />
-//         </Card.Body>
-//       </Card>
-
-//       {/* Premium */}
-//       <Card className="mb-3">
-//         <Card.Body>
-//           <Card.Text>
-//             Accedi a strumenti e informazioni in esclusiva
-//           </Card.Text>
-//           <Button variant="warning" size="sm">
-//             Prova Premium per 0 EUR
-//           </Button>
-//         </Card.Body>
-//       </Card>
-
-//       {/* Elementi salvati */}
-// <Card>
-//   <ListGroup variant="flush">
-//     <ListGroup.Item action>
-//       Elementi Salvati
-//     </ListGroup.Item>
-//     <ListGroup.Item action>
-//       Gruppi
-//     </ListGroup.Item>
-//     <ListGroup.Item action>
-//       Newsletter
-//     </ListGroup.Item>
-//     <ListGroup.Item action>
-//       Eventi
-//     </ListGroup.Item>
-//   </ListGroup>
-// </Card>
-//     </div>
-//   );
-// };
-
-// export default ColonnaSxHome;
-
 import { Card, Button, ListGroup } from "react-bootstrap";
 import { BsPersonPlus } from "react-icons/bs";
 import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import clientApi from "../services/api";
 
 const ColonnaSxHome = () => {
-  const user = useSelector((state) => {
-    return state.profile;
-  });
+  const { user } = useSelector((state) => state.auth);
+  const [apiProfile, setApiProfile] = useState(null);
+
+  // Carica l'immagine profilo dall'API quando l'utente è loggato
+  useEffect(() => {
+    const fetchApiProfile = async () => {
+      if (user && user.token) {
+        try {
+          const profileData = await clientApi.ottieniIlMioProfilo();
+          setApiProfile(profileData);
+        } catch (error) {
+          console.warn("Impossibile caricare profilo dall'API:", error);
+        }
+      }
+    };
+
+    fetchApiProfile();
+  }, [user]);
 
   return (
-    <div>
+    <div style={{ width: "18rem" }}>
       {/* Card profilo */}
       <Card className="mb-3 shadow-sm border-0">
         <div className="position-relative">
@@ -83,7 +35,7 @@ const ColonnaSxHome = () => {
             style={{ height: "80px", objectFit: "cover" }}
           />
           <img
-            src={user?.userImg || "https://placebear.com/300/300"}
+            src={apiProfile?.image || "https://via.placeholder.com/64x64/0a66c2/ffffff?text=U"}
             className="rounded-circle border border-3 border-white position-absolute"
             style={{
               width: "64px",
@@ -92,20 +44,22 @@ const ColonnaSxHome = () => {
               left: "20px",
               objectFit: "cover",
             }}
+            alt="profilo"
           />
         </div>
         <Card.Body className="p-3" style={{ paddingTop: "40px !important" }}>
           <div className="d-flex align-items-start">
             <div className="flex-grow-1 pt-3">
               <Card.Title className="fs-6 mb-1">
-                {user?.userName + " " + user?.userSurname}
+                {user?.name || "Nome Utente"}
               </Card.Title>
               <Card.Text className="text-muted small mb-1">
-                {user?.userTitle}
+                {apiProfile?.title || "Professional"}
               </Card.Text>
               <Card.Text className="text-muted small">
-                {user?.userArea}
+                {apiProfile?.area || "Location"}
               </Card.Text>
+              <Card.Link href="/profile" className="small">Visualizza profilo</Card.Link>
             </div>
           </div>
         </Card.Body>

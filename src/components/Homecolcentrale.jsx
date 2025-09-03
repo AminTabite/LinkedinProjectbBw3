@@ -4,7 +4,8 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { ottieniPostAction, caricaPiuPostAction, ordinaPostPerDataAction, aggiungiPostAction, eliminaPostAction } from "../redux/posts";
-import { TOKEN } from "../config/constants";
+import { getToken } from "../config/constants";
+import clientApi from "../services/api";
 import "./Homecolcentrale.css";
 
 const Homecolcentrale = () => {
@@ -12,10 +13,11 @@ const Homecolcentrale = () => {
   const displayedPosts = useSelector((state) => state.posts.displayedPosts);
   const hasMorePosts = useSelector((state) => state.posts.hasMorePosts);
   const loading = useSelector((state) => state.posts.loading);
-  const user = useSelector((state) => state.profile);
+  const { user } = useSelector((state) => state.auth);
   const [testoPost, setTestoPost] = useState("");
   const [immaginSelezionata, setImmagineSelezionata] = useState(null);
   const [reazioni, setReazioni] = useState({});
+  const [apiProfile, setApiProfile] = useState(null);
 
   const caricaAltri = () => {
     dispatch(caricaPiuPostAction());
@@ -91,6 +93,22 @@ const Homecolcentrale = () => {
     dispatch(ottieniPostAction());
   }, [dispatch]);
 
+  // Carica l'immagine profilo dall'API quando l'utente è loggato
+  useEffect(() => {
+    const fetchApiProfile = async () => {
+      if (user && user.token) {
+        try {
+          const profileData = await clientApi.ottieniIlMioProfilo();
+          setApiProfile(profileData);
+        } catch (error) {
+          console.warn("Impossibile caricare immagine profilo dall'API:", error);
+        }
+      }
+    };
+
+    fetchApiProfile();
+  }, [user]);
+
   /* funzione per creare post, tramite card sopra colonna centrale*/
   const creaPost = async () => {
     if (!testoPost.trim() && !immaginSelezionata) {
@@ -107,7 +125,7 @@ const Homecolcentrale = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${TOKEN}`
+            Authorization: `Bearer ${getToken()}`
           },
           body: JSON.stringify({
             text: testoPost
@@ -126,7 +144,7 @@ const Homecolcentrale = () => {
             const rispostaImmagine = await fetch(`https://striveschool-api.herokuapp.com/api/posts/${idPost}`, {
               method: "POST",
               headers: {
-                Authorization: `Bearer ${TOKEN}`
+                Authorization: `Bearer ${getToken()}`
               },
               body: formData
             });
@@ -139,6 +157,10 @@ const Homecolcentrale = () => {
           // Ricarica i post per vedere il nuovo post
           dispatch(ottieniPostAction());
           
+          // Reset dei campi
+          setTestoPost('');
+          setImmagineSelezionata(null);
+          
         } else {
           throw new Error("Errore nella creazione del post");
         }
@@ -150,7 +172,7 @@ const Homecolcentrale = () => {
         const risposta = await fetch("https://striveschool-api.herokuapp.com/api/posts/", {
           method: "POST", 
           headers: {
-            Authorization: `Bearer ${TOKEN}`
+            Authorization: `Bearer ${getToken()}`
           },
           body: formData
         });
@@ -188,7 +210,7 @@ const Homecolcentrale = () => {
               <Card.Body className="p-3">
                 <div className="d-flex align-items-center gap-3 mb-3">
                   <img
-                    src={user?.userImg || "https://placebear.com/48/48"}
+                    src={apiProfile?.image || "https://via.placeholder.com/48x48/0a66c2/ffffff?text=U"}
                     alt="profilo"
                     className="rounded-circle"
                     style={{
@@ -216,7 +238,7 @@ const Homecolcentrale = () => {
                         fontSize: "14px",
                         fontWeight: "400",
                       }}
-                      placeholder="Crea un post"
+                      placeholder={`Cosa stai pensando, ${user?.name || 'utente'}?`}
                     ></input>{" "}
                   </Form>
                 </div>
@@ -385,7 +407,7 @@ const Homecolcentrale = () => {
                             <i className="bi bi-globe"></i>
                           </p>
                         </div>
-                        {post.user?._id === user?.userId && (
+                        {post.user?._id === apiProfile?._id && (
                           <Button
                             variant="link"
                             className="text-muted p-1"

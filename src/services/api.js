@@ -1,11 +1,11 @@
-import { TOKEN, API_BASE_URL } from '../config/constants.js';
+import { getToken, API_BASE_URL } from '../config/constants.js';
 
 const clientApi = {
   async richiesta(endpoint, opzioni = {}) {
     const url = `${API_BASE_URL}${endpoint}`;
     const configurazione = {
       headers: {
-        Authorization: `Bearer ${TOKEN}`,
+        Authorization: `Bearer ${getToken()}`,
         "Content-Type": "application/json",
         ...opzioni.headers,
       },
@@ -46,6 +46,31 @@ const clientApi = {
     return this.richiesta("/profile/", {
       method: "PUT",
       body: JSON.stringify(datiProfilo),
+    });
+  },
+
+  // Experiences API
+  async ottieniEsperienze(userId) {
+    return this.richiesta(`/profile/${userId}/experiences`);
+  },
+
+  async aggiungiEsperienza(userId, datiEsperienza) {
+    return this.richiesta(`/profile/${userId}/experiences`, {
+      method: "POST",
+      body: JSON.stringify(datiEsperienza),
+    });
+  },
+
+  async aggiornaEsperienza(userId, experienceId, datiEsperienza) {
+    return this.richiesta(`/profile/${userId}/experiences/${experienceId}`, {
+      method: "PUT", 
+      body: JSON.stringify(datiEsperienza),
+    });
+  },
+
+  async eliminaEsperienza(userId, experienceId) {
+    return this.richiesta(`/profile/${userId}/experiences/${experienceId}`, {
+      method: "DELETE",
     });
   },
 

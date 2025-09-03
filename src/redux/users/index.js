@@ -1,4 +1,4 @@
-import { TOKEN } from "../../config/constants";
+import { getToken } from "../../config/constants";
 
 const statoIniziale = {
   arrayUtenti: [],
@@ -11,7 +11,7 @@ export const ottieniUtentiAction = () => {
         "https://striveschool-api.herokuapp.com/api/profile/",
         {
           headers: {
-            Authorization: `Bearer ${TOKEN}`,
+            Authorization: `Bearer ${getToken()}`,
           },
         }
       );

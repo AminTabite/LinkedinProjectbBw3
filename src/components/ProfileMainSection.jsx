@@ -4,11 +4,10 @@ import { GoPencil } from "react-icons/go";
 import { FiPlus } from "react-icons/fi";
 import { MdPeople } from "react-icons/md";
 import { IoStatsChart } from "react-icons/io5";
-import { TOKEN } from "../config/constants";
+import { getToken } from "../config/constants";
 import clientApi from "../services/api";
 import usersData from "../data/users.json";
-
-// NB: il componente ha larghezza che va in base al container in cui è messo
+import { useSelector } from "react-redux";
 
 function ProfileMainSection({ userId }) {
   const formatDateForInput = (date) => {
@@ -19,6 +18,9 @@ function ProfileMainSection({ userId }) {
   const [experiences, setExperiences] = useState([]);
   const [currentProfileId, setCurrentProfileId] = useState(null);
   const [userData, setUserData] = useState(null);
+  
+  // Usa Redux per i dati utente
+  const { user: currentUser } = useSelector((state) => state.auth);
 
   const getCurrentProfileId = async () => {
     if (userId) {
@@ -34,33 +36,38 @@ function ProfileMainSection({ userId }) {
   };
 
   const getUserDataFromJson = (profileId) => {
+    // Se non c'è userId, usa l'utente corrente da Redux
+    if (!userId && currentUser) {
+      setUserData(currentUser);
+      return;
+    }
+    
+    // Altrimenti cerca per profileId nel JSON
     const user = usersData.users.find(u => u.id === profileId || u.id.toString() === profileId);
     setUserData(user || null);
   };
-  const findExperiences = () => {
+  const findExperiences = async () => {
     if (!currentProfileId) return;
-    fetch(
-      `https://striveschool-api.herokuapp.com/api/profile/${currentProfileId}/experiences`,
-      {
-        headers: {
-          Authorization: `Bearer ${TOKEN}`,
-        },
+    
+    const token = getToken();
+    if (!token) {
+      console.warn("No valid token available, skipping experiences fetch");
+      setExperiences([]);
+      return;
+    }
+    
+    try {
+      const experiences = await clientApi.ottieniEsperienze(currentProfileId);
+      console.log("Experiences loaded:", experiences);
+      setExperiences(experiences || []);
+    } catch (err) {
+      if (err.message.includes('401')) {
+        console.warn("Token not valid for API, using empty experiences");
+      } else {
+        console.warn("Failed to fetch experiences, using empty list:", err);
       }
-    )
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw new Error("Error while fetching experiences");
-        }
-      })
-      .then((experiences) => {
-        console.log(experiences);
-        setExperiences(experiences);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      setExperiences([]);
+    }
   };
   const [showAdd, setShowAdd] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
@@ -92,7 +99,7 @@ function ProfileMainSection({ userId }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${TOKEN}`,
+          Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify(body),
       }
@@ -147,7 +154,7 @@ function ProfileMainSection({ userId }) {
       `https://striveschool-api.herokuapp.com/api/profile/${currentProfileId}/experiences/${id}`,
       {
         headers: {
-          Authorization: `Bearer ${TOKEN}`,
+          Authorization: `Bearer ${getToken()}`,
         },
       }
     )
@@ -185,7 +192,7 @@ function ProfileMainSection({ userId }) {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${TOKEN}`,
+          Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify(body),
       }
@@ -229,7 +236,7 @@ function ProfileMainSection({ userId }) {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${TOKEN}`,
+          Authorization: `Bearer ${getToken()}`,
         },
       }
     )
@@ -279,6 +286,13 @@ function ProfileMainSection({ userId }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentProfileId]);
+
+  // Aggiorna i dati quando cambia l'utente corrente da Redux
+  useEffect(() => {
+    if (currentUser && !userId) {
+      setUserData(currentUser);
+    }
+  }, [currentUser, userId]);
 
   return (
     <div>

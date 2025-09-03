@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import clientApi from "../services/api";
 import "./Herosection.css";
 import { useSelector } from "react-redux";
-import { TOKEN } from "../config/constants";
+import { getToken } from "../config/constants";
 
 const Herosection = ({ userId }) => {
   const [datiProfilo, setDatiProfilo] = useState(null);
@@ -46,7 +46,7 @@ const Herosection = ({ userId }) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${TOKEN}`,
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify({
         image: `${imgLink}`,

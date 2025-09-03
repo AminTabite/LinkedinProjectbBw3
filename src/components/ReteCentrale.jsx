@@ -2,35 +2,16 @@ import { Container, Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ottieniUtentiAction } from "../redux/users";
 const ReteCentrale = () => {
-  const [usersList, setusersList] = useState(null);
-
-  const getUsers = () => {
-    fetch("https://striveschool-api.herokuapp.com/api/profile", {
-      headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTc0YTE2MjdjNjAwMTVmOGM1NjkiLCJpYXQiOjE3NTY3MzEyMTAsImV4cCI6MTc1Nzk0MDgxMH0.2K96iJrH_T9CFLxQjMe3ZEvL5W45fdGe3MGTvDxniIQ",
-      },
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw new Error("errore");
-        }
-      })
-      .then((data) => {
-        setusersList(data.slice(8, 22));
-      })
-      .catch((er) => {
-        console.log(er);
-      });
-  };
-
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.users.arrayUtenti);
+  
   useEffect(() => {
-    getUsers();
-  }, []);
+    dispatch(ottieniUtentiAction());
+  }, [dispatch]);
 
   return (
     <>
@@ -40,10 +21,10 @@ const ReteCentrale = () => {
             People you may know based on your recent activity
           </h5>
           <Row className="g-2">
-            {usersList !== null &&
-              usersList.slice(0, 8).map((user) => {
+            {users && users.length > 0 &&
+              users.slice(8, 16).map((user, index) => {
                 return (
-                  <Col xs={6} md={4} lg={3}>
+                  <Col xs={6} md={4} lg={3} key={user._id || index}>
                     <Card
                       className="mb-3 shadow-sm border-0"
                       style={{ height: "15em" }}
@@ -79,10 +60,10 @@ const ReteCentrale = () => {
                               {user.title}
                             </Card.Text>
                             <Button
-                              className="bg-white boredr border-1 border-primary text-primary rounded-pill w-100"
+                              className="bg-white border border-1 border-primary text-primary rounded-pill w-100"
                               style={{ fontWeight: "500" }}
                             >
-                              <i class="bi bi-person-plus-fill"></i> Connetti
+                              <i className="bi bi-person-plus-fill"></i> Connetti
                             </Button>
                           </div>
                         </div>
@@ -98,10 +79,10 @@ const ReteCentrale = () => {
         <Container fluid className="my-3 ">
           <h5 className="pt-2">Popular on LinkedIn</h5>
           <Row className="g-2">
-            {usersList !== null &&
-              usersList.slice(8, 16).map((user) => {
+            {users && users.length > 0 &&
+              users.slice(0, 8).map((user, index) => {
                 return (
-                  <Col xs={6} lg={4}>
+                  <Col xs={6} lg={4} key={user._id || index}>
                     <Card
                       className="mb-3 shadow-sm border-0"
                       style={{ height: "15em" }}
@@ -137,10 +118,10 @@ const ReteCentrale = () => {
                               {user.title}
                             </Card.Text>
                             <Button
-                              className="bg-white boredr border-1 border-primary text-primary rounded-pill w-100"
+                              className="bg-white border border-1 border-primary text-primary rounded-pill w-100"
                               style={{ fontWeight: "500" }}
                             >
-                              <i class="bi bi-person-plus-fill"></i> Segui
+                              <i className="bi bi-person-plus-fill"></i> Segui
                             </Button>
                           </div>
                         </div>

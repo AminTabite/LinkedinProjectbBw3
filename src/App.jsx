@@ -13,12 +13,21 @@ import PaginaLavoro from "./components/JobsPage";
 import LoginPage from "./components/LoginPage";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { loadUserFromStorage } from "./redux/auth";
 
-function App() {
+function AppContent() {
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    // Carica i dati utente dal localStorage all'avvio dell'app
+    dispatch(loadUserFromStorage());
+  }, [dispatch]);
+
   return (
-    <BrowserRouter>
-      <Provider store={store}>
-        <BarraNavigazioneLinkedIn />
+    <>
+      <BarraNavigazioneLinkedIn />
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<HomePage />} />
@@ -46,6 +55,15 @@ function App() {
             }
           />
         </Routes>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Provider store={store}>
+        <AppContent />
       </Provider>
     </BrowserRouter>
   );
