@@ -84,10 +84,10 @@
     },
     {
       "id": 3,
-      "username": "demo",
-      "password": "demo",
-      "role": "guest", 
-      "name": "Demo User",
+      "username": "Viktor",
+      "password": "viktor",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI4NDUwZGQyNDkyZTAwMTU2MDFlNjIiLCJpYXQiOjE3NTY5MDY3NjUsImV4cCI6MTc1ODExNjM2NX0.zQD6nnNGrYvePISZxycmAGgZXgfC3WerC38UlsQLKIo", 
+      "name": "Viktor Vasileski",
       "competenze": [
         "HTML",
         "CSS",
@@ -108,61 +108,20 @@
       ],
       "formazione": [
         {
-          "school": "Accademia di Belle Arti",
-          "degree": "Diploma in Design Grafico",
+          "school": "Politecnico di Milano",
+          "degree": "Laurea in Ingegneria Informatica",
           "startYear": "2020",
           "endYear": "2024",
-          "logo": "https://upload.wikimedia.org/wikipedia/commons/2/28/Logo_Ministero_dell%27istruzione_e_del_merito_%282024%29.svg"
+          "logo": "https://upload.wikimedia.org/wikipedia/it/b/be/Logo_Politecnico_Milano.png"
         },
         {
-          "school": "Istituto d'Arte",
-          "degree": "Diploma Artistico",
+          "school": "Istituto Tecnico Industriale",
+          "degree": "Diploma in Informatica e Telecomunicazioni",
           "startYear": "2015",
           "endYear": "2020",
-          "logo": "https://upload.wikimedia.org/wikipedia/commons/2/28/Logo_Ministero_dell%27istruzione_e_del_merito_%282024%29.svg"
+          "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRUDj9t544lY_1Jm4pWulnaJDycM1jmibFhg&s"
         }
-      ]
-    },
-    {
-      "id": 4,
-      "username": "maria",
-      "password": "maria123",
-      "role": "user",
-      "name": "Maria Rossi",
-      "competenze": [
-        "Scienza dei Dati",
-        "Python",
-        "R",
-        "Apprendimento Automatico",
-        "TensorFlow",
-        "PyTorch",
-        "Pandas",
-        "NumPy",
-        "Matplotlib",
-        "Seaborn",
-        "SQL",
-        "Power BI",
-        "Tableau",
-        "Apache Spark",
-        "Deep Learning",
-        "Elaborazione Linguaggio Naturale"
-      ],
-      "formazione": [
-        {
-          "school": "Università Bocconi",
-          "degree": "Laurea Magistrale in Scienza dei Dati",
-          "startYear": "2020",
-          "endYear": "2022",
-          "logo": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Logo_Bocconi.svg"
-        },
-        {
-          "school": "Università Statale Milano",
-          "degree": "Laurea in Matematica",
-          "startYear": "2017",
-          "endYear": "2020",
-          "logo": "https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_Universit%C3%A0_Statale_Milano.svg"
-        }
-      ]
+]
     },
     {
       "id": 5,
