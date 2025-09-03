@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { ottieniPostAction, caricaPiuPostAction, ordinaPostPerDataAction, aggiungiPostAction, eliminaPostAction } from "../redux/posts";
 import { TOKEN } from "../config/constants";
+import "./Homecolcentrale.css";
 
 const Homecolcentrale = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const Homecolcentrale = () => {
   const user = useSelector((state) => state.profile);
   const [testoPost, setTestoPost] = useState("");
   const [immaginSelezionata, setImmagineSelezionata] = useState(null);
+  const [reazioni, setReazioni] = useState({});
 
   const caricaAltri = () => {
     dispatch(caricaPiuPostAction());
@@ -43,6 +45,46 @@ const Homecolcentrale = () => {
         alert("Errore nell'eliminazione del post");
       }
     }
+  };
+
+  const aggiungiReazione = (postId, emoji) => {
+    setReazioni(prev => {
+      const postReactions = prev[postId] || {};
+      const currentUserReaction = postReactions.userReaction;
+      
+      // Se l'utente ha già reagito con la stessa emoji, rimuovila
+      if (currentUserReaction === emoji) {
+        const newReactions = { ...postReactions };
+        newReactions[emoji] = Math.max((newReactions[emoji] || 1) - 1, 0);
+        if (newReactions[emoji] === 0) {
+          delete newReactions[emoji];
+        }
+        delete newReactions.userReaction;
+        
+        return {
+          ...prev,
+          [postId]: newReactions
+        };
+      }
+      
+      // Se l'utente aveva una reazione diversa, rimuovi quella vecchia
+      const updatedReactions = { ...postReactions };
+      if (currentUserReaction) {
+        updatedReactions[currentUserReaction] = Math.max((updatedReactions[currentUserReaction] || 1) - 1, 0);
+        if (updatedReactions[currentUserReaction] === 0) {
+          delete updatedReactions[currentUserReaction];
+        }
+      }
+      
+      // Aggiungi la nuova reazione
+      updatedReactions[emoji] = (updatedReactions[emoji] || 0) + 1;
+      updatedReactions.userReaction = emoji;
+      
+      return {
+        ...prev,
+        [postId]: updatedReactions
+      };
+    });
   };
 
   useEffect(() => {
@@ -373,7 +415,15 @@ const Homecolcentrale = () => {
                       </div>
 
                       {/* Interazioni */}
-                      <div className="w-100 p-2 border-bottom">
+                      <div className="w-100 p-2 border-bottom d-flex justify-content-between align-items-center">
+                        <div className="d-flex align-items-center gap-1">
+                          {reazioni[post._id] && Object.entries(reazioni[post._id]).filter(([key]) => key !== 'userReaction').map(([emoji, count]) => (
+                            <span key={emoji} className="d-flex align-items-center gap-1 small">
+                              <span style={{ fontSize: "14px" }}>{emoji}</span>
+                              <span className="text-muted">{count}</span>
+                            </span>
+                          ))}
+                        </div>
                         <span className="small text-muted">
                           26 commenti - 9 diffusioni post
                         </span>
@@ -387,7 +437,7 @@ const Homecolcentrale = () => {
                         >
                           <Button
                             variant="link"
-                            className="text-dark border-0 flex-fill py-2"
+                            className="text-dark border-0 flex-fill py-2 position-relative btn-consiglia"
                             style={{
                               textDecoration: "none",
                               fontSize: "14px",
@@ -397,6 +447,37 @@ const Homecolcentrale = () => {
                           >
                             <i className="bi bi-hand-thumbs-up me-2" style={{ color: "#000", fontSize: "20px", fontWeight: "bold" }}></i>
                             Consiglia
+                            <span 
+                              className="position-absolute bg-dark text-white px-2 py-1 rounded tooltip-consiglia"
+                              style={{
+                                bottom: "100%",
+                                left: "50%",
+                                fontSize: "16px",
+                                whiteSpace: "nowrap",
+                                zIndex: 1000,
+                                marginBottom: "5px"
+                              }}
+                            >
+                              {['👍', '❤️', '👏', '🎉', '😊', '😢'].map((emoji, idx) => (
+                                <span 
+                                  key={idx}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    aggiungiReazione(post._id, emoji);
+                                  }}
+                                  style={{ 
+                                    cursor: 'pointer',
+                                    padding: '2px 3px',
+                                    borderRadius: '3px',
+                                    transition: 'background-color 0.2s'
+                                  }}
+                                  onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(255,255,255,0.1)'}
+                                  onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                                >
+                                  {emoji}
+                                </span>
+                              ))}
+                            </span>
                           </Button>
                           <Button
                             variant="link"
