@@ -105,7 +105,7 @@ export default function ColonnaDxHome() {
               Lorem ipsum
             </ListGroup.Item>
           </ListGroup>*/}
-          {utenti.map((utente, indice) => {
+          {utenti.slice(0, 5).map((utente, indice) => {
             return (
               <div className="d-flex align-items-center mb-2" key={indice}>
                 <img
