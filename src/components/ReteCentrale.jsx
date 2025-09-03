@@ -43,7 +43,7 @@ const ReteCentrale = () => {
             {usersList !== null &&
               usersList.slice(0, 8).map((user) => {
                 return (
-                  <Col xs={2} md={3}>
+                  <Col xs={6} md={4} lg={3}>
                     <Card
                       className="mb-3 shadow-sm border-0"
                       style={{ height: "15em" }}
@@ -101,7 +101,7 @@ const ReteCentrale = () => {
             {usersList !== null &&
               usersList.slice(8, 16).map((user) => {
                 return (
-                  <Col xs={2} md={4}>
+                  <Col xs={6} lg={4}>
                     <Card
                       className="mb-3 shadow-sm border-0"
                       style={{ height: "15em" }}

@@ -485,6 +485,12 @@ body {
   margin-bottom: 1em;
 }
 
+.netCentrale .card{
+ border: 1px solid rgb(199, 199, 199) !important
+}
+
+
+
 .netCentrale button:hover{
   background: #b0ceeb !important;
   border: 2px solid blue !important;
