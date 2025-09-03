@@ -226,23 +226,43 @@ const ColonnaDestra = () => {
         </div>
       </div>
 
-      {/* Annunci extra */}
-      <div className="border rounded p-3 bg-white">
-        <span className="badge bg-light text-secondary mb-2">Promosso</span>
-        <p className="mb-1 small fw-bold">Wave goodbye to busywork</p>
-        <p className="small text-muted">
-          Every day Zapier saves people 600,000 hours of busywork.
-        </p>
-      </div>
+      
 
-      <div className="border rounded p-3 bg-white">
-        <span className="badge bg-light text-secondary mb-2">Promosso</span>
-        <p className="mb-1 small fw-bold">Industrial Adhesives</p>
-        <p className="small text-muted">
-          Advanced epoxy adhesives, sealants and coatings for hi-tech
-          manufacturing.
-        </p>
-      </div>
+      <div className="border rounded p-3 bg-white d-flex">
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Bootstrap_logo.svg"
+    alt="Logo"
+    width="40"
+    height="40"
+    className="me-3"
+  />
+  <div>
+    {/* <span className="badge bg-light text-secondary mb-2">Promosso</span> */}
+    <p className="mb-1 small fw-bold">Bootstrap</p>
+    <p className="small text-muted">
+Bootstrap is an open-source front-end framework that web developers use to build mobile-friendly sites and applications. It provides a collection of pre-designed templates, CSS styles, and JavaScript components to help developers efficiently and effectively create visually appealing and consistent web interfaces.    </p>
+  </div>
+</div>
+
+   
+
+
+        <div className="border rounded p-3 bg-white d-flex mt-3">
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg"
+    alt="Logo"
+    width="40"
+    height="40"
+    className="me-3"
+  />
+  <div>
+    {/* <span className="badge bg-light text-secondary mb-2">Promosso</span> */}
+    <p className="mb-1 small fw-bold">JavaScript</p>
+    <p className="small text-muted">
+JavaScript is a text-based scripting language or programming language used on both the server-side and client-side to create engaging website elements, fully featured web applications, CLI applications and even web servers. In short, JavaScript is extremely versatile.    </p>
+  </div>
+</div>
+      
     </div>
   );
 };
