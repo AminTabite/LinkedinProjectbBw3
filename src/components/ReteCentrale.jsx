@@ -39,7 +39,7 @@ const ReteCentrale = () => {
           <h5 className="pt-2">
             People you may know based on your recent activity
           </h5>
-          <Row>
+          <Row className="g-2">
             {usersList !== null &&
               usersList.slice(0, 8).map((user) => {
                 return (
@@ -60,8 +60,8 @@ const ReteCentrale = () => {
                           style={{
                             width: "80px",
                             height: "80px",
-                            bottom: "-40px",
-                            left: "40px",
+                            bottom: "-44px",
+                            left: "45px",
                             objectFit: "cover",
                           }}
                         />
@@ -97,7 +97,7 @@ const ReteCentrale = () => {
       <div className="netCentrale rounded-3">
         <Container fluid className="my-3 ">
           <h5 className="pt-2">Popular on LinkedIn</h5>
-          <Row>
+          <Row className="g-2">
             {usersList !== null &&
               usersList.slice(8, 16).map((user) => {
                 return (
