@@ -1,3 +1,5 @@
+import { TOKEN } from '../../config/constants';
+
 const statoIniziale = {
   arrayUtenti: [],
 };
@@ -7,7 +9,7 @@ export const ottieniUtentiAction = () => {
     try {
       const risposta = await fetch("https://striveschool-api.herokuapp.com/api/profile/", {
         headers: {
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTczNTE2MjdjNjAwMTVmOGM1NjgiLCJpYXQiOjE3NTY3MzExODksImV4cCI6MTc1Nzk0MDc4OX0.EE1GDQeokGCuIu43ACNAuxw4--0MPsa1SFutXaarjxk"
+          Authorization: `Bearer ${TOKEN}`
         }
       });
       if (risposta.ok) {

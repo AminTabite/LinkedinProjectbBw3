@@ -5,9 +5,7 @@ import { useState, useEffect } from "react";
 import clientApi from "../services/api";
 import "./Herosection.css";
 import { useSelector } from "react-redux";
-
-const TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTczNTE2MjdjNjAwMTVmOGM1NjgiLCJpYXQiOjE3NTY3MzExODksImV4cCI6MTc1Nzk0MDc4OX0.EE1GDQeokGCuIu43ACNAuxw4--0MPsa1SFutXaarjxk";
+import { TOKEN } from "../config/constants";
 
 const Herosection = ({ userId }) => {
   const [datiProfilo, setDatiProfilo] = useState(null);
@@ -19,26 +17,27 @@ const Herosection = ({ userId }) => {
 
   console.log(profiloDaRedux);
 
-  useEffect(() => {
-    const recuperaProfilo = async () => {
-      try {
-        setCaricamento(true);
-        let dati;
-        if (userId) {
-          // Carica profilo specifico utente
-          dati = await clientApi.ottieniProfilo(userId);
-        } else {
-          // Carica il proprio profilo
-          dati = await clientApi.ottieniIlMioProfilo();
-        }
-        setDatiProfilo(dati);
-        console.log(dati);
-      } catch (err) {
-        setErrore(err.message);
-      } finally {
-        setCaricamento(false);
+  const recuperaProfilo = async () => {
+    try {
+      setCaricamento(true);
+      let dati;
+      if (userId) {
+        // Carica profilo specifico utente
+        dati = await clientApi.ottieniProfilo(userId);
+      } else {
+        // Carica il proprio profilo
+        dati = await clientApi.ottieniIlMioProfilo();
       }
-    };
+      setDatiProfilo(dati);
+      console.log(dati);
+    } catch (err) {
+      setErrore(err.message);
+    } finally {
+      setCaricamento(false);
+    }
+  };
+
+  useEffect(() => {
     recuperaProfilo();
   }, [userId]);
 
@@ -71,25 +70,6 @@ const Herosection = ({ userId }) => {
   const handleShow = () => setShow(true);
   const handleSave = () => {
     changeImg(imgLink);
-    const recuperaProfilo = async () => {
-      try {
-        setCaricamento(true);
-        let dati;
-        if (userId) {
-          // Carica profilo specifico utente
-          dati = await clientApi.ottieniProfilo(userId);
-        } else {
-          // Carica il proprio profilo
-          dati = await clientApi.ottieniIlMioProfilo();
-        }
-        setDatiProfilo(dati);
-        console.log(dati);
-      } catch (err) {
-        setErrore(err.message);
-      } finally {
-        setCaricamento(false);
-      }
-    };
     recuperaProfilo();
     handleClose();
   };
@@ -236,30 +216,3 @@ const Herosection = ({ userId }) => {
 
 export default Herosection;
 
-const endpoint = "https://api.example.com/data";
-const token = "IL_TUO_TOKEN_QUI"; // il tuo token
-
-const fetchWithToken = async (method = "GET", bodyData = null) => {
-  try {
-    const res = await fetch(endpoint, {
-      method, // GET, POST, PUT, DELETE
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: bodyData ? JSON.stringify(bodyData) : null, // solo per POST/PUT
-    });
-
-    if (!res.ok) throw new Error(`Errore HTTP ${res.status}`);
-    const data = await res.json();
-    console.log(`${method}:`, data);
-  } catch (err) {
-    console.log(`Errore ${method}:`, err);
-  }
-};
-
-// ✅ Esempi di utilizzo
-fetchWithToken("GET"); // leggere dati
-fetchWithToken("POST", { name: "Mario", age: 25 }); // creare dati
-fetchWithToken("PUT", { name: "Luigi", age: 30 }); // aggiornare dati
-fetchWithToken("DELETE"); // eliminare dati

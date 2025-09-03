@@ -4,6 +4,7 @@ import { GoPencil } from "react-icons/go";
 import { FiPlus } from "react-icons/fi";
 import { MdPeople } from "react-icons/md";
 import { IoStatsChart } from "react-icons/io5";
+import { TOKEN } from "../config/constants";
 
 // NB: il componente ha larghezza che va in base al container in cui è messo
 
@@ -13,8 +14,6 @@ function ProfileMainSection({ userId }) {
     const d = new Date(date);
     return isNaN(d) ? "" : d.toISOString().split("T")[0];
   };
-  const TOKEN =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTczNTE2MjdjNjAwMTVmOGM1NjgiLCJpYXQiOjE3NTY3MzExODksImV4cCI6MTc1Nzk0MDc4OX0.EE1GDQeokGCuIu43ACNAuxw4--0MPsa1SFutXaarjxk";
   const [experiences, setExperiences] = useState([]);
   const findExperiences = () => {
     const profileId = userId || "68b597351627c60015f8c568";

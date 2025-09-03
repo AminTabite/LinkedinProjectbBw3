@@ -1,10 +1,8 @@
-const URL_BASE_API = "https://striveschool-api.herokuapp.com/api";
-const TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTczNTE2MjdjNjAwMTVmOGM1NjgiLCJpYXQiOjE3NTY3MzExODksImV4cCI6MTc1Nzk0MDc4OX0.EE1GDQeokGCuIu43ACNAuxw4--0MPsa1SFutXaarjxk";
+import { TOKEN, API_BASE_URL } from '../config/constants.js';
 
 const clientApi = {
   async richiesta(endpoint, opzioni = {}) {
-    const url = `${URL_BASE_API}${endpoint}`;
+    const url = `${API_BASE_URL}${endpoint}`;
     const configurazione = {
       headers: {
         Authorization: `Bearer ${TOKEN}`,
@@ -68,88 +66,7 @@ const clientApi = {
     }
   },
 
-  async ottieniLavoriPerAzienda(company, limit = 20) {
-    const url = `https://strive-benchmark.herokuapp.com/api/jobs?company=${encodeURIComponent(
-      company
-    )}&limit=${limit}`;
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`Errore HTTP! status: ${response.status}`);
-      }
-      return await response.json();
-    } catch (error) {
-      console.error("Errore nel recupero lavori per azienda:", error);
-      throw error;
-    }
-  },
-
-  async ottieniLavoriPerCategoria(category, limit = 20) {
-    const url = `https://strive-benchmark.herokuapp.com/api/jobs?category=${encodeURIComponent(
-      category
-    )}&limit=${limit}`;
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`Errore HTTP! status: ${response.status}`);
-      }
-      return await response.json();
-    } catch (error) {
-      console.error("Errore nel recupero lavori per categoria:", error);
-      throw error;
-    }
-  },
 };
 
-//funzione per cambiare immagine
-/*const changeImg = () => {
-  fetch("https://striveschool-api.herokuapp.com/api/profile", {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${TOKEN}`,
-    },
-    body: JSON.stringify({
-      area: "Napoli ",
-      bio: "Ciao a tutti",
-      name: "Alessandro",
-      surname: "di Martino",
-      title: "Full-Stack developer",
-      email: "alessandrodimartino06@gmail.com",
-      username: "Ale-ko",
-      image:
-        "https://www.schededidatticheperlascuola.it/wp-content/uploads/2022/03/albero-947x1024.png",
-    }),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        throw new Error("errore");
-      }
-    })
-    .then((data) => {
-      console.log(data);
-    })
-    .catch((er) => {
-      console.log(er);
-    });
-};*/
-
-const findExperiences = () => {
-  fetch(
-    "https://striveschool-api.herokuapp.com/api/profile/68b597351627c60015f8c568/experiences"
-  )
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        throw new Error("Error while fetching experiences");
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
 
 export default clientApi;

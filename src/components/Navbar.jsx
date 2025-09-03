@@ -44,31 +44,22 @@ const BarraNavigazioneLinkedIn = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const recuperaProfilo = async () => {
-      try {
-        setCaricamento(true);
-        const dati = await clientApi.ottieniIlMioProfilo();
-        setDatiProfilo(dati);
-      } catch (err) {
-        console.error("Errore nel recupero del profilo:", err);
-      } finally {
-        setCaricamento(false);
-      }
-    };
-
-    recuperaProfilo();
     const fetchProfile = async () => {
       try {
+        setCaricamento(true);
+        setLoading(true);
         const data = await clientApi.ottieniIlMioProfilo();
-
+        
+        setDatiProfilo(data);
         console.log(data);
         dispatch({
           type: "GET_USER",
           payload: data,
         });
       } catch (err) {
-        console.log(err);
+        console.error("Errore nel recupero del profilo:", err);
       } finally {
+        setCaricamento(false);
         setLoading(false);
       }
     };
