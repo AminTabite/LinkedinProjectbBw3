@@ -166,10 +166,10 @@
     },
     {
       "id": 5,
-      "username": "francesco",
-      "password": "fra456",
-      "role": "user",
-      "name": "Francesco Verdi",
+      "username": "Leonardo Ferrante",
+      "password": "epicode",
+      "role": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI4MWU1NTU2MzA1YzAwMTU1ODg0MDIiLCJpYXQiOjE3NTY4OTY4NTMsImV4cCI6MTc1ODEwNjQ1M30.1rWvKSnEOEAvwCc0WNoCyYXlImbSn35SqJefrlaRCLY",
+      "name": "Leonardo Ferrante",
       "competenze": [
         "Cybersicurezza",
         "Hacking Etico",
