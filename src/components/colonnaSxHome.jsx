@@ -25,7 +25,7 @@ const ColonnaSxHome = () => {
   }, [user]);
 
   return (
-    <div style={{ width: "18rem" }}>
+    <div>
       {/* Card profilo */}
       <Card className="mb-3 shadow-sm border-0">
         <div className="position-relative">
@@ -35,7 +35,10 @@ const ColonnaSxHome = () => {
             style={{ height: "80px", objectFit: "cover" }}
           />
           <img
-            src={apiProfile?.image || "https://via.placeholder.com/64x64/0a66c2/ffffff?text=U"}
+            src={
+              apiProfile?.image ||
+              "https://via.placeholder.com/64x64/0a66c2/ffffff?text=U"
+            }
             className="rounded-circle border border-3 border-white position-absolute"
             style={{
               width: "64px",
@@ -59,7 +62,9 @@ const ColonnaSxHome = () => {
               <Card.Text className="text-muted small">
                 {apiProfile?.area || "Location"}
               </Card.Text>
-              <Card.Link href="/profile" className="small">Visualizza profilo</Card.Link>
+              <Card.Link href="/profile" className="small">
+                Visualizza profilo
+              </Card.Link>
             </div>
           </div>
         </Card.Body>
