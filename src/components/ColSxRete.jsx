@@ -1,6 +1,5 @@
 import { Row, Col, Container, Card, Button } from "react-bootstrap";
-
-import(Row);
+import MiniFooter from "./MiniFooter";
 
 const ColSxRete = () => {
   return (
