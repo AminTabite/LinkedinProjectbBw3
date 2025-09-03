@@ -1,11 +1,29 @@
-{"users": [
+{
+  "users": [
     {
       "id": "68b597351627c60015f8c568",
       "username": "Alessandro",
       "password": "fozzanapoli",
       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTczNTE2MjdjNjAwMTVmOGM1NjgiLCJpYXQiOjE3NTY3MzExODksImV4cCI6MTc1Nzk0MDc4OX0.EE1GDQeokGCuIu43ACNAuxw4--0MPsa1SFutXaarjxk",
       "name": "Alessandro di Martino",
-      "competenze": ["JavaScript", "React", "Node.js", "Python", "SQL", "Git", "MongoDB", "Express.js", "TypeScript", "HTML", "CSS", "Bootstrap", "API REST", "GraphQL", "Docker", "AWS"],
+      "competenze": [
+        "JavaScript",
+        "React",
+        "Node.js",
+        "Python",
+        "SQL",
+        "Git",
+        "MongoDB",
+        "Express.js",
+        "TypeScript",
+        "HTML",
+        "CSS",
+        "Bootstrap",
+        "API REST",
+        "GraphQL",
+        "Docker",
+        "AWS"
+      ],
       "formazione": [
         {
           "school": "Università di Napoli Federico II",
@@ -25,24 +43,41 @@
     },
     {
       "id": 2,
-      "username": "user",
-      "password": "user123",
-      "role": "user",
-      "name": "Luigi Bianchi",
-      "competenze": ["Java", "Spring Boot", "MySQL", "Angular", "Docker", "AWS", "Hibernate", "Maven", "Jenkins", "Kubernetes", "PostgreSQL", "Redis", "Microservizi", "Apache Kafka", "Test Unitari", "Mockito"],
+      "username": "Amintabite",
+      "password": "biscotti1234",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTc3YTE2MjdjNjAwMTVmOGM1NmEiLCJpYXQiOjE3NTY3MzEyNTksImV4cCI6MTc1Nzk0MDg1OX0.bMn8tXLJ2XqyJa7Th9u0MnHR1Yi0HedRybqsSCg3C6k",
+      "name": "Amin Tabite",
+      "competenze": [
+        "Cybersicurezza",
+        "Hacking Etico",
+        "Test di Penetrazione",
+        "Sicurezza di Rete",
+        "CISSP",
+        "CEH",
+        "Gestione Firewall",
+        "Valutazione Vulnerabilità",
+        "Gestione del Rischio",
+        "ISO 27001",
+        "Conformità GDPR",
+        "Risposta agli Incidenti",
+        "Analisi Malware",
+        "Audit di Sicurezza",
+        "Crittografia",
+        "Sicurezza Linux"
+      ],
       "formazione": [
         {
-          "school": "Politecnico di Milano",
-          "degree": "Laurea Magistrale in Ingegneria Informatica",
-          "startYear": "2019",
-          "endYear": "2023",
-          "logo": "https://upload.wikimedia.org/wikipedia/commons/4/47/Politecnico_di_Milano_Logo.svg"
+          "school": "Università La Sapienza Roma",
+          "degree": "Laurea in Ingegneria Informatica",
+          "startYear": "2016",
+          "endYear": "2020",
+          "logo": "https://upload.wikimedia.org/wikipedia/commons/f/f9/Sapienza_Universit%C3%A0_di_Roma_logo.svg"
         },
         {
-          "school": "ITS Marco Polo",
-          "degree": "Diploma Tecnico Informatico",
-          "startYear": "2014",
-          "endYear": "2019",
+          "school": "ITIS Enrico Fermi",
+          "degree": "Diploma Perito Informatico",
+          "startYear": "2011",
+          "endYear": "2016",
           "logo": "https://upload.wikimedia.org/wikipedia/commons/2/28/Logo_Ministero_dell%27istruzione_e_del_merito_%282024%29.svg"
         }
       ]
@@ -53,7 +88,24 @@
       "password": "demo",
       "role": "guest",
       "name": "Demo User",
-      "competenze": ["HTML", "CSS", "Bootstrap", "Figma", "Photoshop", "UI/UX", "Adobe Illustrator", "Sketch", "InVision", "Adobe XD", "Wireframing", "Prototipazione", "Design Systems", "Design Responsivo", "Accessibilità", "Ricerca Utente"],
+      "competenze": [
+        "HTML",
+        "CSS",
+        "Bootstrap",
+        "Figma",
+        "Photoshop",
+        "UI/UX",
+        "Adobe Illustrator",
+        "Sketch",
+        "InVision",
+        "Adobe XD",
+        "Wireframing",
+        "Prototipazione",
+        "Design Systems",
+        "Design Responsivo",
+        "Accessibilità",
+        "Ricerca Utente"
+      ],
       "formazione": [
         {
           "school": "Accademia di Belle Arti",
@@ -77,7 +129,24 @@
       "password": "maria123",
       "role": "user",
       "name": "Maria Rossi",
-      "competenze": ["Scienza dei Dati", "Python", "R", "Apprendimento Automatico", "TensorFlow", "PyTorch", "Pandas", "NumPy", "Matplotlib", "Seaborn", "SQL", "Power BI", "Tableau", "Apache Spark", "Deep Learning", "Elaborazione Linguaggio Naturale"],
+      "competenze": [
+        "Scienza dei Dati",
+        "Python",
+        "R",
+        "Apprendimento Automatico",
+        "TensorFlow",
+        "PyTorch",
+        "Pandas",
+        "NumPy",
+        "Matplotlib",
+        "Seaborn",
+        "SQL",
+        "Power BI",
+        "Tableau",
+        "Apache Spark",
+        "Deep Learning",
+        "Elaborazione Linguaggio Naturale"
+      ],
       "formazione": [
         {
           "school": "Università Bocconi",
@@ -97,11 +166,28 @@
     },
     {
       "id": 5,
-      "username": "francesco",
-      "password": "fra456",
-      "role": "user",
-      "name": "Francesco Verdi",
-      "competenze": ["Cybersicurezza", "Hacking Etico", "Test di Penetrazione", "Sicurezza di Rete", "CISSP", "CEH", "Gestione Firewall", "Valutazione Vulnerabilità", "Gestione del Rischio", "ISO 27001", "Conformità GDPR", "Risposta agli Incidenti", "Analisi Malware", "Audit di Sicurezza", "Crittografia", "Sicurezza Linux"],
+      "username": "Leonardo Ferrante",
+      "password": "epicode",
+      "role": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI4MWU1NTU2MzA1YzAwMTU1ODg0MDIiLCJpYXQiOjE3NTY4OTY4NTMsImV4cCI6MTc1ODEwNjQ1M30.1rWvKSnEOEAvwCc0WNoCyYXlImbSn35SqJefrlaRCLY",
+      "name": "Leonardo Ferrante",
+      "competenze": [
+        "Cybersicurezza",
+        "Hacking Etico",
+        "Test di Penetrazione",
+        "Sicurezza di Rete",
+        "CISSP",
+        "CEH",
+        "Gestione Firewall",
+        "Valutazione Vulnerabilità",
+        "Gestione del Rischio",
+        "ISO 27001",
+        "Conformità GDPR",
+        "Risposta agli Incidenti",
+        "Analisi Malware",
+        "Audit di Sicurezza",
+        "Crittografia",
+        "Sicurezza Linux"
+      ],
       "formazione": [
         {
           "school": "Università La Sapienza Roma",
