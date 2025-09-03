@@ -435,63 +435,62 @@ body {
 
 /* footer */
 
-#footer a{
-    text-decoration: none;
-        font-weight: 500;
-    color: grey;
-    font-size: 0.8em;
-    line-height: normal;
+#footer a {
+  text-decoration: none;
+  font-weight: 500;
+  color: grey;
+  font-size: 0.8em;
+  line-height: normal;
 }
 
-#footer p{
-    line-height: normal;
-    color: grey;
+#footer p {
+  line-height: normal;
+  color: grey;
 }
 
-#footer a:hover{
-    text-decoration: underline;
-    color: blue;
+#footer a:hover {
+  text-decoration: underline;
+  color: blue;
 }
 
-#footer button{
-    font-weight: 500;
-    color: black;
-    background: white;
-    width: 100%;
-    text-align: start;
-    border: 2px solid black;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+#footer button {
+  font-weight: 500;
+  color: black;
+  background: white;
+  width: 100%;
+  text-align: start;
+  border: 2px solid black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* Search dropdown styles */
 .hover-bg-light:hover {
   background-color: #f3f2ef !important;
 }
-#footer .show{
+#footer .show {
   width: 100%;
 }
-
-
 
 /* fine footer */
 
 /* pagina rete*/
 
-.netCentrale{
+.netCentrale {
   background: white;
   border: 1px solid rgb(199, 199, 199);
   margin-bottom: 1em;
 }
 
-.netCentrale .card{
- border: 1px solid rgb(199, 199, 199) !important
+.netCentrale .card {
+  border: 1px solid rgb(199, 199, 199) !important;
 }
 
-
-
-.netCentrale button:hover{
+.netCentrale button:hover {
   background: #b0ceeb !important;
   border: 2px solid blue !important;
+}
+.bordofinale {
+  border: 1px solid rgb(199, 199, 199) !important;
 }
