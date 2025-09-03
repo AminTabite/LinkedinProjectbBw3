@@ -15,8 +15,8 @@ export const ottieniUtentiAction = () => {
       if (risposta.ok) {
         const utenti = await risposta.json();
         dispatch({
-          type: "OTTIENI_UTENTI",
-          payload: utenti.slice(0, 5)
+          type: "OTTIENI_UTENTI", 
+          payload: utenti
         });
       }
     } catch (errore) {

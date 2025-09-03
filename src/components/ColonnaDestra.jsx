@@ -64,8 +64,32 @@ const ColonnaDestra = () => {
       <div className="border rounded p-3 bg-white">
         <h6 className="mb-3">Altri profili consultati</h6>
 
-        {arrayUtenti && arrayUtenti.length > 0 &&
-          arrayUtenti.map((utente) => {
+        {arrayUtenti && arrayUtenti.length > 0 ? 
+          arrayUtenti.slice(5, 10).map((utente) => {
+            return (
+              <div key={utente._id} className="d-flex align-items-center mb-2">
+                <img
+                  src={utente.image}
+                  className="rounded-circle  me-2"
+                  style={{ width: 40, height: 40 }}
+                  alt={`${utente.name} ${utente.surname}`}
+                />
+                <div>
+                  <p className="mb-0 small fw-bold">
+                    {utente.name + " " + utente.surname}
+                  </p>
+                  <button
+                    className="btn btn-outline-secondary btn-sm"
+                    onClick={() => gestisciVisualizzaProfilo(utente._id)}
+                  >
+                    Visualizza
+                  </button>
+                </div>
+              </div>
+            );
+          }) :
+          arrayUtenti && arrayUtenti.length > 0 &&
+          arrayUtenti.slice(0, Math.min(5, arrayUtenti.length)).map((utente) => {
             return (
               <div key={utente._id} className="d-flex align-items-center mb-2">
                 <img
@@ -106,52 +130,42 @@ const ColonnaDestra = () => {
       {/* Persone che potresti conoscere */}
       <div className="border rounded p-3 bg-white">
         <h6 className="mb-3">Persone che potresti conoscere</h6>
-        {arrayUtenti && arrayUtenti.length >= 12 &&
-          [
-            {
-              nome: arrayUtenti[4]?.name + " " + arrayUtenti[4]?.surname,
-              ruolo: arrayUtenti[4]?.title,
-              urlImmagine: arrayUtenti[4]?.image,
-              id: arrayUtenti[4]?._id,
-            },
-            {
-              nome: arrayUtenti[3]?.name + " " + arrayUtenti[3]?.surname,
-              ruolo: arrayUtenti[3]?.title,
-              urlImmagine: arrayUtenti[3]?.image,
-              id: arrayUtenti[3]?._id,
-            },
-            {
-              nome: arrayUtenti[2]?.name + " " + arrayUtenti[2]?.surname,
-              ruolo: arrayUtenti[2]?.title,
-              urlImmagine: arrayUtenti[2]?.image,
-              id: arrayUtenti[2]?._id,
-            },
-            {
-              nome: arrayUtenti[1]?.name + " " + arrayUtenti[1]?.surname,
-              ruolo: arrayUtenti[1]?.title,
-              urlImmagine: arrayUtenti[1]?.image,
-              id: arrayUtenti[1]?._id,
-            },
-            {
-              nome: arrayUtenti[0]?.name + " " + arrayUtenti[0]?.surname,
-              ruolo: arrayUtenti[0]?.title,
-              urlImmagine: arrayUtenti[0]?.image,
-              id: arrayUtenti[0]?._id,
-            },
-          ].filter(persona => persona.nome && persona.id).map((persona, indice) => (
+        {arrayUtenti && arrayUtenti.length > 5 ? 
+          arrayUtenti.slice(-5).map((utente, indice) => (
             <div key={indice} className="d-flex align-items-center mb-2">
               <img
-                src={persona.urlImmagine}
+                src={utente.image}
                 className="rounded-circle bg-secondary me-2"
                 style={{ width: 40, height: 40 }}
-                alt={persona.nome}
+                alt={utente.name + " " + utente.surname}
               />
               <div className="flex-grow-1">
-                <p className="mb-0 small fw-bold">{persona.nome}</p>
-                <p className="mb-1 small text-muted">{persona.ruolo}</p>
+                <p className="mb-0 small fw-bold">{utente.name + " " + utente.surname}</p>
+                <p className="mb-1 small text-muted">{utente.title}</p>
                 <button
                   className="btn btn-outline-primary btn-sm"
-                  onClick={() => gestisciVisualizzaProfilo(persona.id)}
+                  onClick={() => gestisciVisualizzaProfilo(utente._id)}
+                >
+                  Collegati
+                </button>
+              </div>
+            </div>
+          )) :
+          arrayUtenti && arrayUtenti.length > 0 &&
+          arrayUtenti.filter((_, index) => [1, 3, 5, 7, 9].includes(index) && arrayUtenti[index]).slice(0, 5).map((utente, indice) => (
+            <div key={indice} className="d-flex align-items-center mb-2">
+              <img
+                src={utente.image}
+                className="rounded-circle bg-secondary me-2"
+                style={{ width: 40, height: 40 }}
+                alt={utente.name + " " + utente.surname}
+              />
+              <div className="flex-grow-1">
+                <p className="mb-0 small fw-bold">{utente.name + " " + utente.surname}</p>
+                <p className="mb-1 small text-muted">{utente.title}</p>
+                <button
+                  className="btn btn-outline-primary btn-sm"
+                  onClick={() => gestisciVisualizzaProfilo(utente._id)}
                 >
                   Collegati
                 </button>
