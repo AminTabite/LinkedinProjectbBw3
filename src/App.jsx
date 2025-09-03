@@ -7,7 +7,6 @@ import Rete from "./components/Rete";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import MyFooter from "./components/MyFooter";
 import ProfilePage from "./components/ProfilePage";
-import Rete from "./components/Rete";
 
 import HomePage from "./components/HomePage";
 import PaginaLavoro from "./components/JobsPage";
