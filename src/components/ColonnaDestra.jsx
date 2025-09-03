@@ -64,7 +64,7 @@ const ColonnaDestra = () => {
       <div className="border rounded p-3 bg-white">
         <h6 className="mb-3">Altri profili consultati</h6>
 
-        {arrayUtenti && arrayUtenti.length > 0 ? 
+        {arrayUtenti && arrayUtenti.length > 5 ? 
           arrayUtenti.slice(5, 10).map((utente) => {
             return (
               <div key={utente._id} className="d-flex align-items-center mb-2">
@@ -88,8 +88,8 @@ const ColonnaDestra = () => {
               </div>
             );
           }) :
-          arrayUtenti && arrayUtenti.length > 0 &&
-          arrayUtenti.slice(0, Math.min(5, arrayUtenti.length)).map((utente) => {
+          arrayUtenti && arrayUtenti.length > 0 ?
+          arrayUtenti.slice(0, 5).map((utente) => {
             return (
               <div key={utente._id} className="d-flex align-items-center mb-2">
                 <img
@@ -111,7 +111,7 @@ const ColonnaDestra = () => {
                 </div>
               </div>
             );
-          })}
+          }) : null}
 
         {/*<div className="d-flex align-items-center">
           <div
