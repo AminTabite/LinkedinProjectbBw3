@@ -1,4 +1,4 @@
-import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
+import { Container, Row, Col, Button, Modal, Form, Card } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { GoPencil } from "react-icons/go";
 import { FiPlus } from "react-icons/fi";
@@ -375,6 +375,54 @@ function ProfileMainSection({ userId }) {
           <p className="my-1">Soft Skill 1</p>
         </div>
       </div>
+
+        
+               <Card className="shadow-sm" style={{  borderRadius: "8px" }}>
+  <Card.Body>
+    <Card.Title className="mb-2">Interessi</Card.Title>
+    <p className="text-muted small mb-3">Aziende</p>
+
+    <div className="d-flex justify-content-between align-items-center border-bottom py-2">
+      <div className="d-flex align-items-center">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"
+          alt="Windows logo"
+          width="40"
+          height="40"
+          className="me-3"
+        />
+        <div>
+          <p className="mb-0 fw-semibold">Microsoft</p>
+          <small className="text-muted">26.000.000 follower</small>
+        </div>
+      </div>
+      <Button variant="outline-secondary" size="sm" className="rounded-pill">
+        ✓ Già segui
+      </Button>
+    </div>
+
+    <div className="d-flex justify-content-between align-items-center py-2">
+      <div className="d-flex align-items-center">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
+          alt="Apple logo"
+          width="40"
+          height="40"
+          className="me-3"
+        />
+        <div>
+          <p className="mb-0 fw-semibold">Apple</p>
+          <small className="text-muted">976.037 follower</small>
+        </div>
+      </div>
+      <Button variant="outline-secondary" size="sm" className="rounded-pill">
+        ✓ Già segui
+      </Button>
+    </div>
+  </Card.Body>
+</Card>
+
+
       <Modal show={showAdd} onHide={handleCloseAdd}>
         <Modal.Header closeButton>
           <Modal.Title>Inserisci una nuova esperienza</Modal.Title>
