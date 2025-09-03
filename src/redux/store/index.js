@@ -4,6 +4,7 @@ import Usersreducer from "../users";
 import PostsReducer from "../posts";
 import AuthReducer from "../auth";
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import LoginReducer from "../login";
 
 const Reducer = combineReducers({
   auth: AuthReducer,
@@ -11,6 +12,7 @@ const Reducer = combineReducers({
   jobs: JobsReducer,
   users: Usersreducer,
   posts: PostsReducer,
+  login: LoginReducer,
 });
 
 const store = configureStore({
