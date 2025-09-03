@@ -49,7 +49,7 @@ const BarraNavigazioneLinkedIn = () => {
         setCaricamento(true);
         setLoading(true);
         const data = await clientApi.ottieniIlMioProfilo();
-        
+
         setDatiProfilo(data);
         console.log(data);
         dispatch({
@@ -110,6 +110,9 @@ const BarraNavigazioneLinkedIn = () => {
     navigate(`/jobs?search=${encodeURIComponent(categoria.nome)}`);
   };
 
+  if (posizioneCorrente.pathname === "/login") {
+    return null;
+  }
   return (
     <Navbar
       bg="white"
@@ -278,7 +281,11 @@ const BarraNavigazioneLinkedIn = () => {
                   }
                   alt="Profilo"
                   className="rounded-circle"
-                  style={{ width: "24px", height: "24px", objectFit: "cover" }}
+                  style={{
+                    width: "24px",
+                    height: "24px",
+                    objectFit: "cover",
+                  }}
                 />
               </div>
               <div className="testo-navigazione d-flex align-items-center">
@@ -295,7 +302,11 @@ const BarraNavigazioneLinkedIn = () => {
                   }
                   alt="Profilo"
                   className="rounded-circle"
-                  style={{ width: "64px", height: "64px", objectFit: "cover" }}
+                  style={{
+                    width: "64px",
+                    height: "64px",
+                    objectFit: "cover",
+                  }}
                 />
                 <div className="info-profilo">
                   <div className="nome-profilo">

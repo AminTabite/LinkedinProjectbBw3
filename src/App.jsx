@@ -10,6 +10,7 @@ import ProfilePage from "./components/ProfilePage";
 
 import HomePage from "./components/HomePage";
 import PaginaLavoro from "./components/JobsPage";
+import LoginPage from "./components/LoginPage";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 
@@ -19,6 +20,7 @@ function App() {
       <Provider store={store}>
         <BarraNavigazioneLinkedIn />
         <Routes>
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/network" element={<Rete />} />
           <Route path="/jobs" element={<PaginaLavoro />} />
