@@ -1,0 +1,24 @@
+{"users": [
+    {
+      "id": "68b597351627c60015f8c568",
+      "username": "Alessandro",
+      "password": "fozzanapoli",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTczNTE2MjdjNjAwMTVmOGM1NjgiLCJpYXQiOjE3NTY3MzExODksImV4cCI6MTc1Nzk0MDc4OX0.EE1GDQeokGCuIu43ACNAuxw4--0MPsa1SFutXaarjxk",
+      "name": "Alessandro di Martino"
+    },
+    {
+      "id": 2,
+      "username": "user",
+      "password": "user123",
+      "role": "user",
+      "name": "Luigi Bianchi"
+    },
+    {
+      "id": 3,
+      "username": "demo",
+      "password": "demo",
+      "role": "guest",
+      "name": "Demo User"
+    }
+  ]
+}

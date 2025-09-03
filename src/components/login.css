@@ -1,0 +1,11 @@
+.loginBox {
+  max-width: 500px;
+  border-radius: 10px;
+  background-color: white;
+  padding: 45px;
+}
+
+.loginLogo {
+  max-width: 365px;
+  height: auto;
+}
