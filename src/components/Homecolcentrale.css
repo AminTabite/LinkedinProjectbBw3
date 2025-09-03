@@ -1,0 +1,38 @@
+.tooltip-consiglia {
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateX(-50%) translateY(5px);
+  pointer-events: none;
+}
+
+.btn-consiglia:hover .tooltip-consiglia:not(.tooltip-hidden),
+.btn-consiglia .tooltip-consiglia:hover:not(.tooltip-hidden),
+.tooltip-consiglia:hover:not(.tooltip-hidden) {
+  display: block !important;
+  opacity: 1 !important;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.tooltip-hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateX(-50%) translateY(5px) !important;
+}
+
+/* Mantieni il tooltip visibile quando si interagisce con esso */
+.btn-consiglia:hover .tooltip-consiglia * {
+  pointer-events: auto;
+}
+
+/* Aggiungi un ponte invisibile per mantenere l'hover */
+.tooltip-consiglia::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: transparent;
+}
+

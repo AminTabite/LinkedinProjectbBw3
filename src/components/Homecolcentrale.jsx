@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { ottieniPostAction, caricaPiuPostAction, ordinaPostPerDataAction, aggiungiPostAction, eliminaPostAction } from "../redux/posts";
 import { TOKEN } from "../config/constants";
+import "./Homecolcentrale.css";
 
 const Homecolcentrale = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const Homecolcentrale = () => {
   const user = useSelector((state) => state.profile);
   const [testoPost, setTestoPost] = useState("");
   const [immaginSelezionata, setImmagineSelezionata] = useState(null);
+  const [reazioni, setReazioni] = useState({});
 
   const caricaAltri = () => {
     dispatch(caricaPiuPostAction());
@@ -43,6 +45,46 @@ const Homecolcentrale = () => {
         alert("Errore nell'eliminazione del post");
       }
     }
+  };
+
+  const aggiungiReazione = (postId, emoji) => {
+    setReazioni(prev => {
+      const postReactions = prev[postId] || {};
+      const currentUserReaction = postReactions.userReaction;
+      
+      // Se l'utente ha già reagito con la stessa emoji, rimuovila
+      if (currentUserReaction === emoji) {
+        const newReactions = { ...postReactions };
+        newReactions[emoji] = Math.max((newReactions[emoji] || 1) - 1, 0);
+        if (newReactions[emoji] === 0) {
+          delete newReactions[emoji];
+        }
+        delete newReactions.userReaction;
+        
+        return {
+          ...prev,
+          [postId]: newReactions
+        };
+      }
+      
+      // Se l'utente aveva una reazione diversa, rimuovi quella vecchia
+      const updatedReactions = { ...postReactions };
+      if (currentUserReaction) {
+        updatedReactions[currentUserReaction] = Math.max((updatedReactions[currentUserReaction] || 1) - 1, 0);
+        if (updatedReactions[currentUserReaction] === 0) {
+          delete updatedReactions[currentUserReaction];
+        }
+      }
+      
+      // Aggiungi la nuova reazione
+      updatedReactions[emoji] = (updatedReactions[emoji] || 0) + 1;
+      updatedReactions.userReaction = emoji;
+      
+      return {
+        ...prev,
+        [postId]: updatedReactions
+      };
+    });
   };
 
   useEffect(() => {
@@ -373,7 +415,15 @@ const Homecolcentrale = () => {
                       </div>
 
                       {/* Interazioni */}
-                      <div className="w-100 p-2 border-bottom">
+                      <div className="w-100 p-2 border-bottom d-flex justify-content-between align-items-center">
+                        <div className="d-flex align-items-center gap-1">
+                          {reazioni[post._id] && Object.entries(reazioni[post._id]).filter(([key]) => key !== 'userReaction').map(([emoji, count]) => (
+                            <span key={emoji} className="d-flex align-items-center gap-1 small">
+                              <span style={{ fontSize: "14px" }}>{emoji}</span>
+                              <span className="text-muted">{count}</span>
+                            </span>
+                          ))}
+                        </div>
                         <span className="small text-muted">
                           26 commenti - 9 diffusioni post
                         </span>
@@ -387,16 +437,92 @@ const Homecolcentrale = () => {
                         >
                           <Button
                             variant="link"
-                            className="text-dark border-0 flex-fill py-2"
+                            className="text-dark border-0 flex-fill py-2 position-relative btn-consiglia"
                             style={{
                               textDecoration: "none",
                               fontSize: "14px",
                               fontWeight: "600",
                               color: "#000 !important"
                             }}
+                            onMouseEnter={(e) => {
+                              const tooltip = e.target.querySelector('.tooltip-consiglia');
+                              if (tooltip) {
+                                tooltip.classList.remove('tooltip-hidden');
+                              }
+                            }}
+                            onMouseLeave={(e) => {
+                              const tooltip = e.target.querySelector('.tooltip-consiglia');
+                              if (tooltip) {
+                                tooltip.classList.remove('tooltip-hidden');
+                              }
+                            }}
                           >
                             <i className="bi bi-hand-thumbs-up me-2" style={{ color: "#000", fontSize: "20px", fontWeight: "bold" }}></i>
                             Consiglia
+                            <span 
+                              className="position-absolute tooltip-consiglia"
+                              style={{
+                                bottom: "100%",
+                                left: "50%",
+                                transform: "translateX(-50%)",
+                                background: "white",
+                                borderRadius: "25px",
+                                boxShadow: "0 4px 20px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.1)",
+                                padding: "8px 12px",
+                                fontSize: "18px",
+                                whiteSpace: "nowrap",
+                                zIndex: 1000,
+                                marginBottom: "8px",
+                                display: "flex",
+                                gap: "4px",
+                                alignItems: "center"
+                              }}
+                            >
+                              {[
+                                { emoji: '👍', color: '#0073b1', bgColor: '#e7f3ff' },
+                                { emoji: '❤️', color: '#ed4d47', bgColor: '#ffebea' },
+                                { emoji: '👏', color: '#f5c75d', bgColor: '#fff8e7' },
+                                { emoji: '🎉', color: '#8066c7', bgColor: '#f2efff' },
+                                { emoji: '😊', color: '#61a24d', bgColor: '#f0f8ec' },
+                                { emoji: '😢', color: '#6ba3d6', bgColor: '#eef5fc' }
+                              ].map((item, idx) => (
+                                <span 
+                                  key={idx}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    aggiungiReazione(post._id, item.emoji);
+                                    const tooltip = e.target.closest('.tooltip-consiglia');
+                                    if (tooltip) {
+                                      tooltip.classList.add('tooltip-hidden');
+                                    }
+                                  }}
+                                  style={{ 
+                                    cursor: 'pointer',
+                                    padding: '6px',
+                                    borderRadius: '50%',
+                                    backgroundColor: item.bgColor,
+                                    border: `1px solid ${item.color}20`,
+                                    transition: 'all 0.2s ease',
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: '36px',
+                                    height: '36px',
+                                    fontSize: '16px'
+                                  }}
+                                  onMouseEnter={(e) => {
+                                    e.target.style.transform = 'scale(1.1)';
+                                    e.target.style.boxShadow = `0 2px 8px ${item.color}40`;
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    e.target.style.transform = 'scale(1)';
+                                    e.target.style.boxShadow = 'none';
+                                  }}
+                                >
+                                  {item.emoji}
+                                </span>
+                              ))}
+                            </span>
                           </Button>
                           <Button
                             variant="link"
