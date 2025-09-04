@@ -132,20 +132,41 @@ const Herosection = ({ userId }) => {
                       user.id === userId || user.id.toString() === userId.toString()
                     );
                   } else {
-                    const utenteLoggato = ottieniUtenteCorrente();
-                    if (utenteLoggato) {
+                    const localStorageData = localStorage.getItem("userIdSession");
+                    let utenteLoggato = null;
+                    
+                    if (localStorageData) {
+                      try {
+                        utenteLoggato = JSON.parse(localStorageData);
+                      } catch (e) {
+                        console.error('Errore parsing localStorage:', e);
+                      }
+                    }
+                    
+                    // Cerca l'utente nel JSON
+                    if (datiProfilo?._id) {
+                      currentUser = usersData.users.find(user => user.id === datiProfilo._id);
+                    } else if (utenteLoggato?.username) {
+                      currentUser = usersData.users.find(user => user.username === utenteLoggato.username);
+                    } else if (utenteLoggato?._id) {
+                      currentUser = usersData.users.find(user => user.id === utenteLoggato._id);
+                    }
+                    
+                    // Prova match alternativi
+                    if (!currentUser && utenteLoggato) {
                       currentUser = usersData.users.find(user => 
-                        user.username === utenteLoggato.username || 
-                        user.id === utenteLoggato.id ||
-                        user.id === utenteLoggato._id
+                        user.id.toString() === utenteLoggato._id?.toString() ||
+                        user.username.toLowerCase() === utenteLoggato.username?.toLowerCase()
                       );
                     }
+                    
+                    // Fallback al primo utente
                     if (!currentUser) {
                       currentUser = usersData.users[0];
                     }
                   }
                   
-                  if (currentUser?.formazione) {
+                  if (currentUser?.formazione && currentUser.formazione.length > 0) {
                     const formazioneFiltrata = currentUser.formazione.filter(edu => 
                       edu.school === "Politecnico di Milano" || edu.school === "Istituto Tecnico Industriale"
                     );
@@ -166,10 +187,49 @@ const Herosection = ({ userId }) => {
                           ))}
                         </div>
                       );
+                    } else {
+                      // Mostra tutta la formazione dell'utente
+                      return (
+                        <div className="text-end">
+                          {currentUser.formazione.map((edu, index) => (
+                            <div key={index} className="mb-2 d-flex align-items-center" style={{ justifyContent: "flex-end", marginRight: "20px" }}>
+                              <img 
+                                src={edu.logo} 
+                                alt={edu.school} 
+                                className="me-3"
+                                style={{ width: "40px", height: "40px", objectFit: "contain" }}
+                              />
+                              <p className="mb-0" style={{ fontWeight: "500", color: "#333" }}>{edu.school}</p>
+                            </div>
+                          ))}
+                        </div>
+                      );
                     }
                   }
                   
-                  return <p>Formazione</p>;
+                  // Se non trova match, mostra sempre Politecnico di Milano e Istituto Tecnico Industriale
+                  return (
+                    <div className="text-end">
+                      <div className="mb-2 d-flex align-items-center" style={{ justifyContent: "flex-end", marginRight: "20px" }}>
+                        <img 
+                          src="https://upload.wikimedia.org/wikipedia/it/b/be/Logo_Politecnico_Milano.png" 
+                          alt="Politecnico di Milano" 
+                          className="me-3"
+                          style={{ width: "40px", height: "40px", objectFit: "contain" }}
+                        />
+                        <p className="mb-0" style={{ fontWeight: "500", color: "#333" }}>Politecnico di Milano</p>
+                      </div>
+                      <div className="mb-2 d-flex align-items-center" style={{ justifyContent: "flex-end", marginRight: "20px" }}>
+                        <img 
+                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRUDj9t544lY_1Jm4pWulnaJDycM1jmibFhg&s" 
+                          alt="Istituto Tecnico Industriale" 
+                          className="me-3"
+                          style={{ width: "40px", height: "40px", objectFit: "contain" }}
+                        />
+                        <p className="mb-0" style={{ fontWeight: "500", color: "#333" }}>Istituto Tecnico Industriale</p>
+                      </div>
+                    </div>
+                  );
                 })()}
               </div>
               </div>
