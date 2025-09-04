@@ -116,6 +116,7 @@ const Herosection = ({ userId }) => {
           <Card.Body>
             <div></div>
             <Card.Text>
+              <div className="d-flex justify-content-between">
               <h4 className="mb-0">
                 {datiProfilo?.name && datiProfilo?.surname
                   ? `${datiProfilo.name} ${datiProfilo.surname}`
@@ -124,6 +125,8 @@ const Herosection = ({ userId }) => {
                     }`}
                 <BiClipboard /> He/ Him
               </h4>
+              <p>Formazione</p>
+              </div>
               <p className="profession">
                 {datiProfilo?.title ||
                   profiloDaRedux?.userTitle ||
