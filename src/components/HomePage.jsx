@@ -23,6 +23,9 @@ const HomePage = () => {
           </Col>
           <Col xs={12} md={8} xl={6}>
             <Homecolcentrale />
+            <div className="d-block d-md-none mb-5">
+              <MiniFooter />
+            </div>
           </Col>
           <Col className="d-none d-md-block" md={4} xl={3}>
             <ColonnaDxHome />
