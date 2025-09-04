@@ -1,0 +1,9 @@
+.colonna5em {
+  position: sticky;
+  top: 5em;
+}
+
+.colonnaDx {
+  position: sticky;
+  top: -20.4em;
+}
