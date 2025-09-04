@@ -26,7 +26,9 @@ const ColonnaSxHome = () => {
     // Carica i dati di formazione dal JSON locale
     const loadUserFormazione = () => {
       if (user && user.id) {
-        const currentUser = usersData.users.find(u => u.id === user.id || u.id.toString() === user.id.toString());
+        const currentUser = usersData.users.find(
+          (u) => u.id === user.id || u.id.toString() === user.id.toString()
+        );
         if (currentUser && currentUser.formazione) {
           setUserFormazione(currentUser.formazione);
         }
@@ -38,7 +40,7 @@ const ColonnaSxHome = () => {
   }, [user]);
 
   return (
-    <div style={{ width: "18rem" }}>
+    <div>
       {/* Card profilo */}
       <Card className="mb-3 shadow-sm border-0">
         <div className="position-relative">
@@ -48,7 +50,10 @@ const ColonnaSxHome = () => {
             style={{ height: "80px", objectFit: "cover" }}
           />
           <img
-            src={apiProfile?.image || "https://via.placeholder.com/64x64/0a66c2/ffffff?text=U"}
+            src={
+              apiProfile?.image ||
+              "https://via.placeholder.com/64x64/0a66c2/ffffff?text=U"
+            }
             className="rounded-circle border border-3 border-white position-absolute"
             style={{
               width: "64px",
@@ -76,23 +81,30 @@ const ColonnaSxHome = () => {
                 {userFormazione.length > 0 ? (
                   <div className="mt-1">
                     {userFormazione.map((formazione, index) => (
-                      <div key={index} className="mb-2 d-flex align-items-center">
-                        <img 
-                          src={formazione.logo} 
+                      <div
+                        key={index}
+                        className="mb-2 d-flex align-items-center"
+                      >
+                        <img
+                          src={formazione.logo}
                           alt={`Logo ${formazione.school}`}
                           className="me-2"
                           style={{
                             width: "32px",
                             height: "32px",
-                            objectFit: "contain"
+                            objectFit: "contain",
                           }}
                         />
-                        <div className="text-dark fw-semibold">{formazione.school}</div>
+                        <div className="text-dark fw-semibold">
+                          {formazione.school}
+                        </div>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <div className="mt-1 text-muted">Nessuna formazione trovata</div>
+                  <div className="mt-1 text-muted">
+                    Nessuna formazione trovata
+                  </div>
                 )}
               </div>
             </div>
