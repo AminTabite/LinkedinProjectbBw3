@@ -15,16 +15,16 @@ const HomePage = () => {
     }
   }, [savedData, navigate]);
   return (
-    <div style={{ paddingTop: "7em", background: "#F4F2EE" }}>
-      <Container>
+    <div style={{ paddingTop: "5em", background: "#F4F2EE" }}>
+      <Container fluid="lg">
         <Row className="align-items-start g-2">
-          <Col xs={0} md={3}>
+          <Col className="d-none d-xl-block" xl={3}>
             <ColonnaSxHome />
           </Col>
-          <Col xs={12} md={6}>
+          <Col xs={12} md={8} xl={6}>
             <Homecolcentrale />
           </Col>
-          <Col xs={0} md={3}>
+          <Col className="d-none d-md-block" md={4} xl={3}>
             <ColonnaDxHome />
             <MiniFooter />
           </Col>

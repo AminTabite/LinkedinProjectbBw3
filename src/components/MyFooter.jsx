@@ -9,7 +9,7 @@ const MyFooter = () => {
     <div style={{ background: "#F4F2EE" }} id="footer" className="pt-3">
       <Container>
         <Row>
-          <Col xs={2}>
+          <Col xs={{ order: 2, span: 4 }} md={{ order: 1, span: 2 }}>
             <p>
               <a href="#">Informazioni</a>
             </p>
@@ -26,7 +26,7 @@ const MyFooter = () => {
               <a href="#">Centro sicurezza</a>
             </p>
           </Col>
-          <Col xs={2}>
+          <Col xs={{ order: 2, span: 4 }} md={{ order: 1, span: 2 }}>
             <p>
               <a href="#">Accessibilità</a>
             </p>
@@ -40,7 +40,7 @@ const MyFooter = () => {
               <a href="#">Mobile</a>
             </p>
           </Col>
-          <Col xs={2}>
+          <Col xs={{ order: 2, span: 4 }} md={{ order: 1, span: 2 }}>
             <p>
               <a href="#">Talent solutions</a>
             </p>
@@ -54,7 +54,7 @@ const MyFooter = () => {
               <a href="#">Piccole imprese</a>
             </p>
           </Col>
-          <Col xs={3}>
+          <Col xs={{ order: 1, span: 6 }} md={{ order: 2, span: 3 }}>
             <div className="d-flex">
               <div className="fs-5">
                 <i className="bi bi-question-circle-fill"></i>{" "}
@@ -95,7 +95,7 @@ const MyFooter = () => {
               </div>
             </div>
           </Col>
-          <Col xs={3}>
+          <Col xs={{ order: 1, span: 6 }} md={{ order: 2, span: 3 }}>
             <div>
               <p className=" ms-2 mb-0 mt-4" style={{ fontSize: "0.8em" }}>
                 Seleziona la lingua
@@ -105,21 +105,24 @@ const MyFooter = () => {
                   href="#/action-1"
                   onClick={() => {
                     setLanguage("Italiano");
-                  }}>
+                  }}
+                >
                   Italiano
                 </Dropdown.Item>
                 <Dropdown.Item
                   href="#/action-2"
                   onClick={() => {
                     setLanguage("English");
-                  }}>
+                  }}
+                >
                   English
                 </Dropdown.Item>
                 <Dropdown.Item
                   href="#/action-3"
                   onClick={() => {
                     setLanguage("Espanol");
-                  }}>
+                  }}
+                >
                   Espanol
                 </Dropdown.Item>
               </DropdownButton>

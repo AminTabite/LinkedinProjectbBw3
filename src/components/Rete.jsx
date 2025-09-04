@@ -15,7 +15,7 @@ const Rete = () => {
   }, [savedData, navigate]);
   return (
     <div style={{ background: "#F4F2EE" }}>
-      <Container style={{ paddingTop: "5em" }}>
+      <Container style={{ paddingTop: "5em" }} fluid="lg">
         <Row>
           <Col className="d-none d-lg-inline" xs={0} md={4}>
             <ColSxRete />
