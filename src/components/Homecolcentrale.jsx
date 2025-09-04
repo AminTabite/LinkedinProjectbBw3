@@ -19,6 +19,7 @@ const Homecolcentrale = () => {
   const [reazioni, setReazioni] = useState({});
   const [apiProfile, setApiProfile] = useState(null);
   const [numeroCommenti, setNumeroCommenti] = useState({});
+  const [tipoOrdinamento, setTipoOrdinamento] = useState("rilevanti");
 
   const ottieniNumeriCasuali = (postId) => {
     if (!numeroCommenti[postId]) {
@@ -43,6 +44,12 @@ const Homecolcentrale = () => {
 
   const mostraPostRecenti = () => {
     dispatch(ordinaPostPerDataAction());
+    setTipoOrdinamento("recenti");
+  };
+
+  const mostraPostRilevanti = () => {
+    dispatch(ottieniPostAction());
+    setTipoOrdinamento("rilevanti");
   };
 
   const selezionaImmagine = (event) => {
@@ -365,12 +372,12 @@ const Homecolcentrale = () => {
                     variant="link"
                     className="p-0 fw-semibold text-decoration-none text-dark"
                   >
-                    Più rilevanti per primi
+                    {tipoOrdinamento === "recenti" ? "Post più recenti" : "Più rilevanti per primi"}
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
                     <Dropdown.Item onClick={mostraPostRecenti}>Mostra post recenti</Dropdown.Item>
-                    <Dropdown.Item>Mostra post rilevanti</Dropdown.Item>
+                    <Dropdown.Item onClick={mostraPostRilevanti}>Mostra post rilevanti</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               </Col>
