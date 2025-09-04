@@ -3,10 +3,12 @@ import { BsPersonPlus } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import clientApi from "../services/api";
+import usersData from "../data/users.json";
 
 const ColonnaSxHome = () => {
   const { user } = useSelector((state) => state.auth);
   const [apiProfile, setApiProfile] = useState(null);
+  const [userFormazione, setUserFormazione] = useState([]);
 
   // Carica l'immagine profilo dall'API quando l'utente è loggato
   useEffect(() => {
@@ -21,7 +23,18 @@ const ColonnaSxHome = () => {
       }
     };
 
+    // Carica i dati di formazione dal JSON locale
+    const loadUserFormazione = () => {
+      if (user && user.id) {
+        const currentUser = usersData.users.find(u => u.id === user.id || u.id.toString() === user.id.toString());
+        if (currentUser && currentUser.formazione) {
+          setUserFormazione(currentUser.formazione);
+        }
+      }
+    };
+
     fetchApiProfile();
+    loadUserFormazione();
   }, [user]);
 
   return (
@@ -59,7 +72,29 @@ const ColonnaSxHome = () => {
               <Card.Text className="text-muted small">
                 {apiProfile?.area || "Location"}
               </Card.Text>
-              <Card.Link href="/profile" className="small">Visualizza profilo</Card.Link>
+              <div className="small text-dark">
+                {userFormazione.length > 0 ? (
+                  <div className="mt-1">
+                    {userFormazione.map((formazione, index) => (
+                      <div key={index} className="mb-2 d-flex align-items-center">
+                        <img 
+                          src={formazione.logo} 
+                          alt={`Logo ${formazione.school}`}
+                          className="me-2"
+                          style={{
+                            width: "32px",
+                            height: "32px",
+                            objectFit: "contain"
+                          }}
+                        />
+                        <div className="text-dark fw-semibold">{formazione.school}</div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="mt-1 text-muted">Nessuna formazione trovata</div>
+                )}
+              </div>
             </div>
           </div>
         </Card.Body>
