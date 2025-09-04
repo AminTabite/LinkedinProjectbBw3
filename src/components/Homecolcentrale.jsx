@@ -18,6 +18,24 @@ const Homecolcentrale = () => {
   const [immaginSelezionata, setImmagineSelezionata] = useState(null);
   const [reazioni, setReazioni] = useState({});
   const [apiProfile, setApiProfile] = useState(null);
+  const [numeroCommenti, setNumeroCommenti] = useState({});
+
+  const ottieniNumeriCasuali = (postId) => {
+    if (!numeroCommenti[postId]) {
+      setNumeroCommenti(prev => ({
+        ...prev,
+        [postId]: {
+          commenti: Math.floor(Math.random() * 150) + 1,
+          diffusioni: Math.floor(Math.random() * 20) + 1
+        }
+      }));
+      return {
+        commenti: Math.floor(Math.random() * 150) + 1,
+        diffusioni: Math.floor(Math.random() * 20) + 1
+      };
+    }
+    return numeroCommenti[postId];
+  };
 
   const caricaAltri = () => {
     dispatch(caricaPiuPostAction());
@@ -447,7 +465,7 @@ const Homecolcentrale = () => {
                           ))}
                         </div>
                         <span className="small text-muted">
-                          26 commenti - 9 diffusioni post
+                          {ottieniNumeriCasuali(post._id).commenti} commenti - {ottieniNumeriCasuali(post._id).diffusioni} diffusioni post
                         </span>
                       </div>
 
