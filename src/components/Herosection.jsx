@@ -5,7 +5,8 @@ import { useState, useEffect } from "react";
 import clientApi from "../services/api";
 import "./Herosection.css";
 import { useSelector } from "react-redux";
-import { getToken } from "../config/constants";
+import { getToken, ottieniUtenteCorrente } from "../config/constants";
+import usersData from "../data/users.json";
 
 const Herosection = ({ userId }) => {
   const [datiProfilo, setDatiProfilo] = useState(null);
@@ -22,14 +23,11 @@ const Herosection = ({ userId }) => {
       setCaricamento(true);
       let dati;
       if (userId) {
-        // Carica profilo specifico utente
         dati = await clientApi.ottieniProfilo(userId);
       } else {
-        // Carica il proprio profilo
         dati = await clientApi.ottieniIlMioProfilo();
       }
       setDatiProfilo(dati);
-      console.log(dati);
     } catch (err) {
       setErrore(err.message);
     } finally {
@@ -115,7 +113,7 @@ const Herosection = ({ userId }) => {
           </div>
           <Card.Body>
             <div></div>
-            <Card.Text>
+            <div>
               <div className="d-flex justify-content-between">
               <h4 className="mb-0">
                 {datiProfilo?.name && datiProfilo?.surname
@@ -125,7 +123,55 @@ const Herosection = ({ userId }) => {
                     }`}
                 <BiClipboard /> He/ Him
               </h4>
-              <p>Formazione</p>
+              <div>
+                {(() => {
+                  let currentUser;
+                  
+                  if (userId) {
+                    currentUser = usersData.users.find(user => 
+                      user.id === userId || user.id.toString() === userId.toString()
+                    );
+                  } else {
+                    const utenteLoggato = ottieniUtenteCorrente();
+                    if (utenteLoggato) {
+                      currentUser = usersData.users.find(user => 
+                        user.username === utenteLoggato.username || 
+                        user.id === utenteLoggato.id ||
+                        user.id === utenteLoggato._id
+                      );
+                    }
+                    if (!currentUser) {
+                      currentUser = usersData.users[0];
+                    }
+                  }
+                  
+                  if (currentUser?.formazione) {
+                    const formazioneFiltrata = currentUser.formazione.filter(edu => 
+                      edu.school === "Politecnico di Milano" || edu.school === "Istituto Tecnico Industriale"
+                    );
+                    
+                    if (formazioneFiltrata.length > 0) {
+                      return (
+                        <div className="text-end">
+                          {formazioneFiltrata.map((edu, index) => (
+                            <div key={index} className="mb-2 d-flex align-items-center" style={{ justifyContent: "flex-end", marginRight: "20px" }}>
+                              <img 
+                                src={edu.logo} 
+                                alt={edu.school} 
+                                className="me-3"
+                                style={{ width: "40px", height: "40px", objectFit: "contain" }}
+                              />
+                              <p className="mb-0" style={{ fontWeight: "500", color: "#333" }}>{edu.school}</p>
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    }
+                  }
+                  
+                  return <p>Formazione</p>;
+                })()}
+              </div>
               </div>
               <p className="profession">
                 {datiProfilo?.title ||
@@ -138,12 +184,10 @@ const Herosection = ({ userId }) => {
                   "Area non specificata"}{" "}
                 ⸱ <span className="blue500">Informazioni di contatto</span>
               </p>
-            </Card.Text>
-            <Card.Text>
               <div>
                 <p className="blue500">69 collegamenti</p>
               </div>
-            </Card.Text>
+            </div>
             <div className="d-flex justify-content-start align-items-center">
               {userId ? (
                 <>
