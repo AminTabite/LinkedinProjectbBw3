@@ -68,3 +68,16 @@
   background-color: #dde7f1;
   border-radius: 10px;
 }
+
+@media (max-width: 656px) {
+  .heroBox {
+    width: 100%;
+  }
+}
+
+.pronouns {
+  font-size: 1em;
+  color: rgb(138, 138, 138);
+  font-weight: 600;
+  margin: 0;
+}

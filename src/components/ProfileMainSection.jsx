@@ -36,15 +36,20 @@ function ProfileMainSection({ userId }) {
   };
 
   const getUserDataFromJson = (profileId) => {
-    // Se non c'è userId, usa l'utente corrente da Redux
+    // Cerca sempre prima nel JSON per avere i dati più aggiornati
+    const user = usersData.users.find(u => u.id === profileId || u.id.toString() === profileId);
+    if (user) {
+      setUserData(user);
+      return;
+    }
+    
+    // Se non trovato nel JSON e non c'è userId, usa l'utente corrente da Redux
     if (!userId && currentUser) {
       setUserData(currentUser);
       return;
     }
     
-    // Altrimenti cerca per profileId nel JSON
-    const user = usersData.users.find(u => u.id === profileId || u.id.toString() === profileId);
-    setUserData(user || null);
+    setUserData(null);
   };
   const findExperiences = async () => {
     if (!currentProfileId) return;

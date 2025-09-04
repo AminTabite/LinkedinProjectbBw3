@@ -2,14 +2,16 @@ import { Container } from "react-bootstrap";
 
 export default function MiniFooter() {
   return (
-    <div style={{ width: "20rem" }} className="mt-3 text-center">
+    <div className="mt-3 text-center">
       <Container className="px-2">
         <div className="d-flex flex-wrap justify-content-center small text-muted mb-2">
           <span className="mx-2 mb-1">Informazioni</span>
           <span className="mx-2 mb-1">Accessibilità</span>
           <span className="mx-2 mb-1">Centro assistenza</span>
           <span className="mx-2 mb-1">Privacy e condizioni ▾</span>
-          <span className="mx-2 mb-1">Opzioni per gli annunci pubblicitari</span>
+          <span className="mx-2 mb-1">
+            Opzioni per gli annunci pubblicitari
+          </span>
           <span className="mx-2 mb-1">Pubblicità</span>
           <span className="mx-2 mb-1">Servizi alle aziende ▾</span>
           <span className="mx-2 mb-1">Scarica l’app LinkedIn</span>

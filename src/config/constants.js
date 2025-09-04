@@ -18,6 +18,10 @@ export const getCurrentUser = () => {
   return getAuthData();
 };
 
+export const ottieniUtenteCorrente = () => {
+  return getAuthData();
+};
+
 export const isAuthenticated = () => {
   return !!getAuthData();
 };

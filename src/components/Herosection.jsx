@@ -6,6 +6,7 @@ import clientApi from "../services/api";
 import "./Herosection.css";
 import { useSelector } from "react-redux";
 import { getToken } from "../config/constants";
+import usersData from "../data/users.json";
 
 const Herosection = ({ userId }) => {
   const [datiProfilo, setDatiProfilo] = useState(null);
@@ -22,14 +23,11 @@ const Herosection = ({ userId }) => {
       setCaricamento(true);
       let dati;
       if (userId) {
-        // Carica profilo specifico utente
         dati = await clientApi.ottieniProfilo(userId);
       } else {
-        // Carica il proprio profilo
         dati = await clientApi.ottieniIlMioProfilo();
       }
       setDatiProfilo(dati);
-      console.log(dati);
     } catch (err) {
       setErrore(err.message);
     } finally {
@@ -37,8 +35,15 @@ const Herosection = ({ userId }) => {
     }
   };
 
+  const [connections, setConnections] = useState(50);
+  useEffect(() => {
+    setConnections(connections + Math.ceil(Math.random() * 150));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     recuperaProfilo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   const changeImg = (imgLink) => {
@@ -77,7 +82,7 @@ const Herosection = ({ userId }) => {
   if (errore) return <div>Errore: {errore}</div>;
 
   return (
-    <Container>
+    <Container fluid>
       <Row>
         <Card className="mb-3 p-0 border">
           <div className="position-relative">
@@ -115,17 +120,207 @@ const Herosection = ({ userId }) => {
           </div>
           <Card.Body>
             <div></div>
-            <Card.Text>
-              <div className="d-flex justify-content-between">
-              <h4 className="mb-0">
-                {datiProfilo?.name && datiProfilo?.surname
-                  ? `${datiProfilo.name} ${datiProfilo.surname}`
-                  : `${profiloDaRedux?.userName || ""} ${
-                      profiloDaRedux?.userSurname || ""
-                    }`}
-                <BiClipboard /> He/ Him
-              </h4>
-              <p>Formazione</p>
+            <div>
+              <div className="d-flex justify-content-between flex-wrap">
+                <div className="d-flex justify-content-center align-items-center mb-3">
+                  <h2 className="mb-0 ">
+                    {datiProfilo?.name && datiProfilo?.surname
+                      ? `${datiProfilo.name} ${datiProfilo.surname}`
+                      : `${profiloDaRedux?.userName || ""} ${
+                          profiloDaRedux?.userSurname || ""
+                        }`}
+                    <BiClipboard />
+                  </h2>
+                  <p className="pronouns">He / Him</p>
+                </div>
+                <div>
+                  {(() => {
+                    let currentUser;
+
+                    if (userId) {
+                      currentUser = usersData.users.find(
+                        (user) =>
+                          user.id === userId ||
+                          user.id.toString() === userId.toString()
+                      );
+                    } else {
+                      const localStorageData =
+                        localStorage.getItem("userIdSession");
+                      let utenteLoggato = null;
+
+                      if (localStorageData) {
+                        try {
+                          utenteLoggato = JSON.parse(localStorageData);
+                        } catch (e) {
+                          console.error("Errore parsing localStorage:", e);
+                        }
+                      }
+
+                      // Cerca l'utente nel JSON
+                      if (datiProfilo?._id) {
+                        currentUser = usersData.users.find(
+                          (user) => user.id === datiProfilo._id
+                        );
+                      } else if (utenteLoggato?.username) {
+                        currentUser = usersData.users.find(
+                          (user) => user.username === utenteLoggato.username
+                        );
+                      } else if (utenteLoggato?._id) {
+                        currentUser = usersData.users.find(
+                          (user) => user.id === utenteLoggato._id
+                        );
+                      }
+
+                      // Prova match alternativi
+                      if (!currentUser && utenteLoggato) {
+                        currentUser = usersData.users.find(
+                          (user) =>
+                            user.id.toString() ===
+                              utenteLoggato._id?.toString() ||
+                            user.username.toLowerCase() ===
+                              utenteLoggato.username?.toLowerCase()
+                        );
+                      }
+
+                      // Fallback al primo utente
+                      if (!currentUser) {
+                        currentUser = usersData.users[0];
+                      }
+                    }
+
+                    if (
+                      currentUser?.formazione &&
+                      currentUser.formazione.length > 0
+                    ) {
+                      const formazioneFiltrata = currentUser.formazione.filter(
+                        (edu) =>
+                          edu.school === "Politecnico di Milano" ||
+                          edu.school === "Istituto Tecnico Industriale"
+                      );
+
+                      if (formazioneFiltrata.length > 0) {
+                        return (
+                          <div className="text-end">
+                            {formazioneFiltrata.map((edu, index) => (
+                              <div
+                                key={index}
+                                className="mb-2 d-flex align-items-center"
+                                style={{
+                                  justifyContent: "flex-start",
+                                  marginRight: "20px",
+                                }}
+                              >
+                                <img
+                                  src={edu.logo}
+                                  alt={edu.school}
+                                  className="me-3"
+                                  style={{
+                                    width: "40px",
+                                    height: "40px",
+                                    objectFit: "contain",
+                                  }}
+                                />
+                                <p
+                                  className="mb-0"
+                                  style={{ fontWeight: "500", color: "#333" }}
+                                >
+                                  {edu.school}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        );
+                      } else {
+                        // Mostra tutta la formazione dell'utente
+                        return (
+                          <div className="text-end">
+                            {currentUser.formazione.map((edu, index) => (
+                              <div
+                                key={index}
+                                className="mb-2 d-flex align-items-center"
+                                style={{
+                                  justifyContent: "flex-start",
+                                  marginRight: "20px",
+                                }}
+                              >
+                                <img
+                                  src={edu.logo}
+                                  alt={edu.school}
+                                  className="me-3"
+                                  style={{
+                                    width: "40px",
+                                    height: "40px",
+                                    objectFit: "contain",
+                                  }}
+                                />
+                                <p
+                                  className="mb-0"
+                                  style={{ fontWeight: "500", color: "#333" }}
+                                >
+                                  {edu.school}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        );
+                      }
+                    }
+
+                    // Se non trova match, mostra sempre Politecnico di Milano e Istituto Tecnico Industriale
+                    return (
+                      <div className="text-end">
+                        <div
+                          className="mb-2 d-flex align-items-center"
+                          style={{
+                            justifyContent: "flex-end",
+                            marginRight: "20px",
+                          }}
+                        >
+                          <img
+                            src="https://upload.wikimedia.org/wikipedia/it/b/be/Logo_Politecnico_Milano.png"
+                            alt="Politecnico di Milano"
+                            className="me-3"
+                            style={{
+                              width: "40px",
+                              height: "40px",
+                              objectFit: "contain",
+                            }}
+                          />
+                          <p
+                            className="mb-0"
+                            style={{ fontWeight: "500", color: "#333" }}
+                          >
+                            Politecnico di Milano
+                          </p>
+                        </div>
+                        <div
+                          className="mb-2 d-flex align-items-center"
+                          style={{
+                            justifyContent: "flex-end",
+                            marginRight: "20px",
+                          }}
+                        >
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRUDj9t544lY_1Jm4pWulnaJDycM1jmibFhg&s"
+                            alt="Istituto Tecnico Industriale"
+                            className="me-3"
+                            style={{
+                              width: "40px",
+                              height: "40px",
+                              objectFit: "contain",
+                            }}
+                          />
+                          <p
+                            className="mb-0"
+                            style={{ fontWeight: "500", color: "#333" }}
+                          >
+                            Istituto Tecnico Industriale
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
               </div>
               <p className="profession">
                 {datiProfilo?.title ||
@@ -138,17 +333,15 @@ const Herosection = ({ userId }) => {
                   "Area non specificata"}{" "}
                 ⸱ <span className="blue500">Informazioni di contatto</span>
               </p>
-            </Card.Text>
-            <Card.Text>
               <div>
-                <p className="blue500">69 collegamenti</p>
+                <p className="blue500">{connections} collegamenti</p>
               </div>
-            </Card.Text>
-            <div className="d-flex justify-content-start align-items-center">
+            </div>
+            <div className="d-flex justify-content-start align-items-center flex-wrap">
               {userId ? (
                 <>
-                  <button className="me-3 buttonBlue">Messaggio</button>
-                  <button className="me-3 buttonOutlineBlue">
+                  <button className="me-2 mb-1 buttonBlue">Messaggio</button>
+                  <button className="me-2 mb-1 buttonOutlineBlue">
                     <span
                       className="text-primary me-1 fw-bold"
                       style={{ fontSize: "18px" }}
@@ -157,15 +350,17 @@ const Herosection = ({ userId }) => {
                     </span>
                     Segui
                   </button>
-                  <button className="me-3 buttonOutlineBlue">Altro</button>
+                  <button className="me-2 mb-1 buttonOutlineBlue">Altro</button>
                 </>
               ) : (
                 <>
-                  <button className="me-3 buttonBlue">Disponibile per</button>
-                  <button className="me-3 buttonOutlineBlue">
+                  <button className="me-2 mb-1 buttonBlue">
+                    Disponibile per
+                  </button>
+                  <button className="me-2 mb-1 buttonOutlineBlue">
                     Aggiungi sezione del profilo
                   </button>
-                  <button className="me-3 buttonOutlineBlue">
+                  <button className="me-2 mb-1 buttonOutlineBlue">
                     Migliora profilo
                   </button>
                   <button className="buttonOutlineGray">Risorse</button>
@@ -220,4 +415,3 @@ const Herosection = ({ userId }) => {
 };
 
 export default Herosection;
-

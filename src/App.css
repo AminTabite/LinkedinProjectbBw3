@@ -316,7 +316,7 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 870px) {
   .modulo-ricerca {
     margin: 0 8px 0 4px;
     max-width: 36px;

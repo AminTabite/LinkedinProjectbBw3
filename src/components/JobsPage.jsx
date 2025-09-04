@@ -662,6 +662,9 @@ const PaginaLavoro = () => {
                 </div>
               </Card.Body>
             </Card>
+            <div className="d-block d-lg-none">
+              <MiniFooter />
+            </div>
           </Col>
         </Row>
       </Container>
