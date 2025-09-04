@@ -1,4 +1,4 @@
-import { getToken, API_BASE_URL } from '../config/constants.js';
+import { getToken, API_BASE_URL } from "../config/constants.js";
 
 const clientApi = {
   async richiesta(endpoint, opzioni = {}) {
@@ -63,7 +63,7 @@ const clientApi = {
 
   async aggiornaEsperienza(userId, experienceId, datiEsperienza) {
     return this.richiesta(`/profile/${userId}/experiences/${experienceId}`, {
-      method: "PUT", 
+      method: "PUT",
       body: JSON.stringify(datiEsperienza),
     });
   },
@@ -90,8 +90,6 @@ const clientApi = {
       throw error;
     }
   },
-
 };
-
 
 export default clientApi;
