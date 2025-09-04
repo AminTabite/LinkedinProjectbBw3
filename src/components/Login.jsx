@@ -5,6 +5,7 @@ import "./login.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../redux/auth";
+import LoadingScreen from "./LoadingScreen";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -15,6 +16,7 @@ const Login = () => {
     message: "Attesa login",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [showLoadingScreen, setShowLoadingScreen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -58,16 +60,26 @@ const Login = () => {
     try {
       // Usa Redux per gestire il login
       dispatch(loginUser(user));
-      navigate("/");
+      setIsLoading(false);
+      setShowLoadingScreen(true);
     } catch (error) {
       console.error("Errore nel login:", error);
       setLoginStatus({
         type: "error",
         message: "Errore nel salvare il login",
       });
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
+
+  const handleLoadingComplete = () => {
+    setShowLoadingScreen(false);
+    navigate("/");
+  };
+
+  if (showLoadingScreen) {
+    return <LoadingScreen onLoadingComplete={handleLoadingComplete} />;
+  }
 
   return (
     <div className="d-flex align-items-center justify-content-center loginBox">

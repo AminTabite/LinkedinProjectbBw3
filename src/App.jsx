@@ -13,7 +13,7 @@ import PaginaLavoro from "./components/JobsPage";
 import LoginPage from "./components/LoginPage";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { loadUserFromStorage } from "./redux/auth";
 
