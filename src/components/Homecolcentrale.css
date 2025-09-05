@@ -27,7 +27,7 @@
 
 /* Aggiungi un ponte invisibile per mantenere l'hover */
 .tooltip-consiglia::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 100%;
   left: 0;
@@ -36,3 +36,6 @@
   background: transparent;
 }
 
+.commentsArea {
+  width: 100% !important;
+}
