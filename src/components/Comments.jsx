@@ -4,10 +4,9 @@ import { Form, Button, Card } from "react-bootstrap";
 import { ottieniCommentiAction, creaCommentoAction, eliminaCommentoAction } from "../redux/comments";
 import clientApi from "../services/api";
 
-const Comments = ({ postId, isVisible, onToggle }) => {
+const Comments = ({ postId, isVisible, onToggle, userProfile }) => {
   const dispatch = useDispatch();
   const [testoCommento, setTestoCommento] = useState("");
-  const [apiProfile, setApiProfile] = useState(null);
   const { user } = useSelector((state) => state.auth);
   const comments = useSelector((state) => state.comments.comments[postId] || []);
   const loading = useSelector((state) => state.comments.loading);
@@ -18,21 +17,14 @@ const Comments = ({ postId, isVisible, onToggle }) => {
     }
   }, [dispatch, postId, isVisible]);
 
-  // Carica l'immagine profilo dell'utente loggato
+  // Debug: log dei dati utente per capire la struttura
   useEffect(() => {
-    const fetchApiProfile = async () => {
-      if (user && user.token) {
-        try {
-          const profileData = await clientApi.ottieniIlMioProfilo();
-          setApiProfile(profileData);
-        } catch (error) {
-          console.warn("Impossibile caricare immagine profilo dall'API:", error);
-        }
-      }
-    };
-
-    fetchApiProfile();
-  }, [user]);
+    console.log("Comments Debug - userProfile:", userProfile);
+    console.log("Comments Debug - user:", user);
+    if (comments.length > 0) {
+      console.log("Comments Debug - sample comment:", comments[0]);
+    }
+  }, [userProfile, user, comments]);
 
   const inviaCommento = async (e) => {
     e.preventDefault();
@@ -40,7 +32,8 @@ const Comments = ({ postId, isVisible, onToggle }) => {
 
     const datiCommento = {
       comment: testoCommento,
-      author: apiProfile?.name || user?.name || "Utente Anonimo"
+      rate: 5, // Valore di default per rate se richiesto dall'API
+      elementId: postId
     };
 
     dispatch(creaCommentoAction(postId, datiCommento));
@@ -60,7 +53,7 @@ const Comments = ({ postId, isVisible, onToggle }) => {
       {/* Form per aggiungere commento */}
       <div className="d-flex align-items-start gap-2 mb-3">
         <img
-          src={apiProfile?.image || user?.image || "https://via.placeholder.com/32x32/0a66c2/ffffff?text=" + (user?.name?.charAt(0) || "U")}
+          src={userProfile?.image || user?.image || "https://via.placeholder.com/32x32/0a66c2/ffffff?text=" + (user?.name?.charAt(0) || "U")}
           alt="profilo"
           className="rounded-circle"
           style={{
@@ -125,10 +118,17 @@ const Comments = ({ postId, isVisible, onToggle }) => {
             <div key={comment._id || index} className="d-flex align-items-start gap-2 mb-3">
               <img
                 src={
+                  // Se il commento ha un autore con immagine, usa quella
                   comment.author?.image ||
-                  (comment.author === apiProfile?.name || comment.author === user?.name 
-                    ? (apiProfile?.image || user?.image || "https://via.placeholder.com/32x32/0a66c2/ffffff?text=" + (user?.name?.charAt(0) || "U"))
-                    : "https://via.placeholder.com/32x32/666/ffffff?text=" + (comment.author?.charAt(0) || "U")
+                  // Se l'autore è l'utente loggato (controlla vari campi possibili)
+                  (comment.author === userProfile?.name || 
+                   comment.author === user?.name ||
+                   comment.author?.name === userProfile?.name ||
+                   comment.author?.name === user?.name ||
+                   comment.author?._id === userProfile?._id ||
+                   comment.author?._id === user?._id
+                    ? (userProfile?.image || user?.image || "https://via.placeholder.com/32x32/0a66c2/ffffff?text=" + (user?.name?.charAt(0) || "U"))
+                    : "https://via.placeholder.com/32x32/666/ffffff?text=" + ((comment.author?.name || comment.author)?.charAt(0) || "U")
                   )
                 }
                 alt="profilo"
@@ -158,8 +158,12 @@ const Comments = ({ postId, isVisible, onToggle }) => {
                         </p>
                       </div>
                       {/* Pulsante elimina per i propri commenti */}
-                      {(comment.author === apiProfile?.name || 
+                      {(comment.author === userProfile?.name || 
                         comment.author === user?.name ||
+                        comment.author?.name === userProfile?.name ||
+                        comment.author?.name === user?.name ||
+                        comment.author?._id === userProfile?._id ||
+                        comment.author?._id === user?._id ||
                         comment._id?.startsWith('mock-')) && (
                         <Button
                           variant="link"
