@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Form, Button, Card } from "react-bootstrap";
-import { ottieniCommentiAction, creaCommentoAction, eliminaCommentoAction } from "../redux/comments";
+import { ottieniCommentiAction, creaCommentoAction, eliminaCommentoAction } from "../redux/comments/index";
 import clientApi from "../services/api";
 
 const Comments = ({ postId, isVisible, onToggle, userProfile }) => {
   const dispatch = useDispatch();
   const [testoCommento, setTestoCommento] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const comments = useSelector((state) => state.comments.comments[postId] || []);
+  const comments = useSelector((state) => state.comments?.comments?.[postId] || []);
   const loading = useSelector((state) => state.comments.loading);
+  const commentsInfo = useSelector((state) => state.comments?.allComments?.[postId] || {});
 
   useEffect(() => {
     if (isVisible && postId) {
@@ -17,22 +18,13 @@ const Comments = ({ postId, isVisible, onToggle, userProfile }) => {
     }
   }, [dispatch, postId, isVisible]);
 
-  // Debug: log dei dati utente per capire la struttura
-  useEffect(() => {
-    console.log("Comments Debug - userProfile:", userProfile);
-    console.log("Comments Debug - user:", user);
-    if (comments.length > 0) {
-      console.log("Comments Debug - sample comment:", comments[0]);
-    }
-  }, [userProfile, user, comments]);
-
   const inviaCommento = async (e) => {
     e.preventDefault();
     if (!testoCommento.trim()) return;
 
     const datiCommento = {
       comment: testoCommento,
-      rate: 5, // Valore di default per rate se richiesto dall'API
+      rate: 5,
       elementId: postId
     };
 
@@ -109,6 +101,19 @@ const Comments = ({ postId, isVisible, onToggle, userProfile }) => {
           <div className="spinner-border spinner-border-sm" role="status">
             <span className="visually-hidden">Caricamento commenti...</span>
           </div>
+        </div>
+      )}
+
+      {/* Indicatore commenti totali */}
+      {commentsInfo.total > 5 && (
+        <div className="text-start mb-2">
+          <Button
+            variant="link"
+            className="p-0 text-muted small"
+            style={{ textDecoration: "none", fontSize: "12px" }}
+          >
+            Visualizza tutti i {commentsInfo.total} commenti
+          </Button>
         </div>
       )}
 
