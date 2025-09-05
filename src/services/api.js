@@ -1,4 +1,4 @@
-import { getToken, getCommentsToken, API_BASE_URL } from '../config/constants.js';
+import { getToken, getCommentsToken, API_BASE_URL } from '../config/constants';
 
 const clientApi = {
   async richiesta(endpoint, opzioni = {}) {
@@ -94,7 +94,7 @@ const clientApi = {
 
   // Comments API - con token specifico
   async ottieniCommenti(elementId) {
-    const url = `${API_BASE_URL}/comments/${elementId}`;
+    const url = `${API_BASE_URL}/comments/`;
     const token = getCommentsToken();
     
     try {
@@ -109,7 +109,33 @@ const clientApi = {
         throw new Error(`Errore HTTP! status: ${risposta.status}`);
       }
 
-      return await risposta.json();
+      const allComments = await risposta.json();
+      
+      // Filtriamo i commenti per il post specifico e ordiniamo per data (più recenti prima)
+      const allCommentsForPost = Array.isArray(allComments) 
+        ? allComments
+            .filter(comment => comment.elementId === elementId)
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        : [];
+      
+      // Logica per mostrare una varietà di commenti: prendi alcuni recenti + alcuni di altri utenti
+      let recentComments;
+      if (allCommentsForPost.length <= 5) {
+        // Se ci sono pochi commenti, mostrali tutti (max 5)
+        recentComments = allCommentsForPost;
+      } else {
+        // Prendiamo i 2 più recenti + 3 commenti misti per varietà
+        const mostRecent = allCommentsForPost.slice(0, 2);
+        const others = allCommentsForPost.slice(2);
+        const mixedOthers = others.slice(0, 3);
+        recentComments = [...mostRecent, ...mixedOthers];
+      }
+      
+      return {
+        comments: recentComments,
+        total: allCommentsForPost.length,
+        hasMore: allCommentsForPost.length > 5
+      };
     } catch (error) {
       console.error("Errore caricamento commenti:", error);
       throw error;

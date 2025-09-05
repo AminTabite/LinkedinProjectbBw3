@@ -3,6 +3,7 @@ import clientApi from '../../services/api';
 
 const initialState = {
   comments: {},
+  allComments: {},
   loading: false,
   error: null,
 };
@@ -21,7 +22,14 @@ const CommentsReducer = (state = initialState, action) => {
         loading: false,
         comments: {
           ...state.comments,
-          [action.payload.elementId]: action.payload.comments
+          [action.payload.elementId]: action.payload.data.comments
+        },
+        allComments: {
+          ...state.allComments,
+          [action.payload.elementId]: {
+            total: action.payload.data.total,
+            hasMore: action.payload.data.hasMore
+          }
         },
       };
     case "GET_COMMENTS_ERROR":
@@ -33,12 +41,23 @@ const CommentsReducer = (state = initialState, action) => {
     case "ADD_COMMENT_SUCCESS":
       const elementId = action.payload.elementId;
       const existingComments = state.comments[elementId] || [];
+      const newCommentsList = [action.payload, ...existingComments];
+      const recentComments = newCommentsList.slice(0, 5);
+      
       return {
         ...state,
         comments: {
           ...state.comments,
-          [elementId]: [...existingComments, action.payload]
+          [elementId]: recentComments
         },
+        allComments: {
+          ...state.allComments,
+          [elementId]: {
+            ...state.allComments[elementId],
+            total: (state.allComments[elementId]?.total || 0) + 1,
+            hasMore: (state.allComments[elementId]?.total || 0) + 1 > 5
+          }
+        }
       };
     case "UPDATE_COMMENT_SUCCESS":
       const updatedComment = action.payload;
@@ -68,15 +87,14 @@ const CommentsReducer = (state = initialState, action) => {
   }
 };
 
-// Action creators
 export const ottieniCommentiAction = (elementId) => {
   return async (dispatch) => {
     dispatch({ type: "GET_COMMENTS_START" });
     try {
-      const comments = await clientApi.ottieniCommenti(elementId);
+      const data = await clientApi.ottieniCommenti(elementId);
       dispatch({ 
         type: "GET_COMMENTS_SUCCESS", 
-        payload: { elementId, comments }
+        payload: { elementId, data }
       });
     } catch (error) {
       console.error("Errore nel caricamento commenti:", error);
@@ -89,7 +107,11 @@ export const creaCommentoAction = (elementId, datiCommento) => {
   return async (dispatch) => {
     try {
       const nuovoCommento = await clientApi.creaCommento(elementId, datiCommento);
-      dispatch({ type: "ADD_COMMENT_SUCCESS", payload: nuovoCommento });
+      const commentoConElementId = {
+        ...nuovoCommento,
+        elementId: elementId
+      };
+      dispatch({ type: "ADD_COMMENT_SUCCESS", payload: commentoConElementId });
     } catch (error) {
       console.error("Errore nella creazione del commento:", error);
     }
