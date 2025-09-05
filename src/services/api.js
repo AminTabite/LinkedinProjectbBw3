@@ -91,6 +91,34 @@ const clientApi = {
     }
   },
 
+  // Comments API
+  async ottieniCommenti(elementId) {
+    return this.richiesta(`/comments/${elementId}`);
+  },
+
+  async creaCommento(elementId, datiCommento) {
+    return this.richiesta(`/comments/`, {
+      method: "POST",
+      body: JSON.stringify({
+        ...datiCommento,
+        elementId: elementId
+      }),
+    });
+  },
+
+  async aggiornaCommento(commentId, datiCommento) {
+    return this.richiesta(`/comments/${commentId}`, {
+      method: "PUT", 
+      body: JSON.stringify(datiCommento),
+    });
+  },
+
+  async eliminaCommento(commentId) {
+    return this.richiesta(`/comments/${commentId}`, {
+      method: "DELETE",
+    });
+  },
+
 };
 
 

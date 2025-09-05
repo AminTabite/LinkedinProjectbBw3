@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { ottieniPostAction, caricaPiuPostAction, ordinaPostPerDataAction, aggiungiPostAction, eliminaPostAction } from "../redux/posts";
 import { getToken } from "../config/constants";
 import clientApi from "../services/api";
+import Comments from "./Comments";
 import "./Homecolcentrale.css";
 
 const Homecolcentrale = () => {
@@ -20,6 +21,7 @@ const Homecolcentrale = () => {
   const [apiProfile, setApiProfile] = useState(null);
   const [numeroCommenti, setNumeroCommenti] = useState({});
   const [tipoOrdinamento, setTipoOrdinamento] = useState("rilevanti");
+  const [commentiVisibili, setCommentiVisibili] = useState({});
 
   const ottieniNumeriCasuali = (postId) => {
     if (!numeroCommenti[postId]) {
@@ -50,6 +52,13 @@ const Homecolcentrale = () => {
   const mostraPostRilevanti = () => {
     dispatch(ottieniPostAction());
     setTipoOrdinamento("rilevanti");
+  };
+
+  const toggleCommenti = (postId) => {
+    setCommentiVisibili(prev => ({
+      ...prev,
+      [postId]: !prev[postId]
+    }));
   };
 
   const selezionaImmagine = (event) => {
@@ -583,6 +592,7 @@ const Homecolcentrale = () => {
                               fontWeight: "600",
                               color: "#000 !important"
                             }}
+                            onClick={() => toggleCommenti(post._id)}
                           >
                             <i className="bi bi-chat me-2" style={{ color: "#000", fontSize: "20px", fontWeight: "bold" }}></i>
                             Commenta
@@ -615,6 +625,13 @@ const Homecolcentrale = () => {
                           </Button>
                         </ButtonGroup>
                       </div>
+                      
+                      {/* Sezione Commenti */}
+                      <Comments
+                        postId={post._id}
+                        isVisible={commentiVisibili[post._id]}
+                        onToggle={() => toggleCommenti(post._id)}
+                      />
                     </div>
                   </Card.Body>
                 </Card>
