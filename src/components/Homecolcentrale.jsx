@@ -115,8 +115,11 @@ const Homecolcentrale = () => {
   };
 
   useEffect(() => {
-    dispatch(ottieniPostAction());
-  }, [dispatch]);
+    const arrayPost = displayedPosts;
+    if (arrayPost.length === 0) {
+      dispatch(ottieniPostAction());
+    }
+  }, [dispatch, displayedPosts]);
 
   // Carica l'immagine profilo dall'API quando l'utente è loggato
   useEffect(() => {
