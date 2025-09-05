@@ -140,22 +140,9 @@ const Comments = ({ postId, isVisible, onToggle, userProfile }) => {
             >
               <img
                 src={
-                  // Se il commento ha un autore con immagine, usa quella
-                  comment.author?.image ||
-                  // Se l'autore è l'utente loggato (controlla vari campi possibili)
-                  (comment.author === userProfile?.name ||
-                  comment.author === user?.name ||
-                  comment.author?.name === userProfile?.name ||
-                  comment.author?.name === user?.name ||
-                  comment.author?._id === userProfile?._id ||
-                  comment.author?._id === user?._id
-                    ? userProfile?.image ||
-                      user?.image ||
-                      "https://via.placeholder.com/32x32/0a66c2/ffffff?text=" +
-                        (user?.name?.charAt(0) || "U")
-                    : "https://via.placeholder.com/32x32/666/ffffff?text=" +
-                      ((comment.author?.name || comment.author)?.charAt(0) ||
-                        "U"))
+                  comment.author === user.name
+                    ? userProfile?.image
+                    : "https://placehold.co/32x32"
                 }
                 alt="profilo"
                 className="rounded-circle"
