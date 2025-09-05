@@ -1,4 +1,3 @@
-
 import { Card, Button, ListGroup } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
@@ -16,7 +15,7 @@ export default function ColonnaDxHome() {
   return (
     <div>
       {/* Notizie */}
-      <Card className="mb-3 shadow-sm border-0">
+      <Card className="mb-5 shadow-sm border-0">
         <Card.Body className="p-3">
           <Card.Title className="fs-6 fw-bold mb-2">
             Persone che potresti conoscere
@@ -42,13 +41,19 @@ export default function ColonnaDxHome() {
             return (
               <div className="d-flex align-items-center mb-2" key={indice}>
                 <img
-                  src={indice === 1 ? "https://i.pravatar.cc/40?img=2" : utente.image}
+                  src={
+                    indice === 1
+                      ? "https://i.pravatar.cc/40?img=2"
+                      : utente.image
+                  }
                   className="rounded-circle  me-2"
                   style={{ width: 40, height: 40 }}
                 ></img>
                 <div>
                   <p className="mb-0 small fw-bold">
-                    {indice === 1 ? "Marco Rossi" : utente.name + " " + utente.surname}
+                    {indice === 1
+                      ? "Marco Rossi"
+                      : utente.name + " " + utente.surname}
                   </p>
                   <button className="btn btn-outline-secondary btn-sm">
                     Visualizza
@@ -61,7 +66,7 @@ export default function ColonnaDxHome() {
       </Card>
 
       {/* Giochi */}
-      <Card className="mb-3 shadow-sm border-0">
+      <Card className="mb-5 shadow-sm border-0">
         <Card.Body className="p-3">
           <Card.Title className="fs-6 fw-bold mb-3">
             I giochi di oggi
@@ -100,7 +105,6 @@ export default function ColonnaDxHome() {
           </div>
         </Card.Body>
       </Card>
-
 
       {/* Suggerimento */}
     </div>

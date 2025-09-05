@@ -5,6 +5,7 @@ import MiniFooter from "./MiniFooter";
 import Homecolcentrale from "./Homecolcentrale";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import "./homepage.css";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const HomePage = () => {
     <div style={{ paddingTop: "5em", background: "#F4F2EE" }}>
       <Container fluid="lg">
         <Row className="align-items-start g-2">
-          <Col className="d-none d-xl-block" xl={3}>
+          <Col className="d-none d-xl-block colonna5em" xl={3}>
             <ColonnaSxHome />
           </Col>
           <Col xs={12} md={8} xl={6}>
@@ -27,7 +28,7 @@ const HomePage = () => {
               <MiniFooter />
             </div>
           </Col>
-          <Col className="d-none d-md-block" md={4} xl={3}>
+          <Col className="d-none d-md-block colonnaDx" md={4} xl={3}>
             <ColonnaDxHome />
             <MiniFooter />
           </Col>
