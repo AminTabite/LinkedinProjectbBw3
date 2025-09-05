@@ -36,6 +36,7 @@ function AppContent() {
         <Route path="/jobs" element={<PaginaLavoro />} />
         <Route path="/messaging" element={<NonExisting />} />
         <Route path="/notifications" element={<NonExisting />} />
+        <Route path="/aziende" element={<NonExisting />} />
         <Route
           path="/profile"
           element={

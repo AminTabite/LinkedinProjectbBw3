@@ -1,4 +1,12 @@
-import { Container, Row, Col, Button, Modal, Form, Card } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Modal,
+  Form,
+  Card,
+} from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { GoPencil } from "react-icons/go";
 import { FiPlus } from "react-icons/fi";
@@ -18,7 +26,7 @@ function ProfileMainSection({ userId }) {
   const [experiences, setExperiences] = useState([]);
   const [currentProfileId, setCurrentProfileId] = useState(null);
   const [userData, setUserData] = useState(null);
-  
+
   // Usa Redux per i dati utente
   const { user: currentUser } = useSelector((state) => state.auth);
 
@@ -37,36 +45,38 @@ function ProfileMainSection({ userId }) {
 
   const getUserDataFromJson = (profileId) => {
     // Cerca sempre prima nel JSON per avere i dati più aggiornati
-    const user = usersData.users.find(u => u.id === profileId || u.id.toString() === profileId);
+    const user = usersData.users.find(
+      (u) => u.id === profileId || u.id.toString() === profileId
+    );
     if (user) {
       setUserData(user);
       return;
     }
-    
+
     // Se non trovato nel JSON e non c'è userId, usa l'utente corrente da Redux
     if (!userId && currentUser) {
       setUserData(currentUser);
       return;
     }
-    
+
     setUserData(null);
   };
   const findExperiences = async () => {
     if (!currentProfileId) return;
-    
+
     const token = getToken();
     if (!token) {
       console.warn("No valid token available, skipping experiences fetch");
       setExperiences([]);
       return;
     }
-    
+
     try {
       const experiences = await clientApi.ottieniEsperienze(currentProfileId);
       console.log("Experiences loaded:", experiences);
       setExperiences(experiences || []);
     } catch (err) {
-      if (err.message.includes('401')) {
+      if (err.message.includes("401")) {
         console.warn("Token not valid for API, using empty experiences");
       } else {
         console.warn("Failed to fetch experiences, using empty list:", err);
@@ -307,32 +317,36 @@ function ProfileMainSection({ userId }) {
             <h4 className="mb-0">Analisi</h4>
             <p className="mt-0">Solo per te</p>
           </div>
-        <Container className="mx-0 px-4">
-          <Row xs={1} md={3}>
-            <Col>
-              <div className="d-flex">
-                <MdPeople className="fs-3" />
-                <div className="ms-2">
-                  <h5 className="mb-0">{views} visuliazzazioni del profilo</h5>
-                  <p>Aggiorna il tuo profilo per attrarre visitatori.</p>
+          <Container className="mx-0 px-4">
+            <Row xs={1} md={3}>
+              <Col>
+                <div className="d-flex">
+                  <MdPeople className="fs-3" />
+                  <div className="ms-2">
+                    <h5 className="mb-0">
+                      {views} visuliazzazioni del profilo
+                    </h5>
+                    <p>Aggiorna il tuo profilo per attrarre visitatori.</p>
+                  </div>
                 </div>
-              </div>
-            </Col>
-            <Col>
-              <div className="d-flex">
-                <IoStatsChart className="fs-3" />
-                <div className="ms-2">
-                  <h5 className="mb-0">{impressions} impressioni del post</h5>
-                  <p className="mb-0">
-                    Crea un post per autmentare l'interesse.
-                  </p>
-                  <p>Ultimi 7 giorni.</p>
+              </Col>
+              <Col>
+                <div className="d-flex">
+                  <IoStatsChart className="fs-3" />
+                  <div className="ms-2">
+                    <h5 className="mb-0">{impressions} impressioni del post</h5>
+                    <p className="mb-0">
+                      Crea un post per autmentare l'interesse.
+                    </p>
+                    <p>Ultimi 7 giorni.</p>
+                  </div>
                 </div>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-        <button className="buttonProfile">Mostra tutte le analisi -&gt;</button>
+              </Col>
+            </Row>
+          </Container>
+          <button className="buttonProfile">
+            Mostra tutte le analisi -&gt;
+          </button>
         </div>
       )}
       <div className="profileCards mb-3 p-4 border">
@@ -340,7 +354,7 @@ function ProfileMainSection({ userId }) {
           <h4>Esperienza</h4>
           {!userId && (
             <div className="d-flex justify-content-between">
-              <FiPlus onClick={handleShowAdd} />
+              <FiPlus onClick={handleShowAdd} style={{ cursor: "pointer" }} />
             </div>
           )}
         </div>
@@ -357,7 +371,7 @@ function ProfileMainSection({ userId }) {
                 key={exp._id}
                 className="d-flex align-items-center mb-3"
                 onClick={!userId ? () => handleShowEdit(exp._id) : undefined}
-                style={{ cursor: !userId ? 'pointer' : 'default' }}
+                style={{ cursor: !userId ? "pointer" : "default" }}
               >
                 {exp.image === "..." ? (
                   <img src="https://placehold.co/28x28" />
@@ -384,15 +398,17 @@ function ProfileMainSection({ userId }) {
           <h4>Formazione</h4>
           {!userId && (
             <div className="d-flex justify-content-between">
-              <GoPencil />
+              <GoPencil style={{ cursor: "pointer" }} />
             </div>
           )}
         </div>
         {userData && userData.formazione ? (
           userData.formazione.map((education, index) => (
             <div key={index} className="d-flex align-items-start mb-3">
-              <img 
-                src={education.logo || "https://via.placeholder.com/48x48?text=🎓"} 
+              <img
+                src={
+                  education.logo || "https://via.placeholder.com/48x48?text=🎓"
+                }
                 alt={education.school}
                 className="me-3 rounded"
                 style={{ width: "48px", height: "48px", objectFit: "contain" }}
@@ -400,7 +416,9 @@ function ProfileMainSection({ userId }) {
               <div className="d-flex flex-column">
                 <p className="my-0 fw-bold">{education.school}</p>
                 <p className="my-0 text-muted">{education.degree}</p>
-                <p className="my-0 small text-muted">{education.startYear} - {education.endYear}</p>
+                <p className="my-0 small text-muted">
+                  {education.startYear} - {education.endYear}
+                </p>
               </div>
             </div>
           ))
@@ -413,7 +431,7 @@ function ProfileMainSection({ userId }) {
           <h4>Competenze</h4>
           {!userId && (
             <div className="d-flex justify-content-between">
-              <GoPencil />
+              <GoPencil style={{ cursor: "pointer" }} />
             </div>
           )}
         </div>
@@ -430,52 +448,58 @@ function ProfileMainSection({ userId }) {
         )}
       </div>
 
-        
-               <Card className="shadow-sm" style={{  borderRadius: "8px" }}>
-  <Card.Body>
-    <Card.Title className="mb-2">Interessi</Card.Title>
-    <p className="text-muted small mb-3">Aziende</p>
+      <Card className="shadow-sm" style={{ borderRadius: "8px" }}>
+        <Card.Body>
+          <Card.Title className="mb-2">Interessi</Card.Title>
+          <p className="text-muted small mb-3">Aziende</p>
 
-    <div className="d-flex justify-content-between align-items-center border-bottom py-2">
-      <div className="d-flex align-items-center">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"
-          alt="Windows logo"
-          width="40"
-          height="40"
-          className="me-3"
-        />
-        <div>
-          <p className="mb-0 fw-semibold">Microsoft</p>
-          <small className="text-muted">26.000.000 follower</small>
-        </div>
-      </div>
-      <Button variant="outline-secondary" size="sm" className="rounded-pill">
-        ✓ Già segui
-      </Button>
-    </div>
+          <div className="d-flex justify-content-between align-items-center border-bottom py-2">
+            <div className="d-flex align-items-center">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"
+                alt="Windows logo"
+                width="40"
+                height="40"
+                className="me-3"
+              />
+              <div>
+                <p className="mb-0 fw-semibold">Microsoft</p>
+                <small className="text-muted">26.000.000 follower</small>
+              </div>
+            </div>
+            <Button
+              variant="outline-secondary"
+              size="sm"
+              className="rounded-pill"
+            >
+              ✓ Già segui
+            </Button>
+          </div>
 
-    <div className="d-flex justify-content-between align-items-center py-2">
-      <div className="d-flex align-items-center">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
-          alt="Apple logo"
-          width="40"
-          height="40"
-          className="me-3"
-        />
-        <div>
-          <p className="mb-0 fw-semibold">Apple</p>
-          <small className="text-muted">976.037 follower</small>
-        </div>
-      </div>
-      <Button variant="outline-secondary" size="sm" className="rounded-pill">
-        ✓ Già segui
-      </Button>
-    </div>
-  </Card.Body>
-</Card>
-
+          <div className="d-flex justify-content-between align-items-center py-2">
+            <div className="d-flex align-items-center">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
+                alt="Apple logo"
+                width="40"
+                height="40"
+                className="me-3"
+              />
+              <div>
+                <p className="mb-0 fw-semibold">Apple</p>
+                <small className="text-muted">976.037 follower</small>
+              </div>
+            </div>
+            <Button
+              variant="outline-secondary"
+              size="sm"
+              className="rounded-pill"
+            >
+              ✓ Già segui
+            </Button>
+          </div>
+        </Card.Body>
+      </Card>
 
       <Modal show={showAdd} onHide={handleCloseAdd}>
         <Modal.Header closeButton>

@@ -39,7 +39,7 @@ const BarraNavigazioneLinkedIn = () => {
   const eAttivo = (percorso) => posizioneCorrente.pathname === percorso;
 
   const dispatch = useDispatch();
-  
+
   // Usa Redux per i dati utente
   const { user } = useSelector((state) => state.auth);
   const [apiProfile, setApiProfile] = useState(null);
@@ -57,7 +57,10 @@ const BarraNavigazioneLinkedIn = () => {
           const profileData = await clientApi.ottieniIlMioProfilo();
           setApiProfile(profileData);
         } catch (error) {
-          console.warn("Impossibile caricare immagine profilo dall'API:", error);
+          console.warn(
+            "Impossibile caricare immagine profilo dall'API:",
+            error
+          );
         }
       }
     };
@@ -309,9 +312,9 @@ const BarraNavigazioneLinkedIn = () => {
                 <div className="info-profilo">
                   <div className="nome-profilo">
                     {user
-                      ? `${user.name || ""} ${
-                          user.surname || ""
-                        }`.trim() || user.name || "Mario Rossi"
+                      ? `${user.name || ""} ${user.surname || ""}`.trim() ||
+                        user.name ||
+                        "Mario Rossi"
                       : "Mario Rossi"}
                   </div>
                   <div className="titolo-profilo">
@@ -366,7 +369,11 @@ const BarraNavigazioneLinkedIn = () => {
 
           <div className="divisore-navbar"></div>
 
-          <Nav.Link className="elemento-navigazione text-center menu-aziende">
+          <Nav.Link
+            className="elemento-navigazione text-center menu-aziende"
+            as={Link}
+            to="/aziende"
+          >
             <BsGrid3X3Gap size={20} />
             <div className="testo-navigazione">Per le aziende</div>
           </Nav.Link>

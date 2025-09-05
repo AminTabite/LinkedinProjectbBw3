@@ -372,7 +372,7 @@ const Herosection = ({ userId }) => {
                 <div className="d-flex justify-content-between">
                   <p className="m-0 fw-bold">Disponibilitá a lavorare</p>
                   <span>
-                    <BiBrush />
+                    <BiBrush style={{ cursor: "pointer" }} />
                   </span>
                 </div>
                 <p className="m-0">Ruoli di studente diplomato</p>
