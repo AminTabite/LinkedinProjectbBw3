@@ -16,10 +16,11 @@ import store from "./redux/store";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { loadUserFromStorage } from "./redux/auth";
+import NonExisting from "./components/NonExisiting";
 
 function AppContent() {
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     // Carica i dati utente dal localStorage all'avvio dell'app
     dispatch(loadUserFromStorage());
@@ -28,33 +29,30 @@ function AppContent() {
   return (
     <>
       <BarraNavigazioneLinkedIn />
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/" element={<HomePage />} />
-          <Route path="/network" element={<Rete />} />
-          <Route path="/jobs" element={<PaginaLavoro />} />
-          <Route path="/messaging" element={<div>Messaging Page</div>} />
-          <Route
-            path="/notifications"
-            element={<div>Notifications Page</div>}
-          />
-          <Route
-            path="/profile"
-            element={
-              <>
-                <ProfilePage /> <MyFooter />
-              </>
-            }
-          />
-          <Route
-            path="/profile/:userId"
-            element={
-              <>
-                <ProfilePage /> <MyFooter />
-              </>
-            }
-          />
-        </Routes>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/network" element={<Rete />} />
+        <Route path="/jobs" element={<PaginaLavoro />} />
+        <Route path="/messaging" element={<NonExisting />} />
+        <Route path="/notifications" element={<NonExisting />} />
+        <Route
+          path="/profile"
+          element={
+            <>
+              <ProfilePage /> <MyFooter />
+            </>
+          }
+        />
+        <Route
+          path="/profile/:userId"
+          element={
+            <>
+              <ProfilePage /> <MyFooter />
+            </>
+          }
+        />
+      </Routes>
     </>
   );
 }
