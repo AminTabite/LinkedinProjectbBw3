@@ -73,17 +73,6 @@ export const ottieniCommentiAction = (elementId) => {
   return async (dispatch) => {
     dispatch({ type: "GET_COMMENTS_START" });
     try {
-      const token = getToken();
-      if (!token) {
-        // Se non c'è token, usa dati mock per i commenti
-        const mockComments = [];
-        dispatch({ 
-          type: "GET_COMMENTS_SUCCESS", 
-          payload: { elementId, comments: mockComments }
-        });
-        return;
-      }
-
       const comments = await clientApi.ottieniCommenti(elementId);
       dispatch({ 
         type: "GET_COMMENTS_SUCCESS", 
@@ -92,11 +81,6 @@ export const ottieniCommentiAction = (elementId) => {
     } catch (error) {
       console.error("Errore nel caricamento commenti:", error);
       dispatch({ type: "GET_COMMENTS_ERROR", payload: error.message });
-      // Fallback con array vuoto in caso di errore
-      dispatch({ 
-        type: "GET_COMMENTS_SUCCESS", 
-        payload: { elementId, comments: [] }
-      });
     }
   };
 };
@@ -104,35 +88,10 @@ export const ottieniCommentiAction = (elementId) => {
 export const creaCommentoAction = (elementId, datiCommento) => {
   return async (dispatch) => {
     try {
-      const token = getToken();
-      if (!token) {
-        // Se non c'è token, crea un commento mock locale
-        const mockComment = {
-          _id: `mock-${Date.now()}`,
-          comment: datiCommento.comment,
-          elementId: elementId,
-          author: datiCommento.author || "Demo User",
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        };
-        dispatch({ type: "ADD_COMMENT_SUCCESS", payload: mockComment });
-        return;
-      }
-
       const nuovoCommento = await clientApi.creaCommento(elementId, datiCommento);
       dispatch({ type: "ADD_COMMENT_SUCCESS", payload: nuovoCommento });
     } catch (error) {
       console.error("Errore nella creazione del commento:", error);
-      // Fallback locale anche in caso di errore di rete
-      const mockComment = {
-        _id: `mock-${Date.now()}`,
-        comment: datiCommento.comment,
-        elementId: elementId,
-        author: datiCommento.author || "Demo User",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      };
-      dispatch({ type: "ADD_COMMENT_SUCCESS", payload: mockComment });
     }
   };
 };

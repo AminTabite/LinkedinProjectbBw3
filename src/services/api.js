@@ -1,11 +1,12 @@
-import { getToken, API_BASE_URL } from '../config/constants.js';
+import { getToken, getCommentsToken, API_BASE_URL } from '../config/constants.js';
 
 const clientApi = {
   async richiesta(endpoint, opzioni = {}) {
     const url = `${API_BASE_URL}${endpoint}`;
+    const token = getToken();
     const configurazione = {
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
         ...opzioni.headers,
       },
@@ -91,32 +92,101 @@ const clientApi = {
     }
   },
 
-  // Comments API
+  // Comments API - con token specifico
   async ottieniCommenti(elementId) {
-    return this.richiesta(`/comments/${elementId}`);
+    const url = `${API_BASE_URL}/comments/${elementId}`;
+    const token = getCommentsToken();
+    
+    try {
+      const risposta = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!risposta.ok) {
+        throw new Error(`Errore HTTP! status: ${risposta.status}`);
+      }
+
+      return await risposta.json();
+    } catch (error) {
+      console.error("Errore caricamento commenti:", error);
+      throw error;
+    }
   },
 
   async creaCommento(elementId, datiCommento) {
-    return this.richiesta(`/comments/`, {
-      method: "POST",
-      body: JSON.stringify({
-        ...datiCommento,
-        elementId: elementId
-      }),
-    });
+    const url = `${API_BASE_URL}/comments/`;
+    const token = getCommentsToken();
+    
+    try {
+      const risposta = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(datiCommento),
+      });
+
+      if (!risposta.ok) {
+        throw new Error(`Errore HTTP! status: ${risposta.status}`);
+      }
+
+      return await risposta.json();
+    } catch (error) {
+      console.error("Errore creazione commento:", error);
+      throw error;
+    }
   },
 
   async aggiornaCommento(commentId, datiCommento) {
-    return this.richiesta(`/comments/${commentId}`, {
-      method: "PUT", 
-      body: JSON.stringify(datiCommento),
-    });
+    const url = `${API_BASE_URL}/comments/${commentId}`;
+    const token = getCommentsToken();
+    
+    try {
+      const risposta = await fetch(url, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(datiCommento),
+      });
+
+      if (!risposta.ok) {
+        throw new Error(`Errore HTTP! status: ${risposta.status}`);
+      }
+
+      return await risposta.json();
+    } catch (error) {
+      console.error("Errore aggiornamento commento:", error);
+      throw error;
+    }
   },
 
   async eliminaCommento(commentId) {
-    return this.richiesta(`/comments/${commentId}`, {
-      method: "DELETE",
-    });
+    const url = `${API_BASE_URL}/comments/${commentId}`;
+    const token = getCommentsToken();
+    
+    try {
+      const risposta = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!risposta.ok) {
+        throw new Error(`Errore HTTP! status: ${risposta.status}`);
+      }
+
+      return { success: true };
+    } catch (error) {
+      console.error("Errore eliminazione commento:", error);
+      throw error;
+    }
   },
 
 };

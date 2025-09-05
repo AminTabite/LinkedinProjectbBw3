@@ -631,6 +631,7 @@ const Homecolcentrale = () => {
                         postId={post._id}
                         isVisible={commentiVisibili[post._id]}
                         onToggle={() => toggleCommenti(post._id)}
+                        userProfile={apiProfile}
                       />
                     </div>
                   </Card.Body>
