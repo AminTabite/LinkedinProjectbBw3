@@ -15,7 +15,9 @@ export const getToken = () => {
 };
 
 export const getCommentsToken = () => {
-  return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGJhZGMwOTkxMjgyMTAwMTU0NGRiODMiLCJpYXQiOjE3NTcwNzY0ODksImV4cCI6MTc1ODI4NjA4OX0.RRG4ohBBFTOr_b6wCC5ThuxCAziON75B3MXfraZqjLE";
+  const authData = getAuthData();
+  console.log(authData?.commentToken);
+  return authData?.commentToken || null;
 };
 
 export const getCurrentUser = () => {

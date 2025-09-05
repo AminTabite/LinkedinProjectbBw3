@@ -5,6 +5,7 @@
       "username": "Alessandro",
       "password": "fozzanapoli",
       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTczNTE2MjdjNjAwMTVmOGM1NjgiLCJpYXQiOjE3NTY3MzExODksImV4cCI6MTc1Nzk0MDc4OX0.EE1GDQeokGCuIu43ACNAuxw4--0MPsa1SFutXaarjxk",
+      "commentToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGJhZTQ0YTkxMjgyMTAwMTU0NGRiYWYiLCJpYXQiOjE3NTcwNzg2MDIsImV4cCI6MTc1ODI4ODIwMn0.bNJe8MpwSunl8kc2FXP0cDVP5bv_nWhVFOi1JSwc9UE",
       "name": "Alessandro di Martino",
       "competenze": [
         "JavaScript",
@@ -46,6 +47,7 @@
       "username": "Amintabite",
       "password": "biscotti1234",
       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTc3YTE2MjdjNjAwMTVmOGM1NmEiLCJpYXQiOjE3NTY3MzEyNTksImV4cCI6MTc1Nzk0MDg1OX0.bMn8tXLJ2XqyJa7Th9u0MnHR1Yi0HedRybqsSCg3C6k",
+      "commentToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGJhZTQ3MTkxMjgyMTAwMTU0NGRiYjEiLCJpYXQiOjE3NTcwNzg2NDIsImV4cCI6MTc1ODI4ODI0Mn0.vTgoz1k3kRGM7uv0KT8vy09az4vrqU-oWXd2_fp4dUU",
       "name": "Amin Tabite",
       "competenze": [
         "Cybersicurezza",
@@ -87,6 +89,7 @@
       "username": "Viktor",
       "password": "viktor",
       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI4NDUwZGQyNDkyZTAwMTU2MDFlNjIiLCJpYXQiOjE3NTY5MDY3NjUsImV4cCI6MTc1ODExNjM2NX0.zQD6nnNGrYvePISZxycmAGgZXgfC3WerC38UlsQLKIo", 
+      "commentToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGJhZTMzNjkxMjgyMTAwMTU0NGRiYTgiLCJpYXQiOjE3NTcwNzg2NjMsImV4cCI6MTc1ODI4ODI2M30.J7ooKLo8xaRHuoYq-LybMN7jQHdBEo49cv6fj3oprgI",
       "name": "Viktor Vasileski",
       "competenze": [
         "HTML",
@@ -128,6 +131,7 @@
       "username": "Leonardo Ferrante", 
       "password": "epicode",
       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI4MWU1NTU2MzA1YzAwMTU1ODg0MDIiLCJpYXQiOjE3NTY4OTY4NTMsImV4cCI6MTc1ODEwNjQ1M30.1rWvKSnEOEAvwCc0WNoCyYXlImbSn35SqJefrlaRCLY",
+      "commentToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGJhZTRhYzkxMjgyMTAwMTU0NGRiYjMiLCJpYXQiOjE3NTcwNzg3MDAsImV4cCI6MTc1ODI4ODMwMH0.d6RdsPcW_M1myatyO4ZLFLE7Ojcr2GWfNPyRLV-_O7I",
       "name": "Leonardo Ferrante",
       "competenze": [
         "Cybersicurezza",
@@ -169,6 +173,7 @@
       "username": "Giuseppe",
       "password": "banale",
       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGI1OTc0YTE2MjdjNjAwMTVmOGM1NjkiLCJpYXQiOjE3NTY3MzEyMTAsImV4cCI6MTc1Nzk0MDgxMH0.2K96iJrH_T9CFLxQjMe3ZEvL5W45fdGe3MGTvDxniIQ",
+      "commentToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGJhZTRiZjkxMjgyMTAwMTU0NGRiYjQiLCJpYXQiOjE3NTcwNzg3MTksImV4cCI6MTc1ODI4ODMxOX0.N988FYYbY8u7sUMQzZYvoizQu_dbh_lJYWFTjI-6BUI",
       "name": "Giusepp Tuccilli",
       "competenze": ["JavaScript", "React", "Node.js", "Python", "SQL", "Git", "MongoDB", "Express.js", "TypeScript", "HTML", "CSS", "Bootstrap", "API REST", "GraphQL", "Docker", "AWS"],
       "formazione": [
