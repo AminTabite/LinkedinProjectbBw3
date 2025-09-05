@@ -14,6 +14,11 @@ export const getToken = () => {
   return authData?.token || null;
 };
 
+export const getCommentsToken = () => {
+  // Token specifico per l'API dei commenti
+  return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGJhZGMwOTkxMjgyMTAwMTU0NGRiODMiLCJpYXQiOjE3NTcwNzY0ODksImV4cCI6MTc1ODI4NjA4OX0.RRG4ohBBFTOr_b6wCC5ThuxCAziON75B3MXfraZqjLE";
+};
+
 export const getCurrentUser = () => {
   return getAuthData();
 };
